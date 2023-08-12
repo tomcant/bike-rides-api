@@ -1,0 +1,26 @@
+<?php declare(strict_types=1);
+
+namespace App\BikeRides\Billing\Domain\Projection\RidePayment;
+
+use App\BikeRides\Billing\Domain\Model\RidePayment\Event;
+use App\BikeRides\Shared\Domain\Helpers\AggregateEventsSubscriber;
+
+final class RidePaymentProjector extends AggregateEventsSubscriber
+{
+    public function __construct(private readonly RidePaymentProjectionRepository $repository)
+    {
+    }
+
+    protected function handleRidePaymentWasInitiated(Event\RidePaymentWasInitiated $event): void
+    {
+        $ridePayment = RidePayment::initiate(
+            $event->getAggregateId()->toString(),
+            $event->rideId->toString(),
+            $event->ridePrice->totalPrice,
+            $event->ridePrice->pricePerMinute,
+            $event->occurredAt,
+        );
+
+        $this->repository->store($ridePayment);
+    }
+}

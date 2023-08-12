@@ -1,0 +1,13 @@
+<?php declare(strict_types=1);
+
+namespace App\BikeRides\Rides\Domain\Model\Rider;
+
+use App\BikeRides\Rides\Domain\Model\Shared\RiderId;
+
+final class RiderNotFound extends \DomainException
+{
+    public function __construct(RiderId $id)
+    {
+        parent::__construct(\sprintf("Unable to find rider with id '%s'", $id->toString()));
+    }
+}

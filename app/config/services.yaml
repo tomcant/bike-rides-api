@@ -1,0 +1,77 @@
+parameters:
+    env(STAGE): ''
+
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        bind:
+            $rideDetailsApiUrlTemplate: '%env(RIDE_DETAILS_API_URL_TEMPLATE)%'
+
+    App\:
+        resource: '../src/'
+        exclude:
+            - '../src/Framework/Migrations/'
+            - '../src/Framework/Kernel.php'
+            - '../src/Foundation/helpers.php'
+
+    #
+    # Billing
+    #
+
+    App\BikeRides\Billing\Ui\Http\:
+        resource: '../src/BikeRides/Billing/Ui/Http/'
+        tags:
+            - 'controller.service_arguments'
+
+    App\BikeRides\Billing\Domain\Model\RidePayment\RidePaymentRepository:
+        arguments:
+            $eventStore: '@billing_event_store'
+
+    billing_event_store:
+        class: 'App\BikeRides\Shared\Infrastructure\PostgresEventStore'
+        arguments:
+            $aggregateEventFactory: '@App\BikeRides\Billing\Domain\Model\RidePayment\Event\RidePaymentEventFactory'
+            $dbTableName: 'billing.event_store'
+
+    #
+    # Rides
+    #
+
+    App\BikeRides\Rides\Ui\Http\:
+        resource: '../src/BikeRides/Rides/Ui/Http/'
+        tags:
+            - 'controller.service_arguments'
+
+    App\BikeRides\Rides\Domain\Model\Ride\RideRepository:
+        arguments:
+            $eventStore: '@rides_event_store'
+
+    rides_event_store:
+        class: 'App\BikeRides\Shared\Infrastructure\PostgresEventStore'
+        arguments:
+            $aggregateEventFactory: '@App\BikeRides\Rides\Domain\Model\Ride\Event\RideEventFactory'
+            $dbTableName: 'rides.event_store'
+
+    #
+    # Shared
+    #
+
+    App\BikeRides\Shared\Infrastructure\SymfonyCommandBus:
+        arguments:
+            - '@command.bus'
+
+    App\BikeRides\Shared\Infrastructure\SymfonyAggregateEventsBus:
+        arguments:
+            - '@aggregate_events.bus'
+
+    App\BikeRides\Shared\Infrastructure\SymfonyDomainEventBus:
+        arguments:
+            - '@domain_event.bus'
+
+when@test:
+    services:
+        App\Tests\BikeRides\Shared\Doubles\DomainEventSubscribersLocatorProxy:
+            decorates: 'domain_event.bus.messenger.handlers_locator'
+            arguments:
+                - '@App\Tests\BikeRides\Shared\Doubles\DomainEventSubscribersLocatorProxy.inner'

@@ -1,0 +1,40 @@
+version: '3.9'
+
+services:
+  web:
+    image: docker.io/bref/fpm-dev-gateway:1.7.35
+    ports:
+      - '8000:80'
+    volumes:
+      - ../app/public:/var/task:ro
+    depends_on:
+      - php
+    environment:
+      HANDLER: public/index.php
+
+  php:
+    image: ghcr.io/tomcant/bike-rides:0.0.1
+    build: .
+    volumes:
+      - ../app:/var/task:rw,cached
+      - ../app/var/log:/tmp/log
+      - ~/.ssh:/root/.ssh:ro,delegated
+      - ../reports:/var/reports:rw,delegated
+    depends_on:
+      - postgres
+    env_file: .env.dev
+
+  postgres:
+    image: docker.io/postgres:15.2-alpine
+    ports:
+      - '5432:5432'
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: db
+
+volumes:
+  postgres:
+    driver: local

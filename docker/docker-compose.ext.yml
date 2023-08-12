@@ -1,0 +1,17 @@
+version: '3.9'
+
+services:
+  php:
+    environment:
+      HOST: bike-rides.tunnel.dev.mybldr.net
+      HTTPS: true
+
+  tunnel:
+    depends_on:
+      - web
+    command:
+      - '--host=https://tunnel.dev.mybldr.net'
+      - '--subdomain=bike-rides'
+      - '--local-host=web'
+      - '--port=80'
+      - '--print-requests'
