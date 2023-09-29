@@ -35,6 +35,11 @@ services:
       POSTGRES_PASSWORD: password
       POSTGRES_DB: db
 
+  tunnel:
+    image: ghcr.io/mybuilder/localtunnel-client:2.0.0
+    command:
+      - '--version'
+
 volumes:
   postgres:
     driver: local

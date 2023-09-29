@@ -9,6 +9,8 @@ APP := $(COMPOSE) exec -T php
 
 start: up composer db test-db ## Start the application in development mode
 
+start-ext: up-ext composer db test-db ## Start the application in development mode with external access via localtunnel
+
 stop: ## Stop the application and clean up
 	$(COMPOSE) down -v --remove-orphans
 
@@ -16,6 +18,9 @@ restart: stop start ## Restart the application in development mode
 
 up:
 	$(COMPOSE) up -d --build --force-recreate
+
+up-ext: ghcr-login
+	$(COMPOSE) -f docker/docker-compose.ext.yml up -d --build --force-recreate
 
 composer: ## Install the latest Composer dependencies
 	$(APP) composer install --no-interaction
@@ -76,6 +81,14 @@ logs: ## Tail the container logs
 
 ps: ## List the running containers
 	$(COMPOSE) ps
+
+ghcr-login: _require_GHCR_TOKEN
+	@NOW="$$(date +%s)"; \
+	if [[ "$$NOW" -gt $$(cat .GHCR_NEXT_LOGIN_AFTER 2> /dev/null) ]]; then \
+	  echo $$GHCR_TOKEN | docker login ghcr.io -u irrelevant-user --password-stdin 2>&1 >/dev/null; \
+	  EXPIRES=$$(( NOW + 300 )); \
+	  echo "$$EXPIRES" > .GHCR_NEXT_LOGIN_AFTER; \
+	fi;
 
 _require_%:
 	@_=$(or $($*),$(error "`$*` env var required"))
