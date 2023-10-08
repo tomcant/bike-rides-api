@@ -18,7 +18,12 @@ final class RidePayment extends Aggregate
         RidePaymentId $ridePaymentId,
         RideId $rideId,
         RideDetailsFetcher $rideDetailsFetcher,
+        RidePaymentDuplicateChecker $duplicateChecker,
     ): self {
+        if ($duplicateChecker->isDuplicate($rideId)) {
+            throw new RidePaymentAlreadyExists($rideId);
+        }
+
         $ridePayment = new self();
         $rideDetails = $rideDetailsFetcher->fetch($rideId);
         $ridePrice = (new RidePriceCalculator())->calculatePrice($rideDetails->duration);
