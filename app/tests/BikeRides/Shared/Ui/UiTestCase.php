@@ -25,7 +25,7 @@ abstract class UiTestCase extends WebTestCase
 
         static::getContainer()->get('database_connection')->beginTransaction();
 
-        static::restrictDomainEventSubscribersByTestCase();
+        static::restrictDomainEventSubscribersByBoundedContext();
 
         Clock::useClock($this->clock = new ClockStub());
     }
@@ -39,8 +39,14 @@ abstract class UiTestCase extends WebTestCase
         parent::tearDown();
     }
 
-    protected function handleEvent(DomainEvent $event): void
+    protected function publishEvent(DomainEvent $event, bool $withPropagation = true): void
     {
+        if (! $withPropagation) {
+            static::getContainer()
+                ->get(DomainEventSubscribersLocatorProxy::class)
+                ->restrictEventClass($event::class);
+        }
+
         static::getContainer()->get(DomainEventBus::class)->publish($event);
     }
 
@@ -89,11 +95,20 @@ abstract class UiTestCase extends WebTestCase
         }
     }
 
-    private static function restrictDomainEventSubscribersByTestCase(): void
+    /*
+     * Since we're modelling multiple Bounded Contexts in a single app, it's useful to restrict the event subscribers
+     * during UI tests to maintain isolation and avoid triggering multiple contexts.
+     *
+     * By convention, the relevant subscriber namespace can be determined by removing '\Tests' from the test namespace.
+     * E.g. '\App\Tests\BikeRides\Billing\Ui' => '\App\BikeRides\Billing\Ui'
+     */
+    private static function restrictDomainEventSubscribersByBoundedContext(): void
     {
         $testNamespace = \mb_substr(static::class, 0, \mb_strrpos(static::class, '\\'));
-        $subscribersNamespace = \str_replace('\\Tests\\', '\\', $testNamespace);
+        $subscriberNamespace = \str_replace('\\Tests\\', '\\', $testNamespace);
 
-        static::getContainer()->get(DomainEventSubscribersLocatorProxy::class)->onlyNamespace($subscribersNamespace);
+        static::getContainer()
+            ->get(DomainEventSubscribersLocatorProxy::class)
+            ->restrictSubscriberNamespace($subscriberNamespace);
     }
 }

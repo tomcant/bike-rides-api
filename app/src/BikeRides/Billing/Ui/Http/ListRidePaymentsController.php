@@ -30,6 +30,8 @@ final class ListRidePaymentsController
                 'total_price' => $ridePayment['total_price']->jsonSerialize(),
                 'price_per_minute' => $ridePayment['price_per_minute']->jsonSerialize(),
                 'initiated_at' => $ridePayment['initiated_at']->getTimestamp(),
+                'captured_at' => $ridePayment['captured_at']?->getTimestamp(),
+                'external_payment_ref' => $ridePayment['external_payment_ref'],
             ],
             $ridePayments,
         );

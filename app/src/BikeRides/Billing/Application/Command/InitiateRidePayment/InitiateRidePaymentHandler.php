@@ -8,13 +8,16 @@ use App\BikeRides\Billing\Domain\Model\RidePayment\RidePaymentAlreadyExists as R
 use App\BikeRides\Billing\Domain\Model\RidePayment\RidePaymentDuplicateChecker;
 use App\BikeRides\Billing\Domain\Model\RidePayment\RidePaymentRepository;
 use App\BikeRides\Shared\Application\Command\CommandHandler;
+use App\BikeRides\Shared\Domain\Event\RidePaymentInitiated;
+use App\BikeRides\Shared\Domain\Helpers\DomainEventBus;
 
 final readonly class InitiateRidePaymentHandler implements CommandHandler
 {
     public function __construct(
-        private RidePaymentDuplicateChecker $duplicateChecker,
         private RidePaymentRepository $ridePaymentRepository,
+        private RidePaymentDuplicateChecker $duplicateChecker,
         private RideDetailsFetcher $rideDetailsFetcher,
+        private DomainEventBus $eventBus,
     ) {
     }
 
@@ -32,5 +35,12 @@ final readonly class InitiateRidePaymentHandler implements CommandHandler
         }
 
         $this->ridePaymentRepository->store($ridePayment);
+
+        $this->eventBus->publish(
+            new RidePaymentInitiated(
+                $ridePayment->getAggregateId()->toString(),
+                $ridePayment->getRideId()->toString(),
+            ),
+        );
     }
 }

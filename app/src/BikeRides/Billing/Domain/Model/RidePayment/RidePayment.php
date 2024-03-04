@@ -13,6 +13,37 @@ final class RidePayment extends Aggregate
     private RidePaymentId $ridePaymentId;
     private RideId $rideId;
     private RidePrice $ridePrice;
+    private ?ExternalPaymentRef $externalPaymentRef;
+
+    public function getAggregateName(): AggregateName
+    {
+        return AggregateName::fromString(self::AGGREGATE_NAME);
+    }
+
+    public function getAggregateId(): RidePaymentId
+    {
+        return $this->ridePaymentId;
+    }
+
+    public function getRideId(): RideId
+    {
+        return $this->rideId;
+    }
+
+    public function getRidePrice(): RidePrice
+    {
+        return $this->ridePrice;
+    }
+
+    public function getExternalPaymentRef(): ?ExternalPaymentRef
+    {
+        return $this->externalPaymentRef;
+    }
+
+    public function isCaptured(): bool
+    {
+        return $this->externalPaymentRef !== null;
+    }
 
     public static function initiate(
         RidePaymentId $ridePaymentId,
@@ -41,24 +72,22 @@ final class RidePayment extends Aggregate
         return $ridePayment;
     }
 
-    public function getAggregateName(): AggregateName
+    public function capture(RidePaymentGateway $ridePaymentGateway): void
     {
-        return AggregateName::fromString(self::AGGREGATE_NAME);
-    }
+        if ($this->isCaptured()) {
+            throw new RidePaymentAlreadyCaptured($this->ridePaymentId);
+        }
 
-    public function getAggregateId(): RidePaymentId
-    {
-        return $this->ridePaymentId;
-    }
+        $externalPaymentRef = $ridePaymentGateway->capture($this->ridePaymentId);
 
-    public function getRideId(): RideId
-    {
-        return $this->rideId;
-    }
-
-    public function getRidePrice(): RidePrice
-    {
-        return $this->ridePrice;
+        $this->raise(
+            new Event\RidePaymentWasCaptured(
+                $this->getAggregateVersion(),
+                $this->ridePaymentId,
+                $externalPaymentRef,
+                Clock::now(),
+            ),
+        );
     }
 
     protected function applyRidePaymentWasInitiated(Event\RidePaymentWasInitiated $event): void
@@ -66,5 +95,11 @@ final class RidePayment extends Aggregate
         $this->ridePaymentId = $event->getAggregateId();
         $this->rideId = $event->rideId;
         $this->ridePrice = $event->ridePrice;
+        $this->externalPaymentRef = null;
+    }
+
+    protected function applyRidePaymentWasCaptured(Event\RidePaymentWasCaptured $event): void
+    {
+        $this->externalPaymentRef = $event->externalPaymentRef;
     }
 }

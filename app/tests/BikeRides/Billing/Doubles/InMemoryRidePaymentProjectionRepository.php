@@ -3,6 +3,7 @@
 namespace App\Tests\BikeRides\Billing\Doubles;
 
 use App\BikeRides\Billing\Domain\Projection\RidePayment\RidePayment;
+use App\BikeRides\Billing\Domain\Projection\RidePayment\RidePaymentNotFound;
 use App\BikeRides\Billing\Domain\Projection\RidePayment\RidePaymentProjectionRepository;
 
 final class InMemoryRidePaymentProjectionRepository implements RidePaymentProjectionRepository
@@ -12,6 +13,11 @@ final class InMemoryRidePaymentProjectionRepository implements RidePaymentProjec
     public function store(RidePayment $ridePayment): void
     {
         $this->ridePayments[$ridePayment->ridePaymentId] = $ridePayment;
+    }
+
+    public function getById(string $ridePaymentId): RidePayment
+    {
+        return $this->ridePayments[$ridePaymentId] ?? throw new RidePaymentNotFound($ridePaymentId);
     }
 
     public function listByRideId(string $rideId): array

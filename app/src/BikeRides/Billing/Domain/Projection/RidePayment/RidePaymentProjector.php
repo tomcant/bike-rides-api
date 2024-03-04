@@ -23,4 +23,13 @@ final class RidePaymentProjector extends AggregateEventsSubscriber
 
         $this->repository->store($ridePayment);
     }
+
+    protected function handleRidePaymentWasCaptured(Event\RidePaymentWasCaptured $event): void
+    {
+        $ridePayment = $this->repository->getById($event->getAggregateId()->toString());
+
+        $ridePayment->capture($event->occurredAt, $event->externalPaymentRef->toString());
+
+        $this->repository->store($ridePayment);
+    }
 }

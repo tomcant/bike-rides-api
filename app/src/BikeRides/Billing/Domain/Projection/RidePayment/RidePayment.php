@@ -12,6 +12,8 @@ final class RidePayment
         public readonly Money $totalPrice,
         public readonly Money $pricePerMinute,
         public readonly \DateTimeImmutable $initiatedAt,
+        public ?\DateTimeImmutable $capturedAt = null,
+        public ?string $externalRef = null,
     ) {
     }
 
@@ -29,5 +31,11 @@ final class RidePayment
             $pricePerMinute,
             $initiatedAt,
         );
+    }
+
+    public function capture(\DateTimeImmutable $capturedAt, string $externalRef): void
+    {
+        $this->capturedAt = $capturedAt;
+        $this->externalRef = $externalRef;
     }
 }

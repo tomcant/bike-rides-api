@@ -177,7 +177,7 @@ final class RideApiTest extends RidesUiTestCase
 
         $ride = $this->getJson($rideUrl);
 
-        self::assertGreaterThanOrEqual($ride['started_at'], $ride['ended_at']);
+        self::assertGreaterThan($ride['started_at'], $ride['ended_at']);
     }
 
     public function test_ride_summary(): void

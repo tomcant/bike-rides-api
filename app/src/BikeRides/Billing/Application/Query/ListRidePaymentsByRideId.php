@@ -20,6 +20,8 @@ final readonly class ListRidePaymentsByRideId
                 'total_price' => $ridePayment->totalPrice,
                 'price_per_minute' => $ridePayment->pricePerMinute,
                 'initiated_at' => $ridePayment->initiatedAt,
+                'captured_at' => $ridePayment->capturedAt,
+                'external_payment_ref' => $ridePayment->externalRef,
             ],
             $this->repository->listByRideId($rideId),
         );

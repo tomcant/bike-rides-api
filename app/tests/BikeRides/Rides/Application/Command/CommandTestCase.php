@@ -46,7 +46,7 @@ abstract class CommandTestCase extends TestCase
         parent::setUp();
 
         $this->rideRepository = new RideRepository(
-            $this->eventStore = new InMemoryEventStore(new RideEventFactory()),
+            new InMemoryEventStore(new RideEventFactory()),
         );
         $this->riderRepository = new InMemoryRiderRepository();
         $this->bikeRepository = new InMemoryBikeRepository();

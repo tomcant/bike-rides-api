@@ -94,7 +94,7 @@ final class Ride extends Aggregate
         $this->raise(
             new Event\RideWasEnded(
                 $this->getAggregateVersion(),
-                $this->getAggregateId(),
+                $this->rideId,
                 Clock::now(),
             ),
         );
@@ -118,7 +118,7 @@ final class Ride extends Aggregate
         $this->raise(
             new Event\RideWasSummarised(
                 $this->getAggregateVersion(),
-                $this->getAggregateId(),
+                $this->rideId,
                 $summary,
                 Clock::now(),
             ),

@@ -34,6 +34,8 @@ final class Version20231001151431 extends AbstractMigration
                 total_price JSONB NOT NULL,
                 price_per_minute JSONB NOT NULL,
                 initiated_at TIMESTAMPTZ NOT NULL,
+                captured_at TIMESTAMPTZ,
+                external_payment_ref VARCHAR,
                 PRIMARY KEY (ride_payment_id)
             );
         ');

@@ -3,6 +3,7 @@
 namespace App\Tests\BikeRides\Billing\Ui;
 
 use App\BikeRides\Shared\Domain\Event\RideEnded;
+use App\BikeRides\Shared\Domain\Event\RidePaymentInitiated;
 use App\Tests\BikeRides\Shared\Ui\UiTestCase;
 use Money\Money;
 use Monolog\Handler\TestHandler;
@@ -25,7 +26,7 @@ final class RidePaymentTest extends UiTestCase
 
         self::getContainer()->set(HttpClientInterface::class, new MockHttpClient($fetchRideDetailsHttpResponse));
 
-        $this->handleEvent(new RideEnded($rideId));
+        $this->publishEvent(new RideEnded($rideId), withPropagation: false);
 
         $ridePayments = $this->fetchRidePayments($rideId);
 
@@ -37,7 +38,23 @@ final class RidePaymentTest extends UiTestCase
         self::assertSame($rideId, $ridePayment['ride_id']);
         self::assertSame(Money::GBP(15_00)->jsonSerialize(), $ridePayment['total_price']);
         self::assertSame(Money::GBP(25)->jsonSerialize(), $ridePayment['price_per_minute']);
+
         self::assertIsNumeric($ridePayment['initiated_at']);
+
+        self::assertNull($ridePayment['captured_at']);
+        self::assertNull($ridePayment['external_payment_ref']);
+
+        $this->clock->tick();
+
+        $this->publishEvent(
+            new RidePaymentInitiated($ridePayment['ride_payment_id'], $rideId),
+            withPropagation: false,
+        );
+
+        $ridePayment = $this->fetchRidePayments($rideId)['_embedded']['ride-payment'][0];
+
+        self::assertGreaterThan($ridePayment['initiated_at'], $ridePayment['captured_at']);
+        self::assertSame('external_payment_ref', $ridePayment['external_payment_ref']);
     }
 
     public function test_ride_payment_deduplication(): void
@@ -56,13 +73,13 @@ final class RidePaymentTest extends UiTestCase
 
         self::getContainer()->set(HttpClientInterface::class, new MockHttpClient($fetchRideDetailsHttpResponse));
 
-        $this->handleEvent(new RideEnded($rideId));
+        $this->publishEvent(new RideEnded($rideId));
 
         self::assertSame(1, $this->fetchRidePayments($rideId)['total']);
 
         self::assertFalse($logHandler->hasNotice($logMessage));
 
-        $this->handleEvent(new RideEnded($rideId));
+        $this->publishEvent(new RideEnded($rideId));
 
         self::assertSame(1, $this->fetchRidePayments($rideId)['total']);
 
