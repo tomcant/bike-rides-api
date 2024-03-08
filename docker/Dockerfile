@@ -12,4 +12,4 @@ COPY --from=docker.io/jakzal/phpqa:1.90.3-php8.2-alpine \
   /tools/local-php-security-checker \
   /usr/bin/
 
-COPY --from=composer:2.5.8 /usr/bin/composer /usr/bin/
+COPY --from=composer:2.7.1 /usr/bin/composer /usr/bin/
