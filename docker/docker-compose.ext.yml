@@ -7,6 +7,7 @@ services:
       HTTPS: true
 
   tunnel:
+    image: ghcr.io/mybuilder/localtunnel-client:2.0.0
     depends_on:
       - web
     command:

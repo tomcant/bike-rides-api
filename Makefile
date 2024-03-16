@@ -7,9 +7,9 @@ APP := $(COMPOSE) exec -T php
 
 ##@ Setup
 
-start: up composer db test-db ## Start the application in development mode
+start: up composer db ## Start the application in development mode
 
-start-ext: up-ext composer db test-db ## Start the application in development mode with external access via localtunnel
+start-ext: up-ext composer db ## Start the application in development mode with external access via localtunnel
 
 stop: ## Stop the application and clean up
 	$(COMPOSE) down -v --remove-orphans
@@ -17,7 +17,7 @@ stop: ## Stop the application and clean up
 restart: stop start ## Restart the application in development mode
 
 up:
-	$(COMPOSE) up -d --build --force-recreate
+	$(COMPOSE) up -d --build --force-recreate --remove-orphans
 
 up-ext: ghcr-login
 	$(COMPOSE) -f docker/docker-compose.ext.yml up -d --build --force-recreate
@@ -25,28 +25,26 @@ up-ext: ghcr-login
 composer: ## Install the latest Composer dependencies
 	$(APP) composer install --no-interaction
 
-db: ## (Re)create the development database
-	@$(APP) bin/console doctrine:database:drop --force --if-exists --env $${APP_ENV:-dev}
-	@$(APP) bin/console doctrine:database:create -n --env $${APP_ENV:-dev}
-	@$(APP) bin/console doctrine:migrations:migrate -n --allow-no-migration --env $${APP_ENV:-dev}
-
-test-db: export APP_ENV=test ## (Re)creates the test database
-test-db: db
+db: db/dev ## (Re)create the development database
+db/%:
+	@$(APP) bin/console doctrine:database:drop --force --if-exists --env $*
+	@$(APP) bin/console doctrine:database:create -n --env $*
+	@$(APP) bin/console doctrine:migrations:migrate -n --allow-no-migration --env $*
 
 ##@ Testing/Linting
 
 can-release: security lint test ## Check the application is releasable
 
-test: test-db ## Run the test suite
+test: db/test ## Run the test suite
 	$(APP) bin/phpunit --log-junit /var/reports/phpunit.xml
 
 test/application: ## Run the application test suite
 	$(APP) bin/phpunit --testsuite application
 
-test/infrastructure: test-db ## Run the infrastructure test suite
+test/infrastructure: db/test ## Run the infrastructure test suite
 	$(APP) bin/phpunit --testsuite infrastructure
 
-test/ui: test-db ## Run the UI test suite
+test/ui: db/test ## Run the UI test suite
 	$(APP) bin/phpunit --testsuite ui
 
 test/%:
