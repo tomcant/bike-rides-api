@@ -25,7 +25,7 @@ up-ext: ghcr-login
 composer: ## Install the latest Composer dependencies
 	$(APP) composer install --no-interaction
 
-db: db/dev ## (Re)create the development database
+db: db/dev db/test ## (Re)create the development and test databases
 db/%:
 	@$(APP) bin/console doctrine:database:drop --force --if-exists --env $*
 	@$(APP) bin/console doctrine:database:create -n --env $*
