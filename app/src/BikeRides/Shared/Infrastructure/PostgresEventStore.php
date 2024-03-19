@@ -32,13 +32,13 @@ final readonly class PostgresEventStore implements EventStore
 
         /** @var AggregateEvent $event */
         foreach ($events as $event) {
-            $statement->executeStatement([
-                'aggregate_name' => $event->getAggregateName()->toString(),
-                'aggregate_id' => $event->getAggregateId()->toString(),
-                'aggregate_version' => $event->getAggregateVersion()->toInt(),
-                'event_name' => $event->getEventName(),
-                'event_data' => $event->serialize(),
-            ]);
+            $statement->bindValue('aggregate_name', $event->getAggregateName()->toString());
+            $statement->bindValue('aggregate_id', $event->getAggregateId()->toString());
+            $statement->bindValue('aggregate_version', $event->getAggregateVersion()->toInt());
+            $statement->bindValue('event_name', $event->getEventName());
+            $statement->bindValue('event_data', $event->serialize());
+
+            $statement->executeStatement();
         }
 
         $this->eventsBus->publish($events);
@@ -56,10 +56,10 @@ final readonly class PostgresEventStore implements EventStore
             ORDER BY aggregate_version ASC
         ");
 
-        $result = $statement->executeQuery([
-            'aggregate_name' => $name->toString(),
-            'aggregate_id' => $id->toString(),
-        ]);
+        $statement->bindValue('aggregate_name', $name->toString());
+        $statement->bindValue('aggregate_id', $id->toString());
+
+        $result = $statement->executeQuery();
 
         return \array_reduce(
             $result->fetchAllAssociative(),
