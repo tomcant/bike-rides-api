@@ -12,6 +12,7 @@
         "ext-intl": "*",
         "ext-pdo": "*",
         "bref/bref": "^2.1.16",
+        "bref/secrets-loader": "^1.1",
         "bref/symfony-bridge": "^1.0.1",
         "bref/symfony-messenger": "^1.1.1",
         "doctrine/doctrine-bundle": "^2.12",
