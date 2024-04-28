@@ -20,6 +20,7 @@ use App\BikeRides\Rides\Domain\Model\Shared\BikeId;
 use App\BikeRides\Rides\Domain\Model\Shared\RideId;
 use App\BikeRides\Rides\Domain\Model\Shared\RiderId;
 use App\BikeRides\Rides\Domain\Model\Track\TrackRepository;
+use App\BikeRides\Shared\Domain\Helpers\DomainEvent;
 use App\BikeRides\Shared\Domain\Helpers\EventStore;
 use App\Foundation\Clock\Clock;
 use App\Foundation\Location;
@@ -82,5 +83,10 @@ abstract class CommandTestCase extends TestCase
     {
         $handler = new EndRideHandler($this->rideRepository, new DomainEventBusDummy());
         $handler(new EndRideCommand($rideId->toString()));
+    }
+
+    protected static function assertDomainEventEquals(DomainEvent $expected, DomainEvent $actual): void
+    {
+        static::assertEquals($expected->serialize(), $actual->serialize());
     }
 }

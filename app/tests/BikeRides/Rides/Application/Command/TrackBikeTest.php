@@ -31,10 +31,13 @@ final class TrackBikeTest extends CommandTestCase
         self::assertEquals($location, $tracks[0]->location);
         self::assertEquals($trackedAt, $tracks[0]->trackedAt);
 
-        $lastDomainEvent = $eventBus->lastEvent;
-        self::assertInstanceOf(BikeTracked::class, $lastDomainEvent);
-        self::assertSame($bikeId->toString(), $lastDomainEvent->bikeId);
-        self::assertEquals($location, $lastDomainEvent->location);
-        self::assertEquals($trackedAt, $lastDomainEvent->trackedAt);
+        self::assertDomainEventEquals(
+            new BikeTracked(
+                bikeId: $bikeId->toString(),
+                location: $location,
+                trackedAt: $trackedAt,
+            ),
+            $eventBus->lastEvent,
+        );
     }
 }

@@ -12,6 +12,7 @@ use App\BikeRides\Billing\Domain\Model\RidePayment\RidePaymentId;
 use App\BikeRides\Billing\Domain\Model\RidePayment\RidePaymentRepository;
 use App\BikeRides\Billing\Domain\Model\RidePayment\RidePrice;
 use App\BikeRides\Shared\Domain\Event\RidePaymentInitiated;
+use App\BikeRides\Shared\Domain\Helpers\DomainEvent;
 use App\BikeRides\Shared\Domain\Model\RideDuration;
 use App\Tests\BikeRides\Billing\Doubles\RideDetailsFetcherStub;
 use App\Tests\BikeRides\Billing\Doubles\RidePaymentDuplicateCheckerStub;
@@ -62,10 +63,13 @@ final class InitiateRidePaymentTest extends TestCase
             $ridePayment->getRidePrice(),
         );
 
-        $lastDomainEvent = $eventBus->lastEvent;
-        self::assertInstanceOf(RidePaymentInitiated::class, $lastDomainEvent);
-        self::assertSame($ridePaymentId->toString(), $lastDomainEvent->ridePaymentId);
-        self::assertSame($rideId->toString(), $lastDomainEvent->rideId);
+        self::assertDomainEventEquals(
+            new RidePaymentInitiated(
+                ridePaymentId: $ridePaymentId->toString(),
+                rideId: $rideId->toString(),
+            ),
+            $eventBus->lastEvent,
+        );
     }
 
     public function test_it_deduplicates_ride_payments(): void
@@ -94,5 +98,10 @@ final class InitiateRidePaymentTest extends TestCase
         self::expectExceptionMessage(\sprintf("Duplicate payment for ride ID '%s'", $rideId->toString()));
 
         $handler(new InitiateRidePaymentCommand($ridePaymentId->toString(), $rideId->toString()));
+    }
+
+    protected static function assertDomainEventEquals(DomainEvent $expected, DomainEvent $actual): void
+    {
+        self::assertEquals($expected->serialize(), $actual->serialize());
     }
 }

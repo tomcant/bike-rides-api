@@ -35,9 +35,10 @@ final class EndRideTest extends CommandTestCase
 
         self::assertTrue($this->rideRepository->getById($rideId)->hasEnded());
 
-        $lastDomainEvent = $this->eventBus->lastEvent;
-        self::assertInstanceOf(RideEnded::class, $lastDomainEvent);
-        self::assertEquals($rideId->toString(), $lastDomainEvent->rideId);
+        self::assertDomainEventEquals(
+            new RideEnded($rideId->toString()),
+            $this->eventBus->lastEvent,
+        );
     }
 
     public function test_it_cannot_end_a_ride_that_has_already_been_ended(): void
