@@ -15,13 +15,12 @@ final class ClockStub extends Clock
         $this->now = $now;
     }
 
-    public function tick(): void
-    {
-        $this->now = $this->now->modify('+1 second');
-    }
-
     protected function getNow(): \DateTimeImmutable
     {
-        return $this->now;
+        $now = $this->now;
+
+        $this->now = $this->now->modify('+1 second');
+
+        return $now;
     }
 }

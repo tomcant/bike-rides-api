@@ -26,8 +26,6 @@ abstract class RidesUiTestCase extends UiTestCase
                 'location' => $location->toArray(),
             ],
         );
-
-        $this->clock->tick();
     }
 
     protected function startRide(string $riderId, string $bikeId): array

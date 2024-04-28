@@ -186,7 +186,7 @@ final class RideApiTest extends RidesUiTestCase
         ['bike_id' => $bikeId] = $this->registerBike();
         ['ride_id' => $rideId] = $this->startRide($riderId, $bikeId);
         $rideUrl = $this->parseResponseLinkUrl();
-        $this->trackBike($bikeId, new Location(0, 0));
+        $this->trackBike($bikeId, $trackedAtLocation = new Location(0, 0));
 
         $ride = $this->getJson($rideUrl);
         self::assertArrayNotHasKey('summary', $ride['_links']);
@@ -201,18 +201,12 @@ final class RideApiTest extends RidesUiTestCase
         self::assertArrayHasKeys($summary, ['_links', 'ride_id', 'duration', 'route']);
 
         self::assertSame($rideId, $summary['ride_id']);
-
         self::assertGreaterThan($summary['duration']['started_at'], $summary['duration']['ended_at']);
+        self::assertEquals($trackedAtLocation->toArray(), \array_values($summary['route'])[0]);
 
-        self::assertEquals(
-            [
-                $summary['duration']['started_at'] => [
-                    'latitude' => 0,
-                    'longitude' => 0,
-                ],
-            ],
-            $summary['route'],
-        );
+        $trackedAt = \array_keys($summary['route'])[0];
+        self::assertLessThanOrEqual($trackedAt, $summary['duration']['started_at']);
+        self::assertGreaterThanOrEqual($trackedAt, $summary['duration']['ended_at']);
     }
 
     public function test_store_rider(): void

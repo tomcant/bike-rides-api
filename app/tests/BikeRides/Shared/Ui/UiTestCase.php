@@ -13,7 +13,6 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 abstract class UiTestCase extends WebTestCase
 {
     protected readonly KernelBrowser $client;
-    protected readonly Clock $clock;
 
     protected function setUp(): void
     {
@@ -27,7 +26,7 @@ abstract class UiTestCase extends WebTestCase
 
         static::restrictDomainEventSubscribersByBoundedContext();
 
-        Clock::useClock($this->clock = new ClockStub());
+        Clock::useClock(new ClockStub());
     }
 
     protected function tearDown(): void
@@ -39,14 +38,8 @@ abstract class UiTestCase extends WebTestCase
         parent::tearDown();
     }
 
-    protected function publishEvent(DomainEvent $event, bool $withPropagation = true): void
+    protected function publishEvent(DomainEvent $event): void
     {
-        if (! $withPropagation) {
-            static::getContainer()
-                ->get(DomainEventSubscribersLocatorProxy::class)
-                ->restrictEventClass($event::class);
-        }
-
         static::getContainer()->get(DomainEventBus::class)->publish($event);
     }
 
@@ -109,6 +102,6 @@ abstract class UiTestCase extends WebTestCase
 
         static::getContainer()
             ->get(DomainEventSubscribersLocatorProxy::class)
-            ->restrictSubscriberNamespace($subscriberNamespace);
+            ->restrictSubscribersByNamespace($subscriberNamespace);
     }
 }

@@ -39,7 +39,6 @@ abstract class CommandTestCase extends TestCase
     protected readonly RiderRepository $riderRepository;
     protected readonly BikeRepository $bikeRepository;
     protected readonly TrackRepository $trackRepository;
-    protected readonly Clock $clock;
 
     protected function setUp(): void
     {
@@ -52,7 +51,7 @@ abstract class CommandTestCase extends TestCase
         $this->bikeRepository = new InMemoryBikeRepository();
         $this->trackRepository = new InMemoryTrackRepository();
 
-        Clock::useClock($this->clock = new ClockStub());
+        Clock::useClock(new ClockStub());
     }
 
     protected function storeRider(RiderId $riderId): void
@@ -69,8 +68,6 @@ abstract class CommandTestCase extends TestCase
 
     protected function trackBike(BikeId $bikeId, Location $location): void
     {
-        $this->clock->tick();
-
         $handler = new TrackBikeHandler($this->trackRepository, new DomainEventBusDummy());
         $handler(new TrackBikeCommand($bikeId->toString(), $location, new \DateTimeImmutable()));
     }
