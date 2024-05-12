@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "16a755b1b0d4973fe8c6519cc8eda974",
+    "content-hash": "95bf15508f550deb78db4c5e45db802a",
     "packages": [
         {
             "name": "async-aws/core",
@@ -248,6 +248,66 @@
             "time": "2023-08-07T20:00:50+00:00"
         },
         {
+            "name": "async-aws/ssm",
+            "version": "1.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/async-aws/ssm.git",
+                "reference": "29ebb8f4bc3bd10d40d4e394837cbfb219adf8fb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/async-aws/ssm/zipball/29ebb8f4bc3bd10d40d4e394837cbfb219adf8fb",
+                "reference": "29ebb8f4bc3bd10d40d4e394837cbfb219adf8fb",
+                "shasum": ""
+            },
+            "require": {
+                "async-aws/core": "^1.9",
+                "ext-json": "*",
+                "php": "^7.2.5 || ^8.0"
+            },
+            "conflict": {
+                "symfony/http-client": "<4.4.16 <5.1.7"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.4-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "AsyncAws\\Ssm\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "SSM client, part of the AWS SDK provided by AsyncAws.",
+            "keywords": [
+                "amazon",
+                "async-aws",
+                "aws",
+                "sdk",
+                "ssm"
+            ],
+            "support": {
+                "source": "https://github.com/async-aws/ssm/tree/1.4.0"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/jderusse",
+                    "type": "github"
+                },
+                {
+                    "url": "https://github.com/nyholm",
+                    "type": "github"
+                }
+            ],
+            "time": "2023-06-20T19:17:40+00:00"
+        },
+        {
             "name": "bref/bref",
             "version": "2.1.16",
             "source": {
@@ -325,6 +385,58 @@
                 }
             ],
             "time": "2024-03-15T10:23:05+00:00"
+        },
+        {
+            "name": "bref/secrets-loader",
+            "version": "1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/brefphp/secrets-loader.git",
+                "reference": "e451f81d0716f82e6715b2017c52c7c3abede760"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/brefphp/secrets-loader/zipball/e451f81d0716f82e6715b2017c52c7c3abede760",
+                "reference": "e451f81d0716f82e6715b2017c52c7c3abede760",
+                "shasum": ""
+            },
+            "require": {
+                "async-aws/ssm": "^1.3",
+                "php": ">=8.0"
+            },
+            "require-dev": {
+                "mnapoli/hard-mode": "^0.3.0",
+                "phpstan/phpstan": "^1.10.26",
+                "phpunit/phpunit": "^9.6.10"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Bref\\Secrets\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Load secret values from SSM into environment variables ",
+            "keywords": [
+                "aws-ssm",
+                "bref",
+                "secrets",
+                "ssm"
+            ],
+            "support": {
+                "issues": "https://github.com/brefphp/secrets-loader/issues",
+                "source": "https://github.com/brefphp/secrets-loader/tree/1.1.0"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/mnapoli",
+                    "type": "github"
+                }
+            ],
+            "time": "2023-07-27T09:16:46+00:00"
         },
         {
             "name": "bref/symfony-bridge",

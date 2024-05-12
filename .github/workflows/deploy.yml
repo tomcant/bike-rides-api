@@ -1,0 +1,68 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+concurrency: deploy
+
+jobs:
+  test:
+    uses: tomcant/bike-rides-api/.github/workflows/test.yml@main
+
+  deploy-staging:
+    name: Deploy staging
+    needs: test
+    runs-on: ubuntu-22.04
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ vars.APP_DEPLOYER_ROLE_ARN }}
+          role-session-name: GitHubActions
+          aws-region: eu-west-1
+
+      - name: Build Docker image
+        run: docker build -f docker/Dockerfile -t bike-rides-api:latest docker/
+
+      - name: Install dependencies
+        run: |
+          docker run \
+            -v $(pwd)/app:/var/task \
+            bike-rides-api:latest \
+              composer install --no-dev --no-interaction --no-ansi --classmap-authoritative --no-scripts
+
+      - name: Clear Symfony cache
+        run: |
+          docker run \
+            -v $(pwd)/app:/var/task \
+            -v $(pwd)/var/cache:/tmp/cache \
+            -e APP_ENV=prod \
+            bike-rides-api:latest \
+              bin/console cache:clear --no-debug --no-interaction
+
+      - name: Deploy to Lambda
+        run: |
+          docker run \
+            -v $(pwd)/app:/var/task \
+            -e AWS_ACCESS_KEY_ID \
+            -e AWS_SECRET_ACCESS_KEY \
+            -e AWS_SESSION_TOKEN \
+            bike-rides-api:latest \
+              serverless deploy --verbose --conceal --stage staging --region "${AWS_REGION}"
+
+      - name: Run database migrations
+        run: |
+          docker run \
+            -v $(pwd)/app:/var/task \
+            -e AWS_ACCESS_KEY_ID \
+            -e AWS_SECRET_ACCESS_KEY \
+            -e AWS_SESSION_TOKEN \
+            bike-rides-api:latest \
+              serverless bref:cli --stage staging --region "${AWS_REGION}" \
+                --args="doctrine:migrations:migrate --no-interaction"
