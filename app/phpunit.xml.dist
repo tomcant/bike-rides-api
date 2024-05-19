@@ -29,8 +29,8 @@
             <directory>tests/BikeRides/Rides/Infrastructure</directory>
         </testsuite>
         <testsuite name="ui">
-            <directory>tests/BikeRides/Billing/Ui</directory>
-            <directory>tests/BikeRides/Rides/Ui</directory>
+            <directory>tests/BikeRides/Billing/UserInterface</directory>
+            <directory>tests/BikeRides/Rides/UserInterface</directory>
         </testsuite>
 <!--        <testsuite name="framework">-->
 <!--            <directory>tests/Framework</directory>-->

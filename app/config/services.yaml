@@ -19,8 +19,8 @@ services:
     # Billing
     #
 
-    App\BikeRides\Billing\Ui\Http\:
-        resource: '../src/BikeRides/Billing/Ui/Http/'
+    App\BikeRides\Billing\UserInterface\Http\:
+        resource: '../src/BikeRides/Billing/UserInterface/Http/'
         tags:
             - 'controller.service_arguments'
 
@@ -38,8 +38,8 @@ services:
     # Rides
     #
 
-    App\BikeRides\Rides\Ui\Http\:
-        resource: '../src/BikeRides/Rides/Ui/Http/'
+    App\BikeRides\Rides\UserInterface\Http\:
+        resource: '../src/BikeRides/Rides/UserInterface/Http/'
         tags:
             - 'controller.service_arguments'
 

@@ -1,11 +1,11 @@
 billing:
     resource:
-        path: ../src/BikeRides/Billing/Ui/Http/
-        namespace: App\BikeRides\Billing\Ui\Http
+        path: ../src/BikeRides/Billing/UserInterface/Http/
+        namespace: App\BikeRides\Billing\UserInterface\Http
     type: attribute
 
 rides:
     resource:
-        path: ../src/BikeRides/Rides/Ui/Http/
-        namespace: App\BikeRides\Rides\Ui\Http
+        path: ../src/BikeRides/Rides/UserInterface/Http/
+        namespace: App\BikeRides\Rides\UserInterface\Http
     type: attribute
