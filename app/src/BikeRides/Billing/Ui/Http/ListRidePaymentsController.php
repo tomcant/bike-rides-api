@@ -2,7 +2,7 @@
 
 namespace App\BikeRides\Billing\Ui\Http;
 
-use App\BikeRides\Billing\Application\Query\ListRidePaymentsByRideId;
+use App\BikeRides\Billing\Application\Query\GetRidePaymentByRideId;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -14,17 +14,17 @@ final class ListRidePaymentsController
     public function __invoke(
         Request $request,
         UrlGeneratorInterface $urlGenerator,
-        ListRidePaymentsByRideId $listRidePaymentsByRideId,
+        GetRidePaymentByRideId $getRidePaymentByRideId,
     ): JsonResponse {
         if (! $request->query->has('ride-id')) {
             throw new \RuntimeException('Not implemented');
         }
 
         $rideId = $request->query->get('ride-id');
-        $ridePayments = $listRidePaymentsByRideId->query($rideId);
+        $ridePayment = $getRidePaymentByRideId->query($rideId);
 
-        $embeddedRidePayments = \array_map(
-            static fn (array $ridePayment) => [
+        $embeddedRidePayments = $ridePayment === null ? [] : [
+            [
                 'ride_payment_id' => $ridePayment['ride_payment_id'],
                 'ride_id' => $ridePayment['ride_id'],
                 'total_price' => $ridePayment['total_price']->jsonSerialize(),
@@ -33,8 +33,7 @@ final class ListRidePaymentsController
                 'captured_at' => $ridePayment['captured_at']?->getTimestamp(),
                 'external_payment_ref' => $ridePayment['external_payment_ref'],
             ],
-            $ridePayments,
-        );
+        ];
 
         return new JsonResponse(
             [

@@ -9,6 +9,6 @@ interface RidePaymentProjectionRepository
     /** @throws RidePaymentNotFound */
     public function getById(string $ridePaymentId): RidePayment;
 
-    /** @return array<RidePayment> */
-    public function listByRideId(string $rideId): array;
+    /** @throws RidePaymentNotFound */
+    public function getByRideId(string $rideId): RidePayment;
 }

@@ -41,20 +41,24 @@ final readonly class PostgresRidePaymentProjectionRepository implements RidePaym
         );
 
         if (false === $record) {
-            throw new RidePaymentNotFound($ridePaymentId);
+            throw RidePaymentNotFound::forRidePaymentId($ridePaymentId);
         }
 
         return self::mapRecordToObject($record);
     }
 
-    public function listByRideId(string $rideId): array
+    public function getByRideId(string $rideId): RidePayment
     {
-        $records = $this->connection->fetchAllAssociative(
+        $record = $this->connection->fetchAssociative(
             'SELECT * FROM billing.projection_ride_payment WHERE ride_id = :ride_id',
             ['ride_id' => $rideId],
         );
 
-        return \array_map(self::mapRecordToObject(...), $records);
+        if (false === $record) {
+            throw RidePaymentNotFound::forRideId($rideId);
+        }
+
+        return self::mapRecordToObject($record);
     }
 
     private static function mapRecordToObject(array $record): RidePayment

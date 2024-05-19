@@ -17,16 +17,17 @@ final class InMemoryRidePaymentProjectionRepository implements RidePaymentProjec
 
     public function getById(string $ridePaymentId): RidePayment
     {
-        return $this->ridePayments[$ridePaymentId] ?? throw new RidePaymentNotFound($ridePaymentId);
+        return $this->ridePayments[$ridePaymentId] ?? throw RidePaymentNotFound::forRidePaymentId($ridePaymentId);
     }
 
-    public function listByRideId(string $rideId): array
+    public function getByRideId(string $rideId): RidePayment
     {
-        return \array_values(
-            \array_filter(
-                $this->ridePayments,
-                static fn (RidePayment $ridePayment) => $rideId === $ridePayment->rideId,
-            ),
-        );
+        foreach ($this->ridePayments as $ridePayment) {
+            if ($ridePayment->rideId === $rideId) {
+                return $ridePayment;
+            }
+        }
+
+        throw RidePaymentNotFound::forRideId($rideId);
     }
 }
