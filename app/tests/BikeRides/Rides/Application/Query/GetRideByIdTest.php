@@ -29,7 +29,7 @@ final class GetRideByIdTest extends QueryTestCase
             $rideId = RideId::generate(),
             $riderId = RiderId::fromString('rider_id'),
             $bikeId = BikeId::generate(),
-            $startedAt = new \DateTimeImmutable(),
+            $startedAt = new \DateTimeImmutable('now'),
         );
         $this->runProjector($this->projector);
 

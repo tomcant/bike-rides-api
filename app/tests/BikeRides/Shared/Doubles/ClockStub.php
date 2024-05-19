@@ -6,7 +6,7 @@ use App\Foundation\Clock\Clock;
 
 final class ClockStub extends Clock
 {
-    public function __construct(private \DateTimeImmutable $now = new \DateTimeImmutable())
+    public function __construct(private \DateTimeImmutable $now = new \DateTimeImmutable('now'))
     {
     }
 

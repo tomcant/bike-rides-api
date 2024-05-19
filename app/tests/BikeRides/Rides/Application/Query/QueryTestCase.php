@@ -40,7 +40,7 @@ abstract class QueryTestCase extends TestCase
 
     protected function summariseRide(RideId $rideId, Summary $summary): void
     {
-        $this->addEvent(new RideWasSummarised($this->version, $rideId, $summary, new \DateTimeImmutable()));
+        $this->addEvent(new RideWasSummarised($this->version, $rideId, $summary, new \DateTimeImmutable('now')));
     }
 
     protected function runProjector(AggregateEventsSubscriber $projector): void

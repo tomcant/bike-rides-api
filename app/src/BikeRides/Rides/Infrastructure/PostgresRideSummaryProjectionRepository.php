@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace App\BikeRides\Rides\Infrastructure\Postgres;
+namespace App\BikeRides\Rides\Infrastructure;
 
 use App\BikeRides\Rides\Domain\Projection\RideSummary\RideSummary;
 use App\BikeRides\Rides\Domain\Projection\RideSummary\RideSummaryNotFound;

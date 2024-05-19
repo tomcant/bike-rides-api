@@ -15,7 +15,7 @@ final class TrackBikeTest extends CommandTestCase
     {
         $this->registerBike($bikeId = BikeId::generate());
         $location = new Location(0, 0);
-        $trackedAt = new \DateTimeImmutable();
+        $trackedAt = new \DateTimeImmutable('now');
 
         $handler = new TrackBikeHandler($this->trackRepository, $eventBus = new DomainEventBusSpy());
         $handler(new TrackBikeCommand($bikeId->toString(), $location, $trackedAt));

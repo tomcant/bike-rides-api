@@ -4,7 +4,7 @@ namespace App\BikeRides\Rides\Domain\Model\Shared;
 
 final readonly class RiderId
 {
-    public function __construct(private string $riderId)
+    private function __construct(private string $riderId)
     {
     }
 

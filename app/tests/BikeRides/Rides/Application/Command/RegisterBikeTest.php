@@ -16,9 +16,6 @@ final class RegisterBikeTest extends CommandTestCase
         $handler = new RegisterBikeHandler($this->bikeRepository);
         $handler(new RegisterBikeCommand($bikeId->toString()));
 
-        self::assertEquals(
-            new Bike($bikeId, location: null),
-            $this->bikeRepository->getById($bikeId),
-        );
+        self::assertEquals(Bike::register($bikeId), $this->bikeRepository->getById($bikeId));
     }
 }

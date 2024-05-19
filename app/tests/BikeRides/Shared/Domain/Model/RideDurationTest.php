@@ -44,7 +44,7 @@ final class RideDurationTest extends TestCase
         self::expectExceptionMessage('Ride end date/time must be after start date/time');
 
         RideDuration::fromDateTimes(
-            $startedAt = new \DateTimeImmutable(),
+            $startedAt = new \DateTimeImmutable('now'),
             endedAt: $startedAt,
         );
     }

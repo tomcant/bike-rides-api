@@ -43,8 +43,8 @@ final class ListRidePaymentsByRideIdTest extends TestCase
                 ),
             );
 
-        $initiatedAt = new \DateTimeImmutable();
-        $capturedAt = new \DateTimeImmutable();
+        $initiatedAt = new \DateTimeImmutable('now');
+        $capturedAt = new \DateTimeImmutable('now');
         $externalPaymentRef = ExternalPaymentRef::fromString('ref');
 
         $eventStream = (new AggregateEvents([]))

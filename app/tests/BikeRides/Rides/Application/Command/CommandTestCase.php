@@ -70,7 +70,7 @@ abstract class CommandTestCase extends TestCase
     protected function trackBike(BikeId $bikeId, Location $location): void
     {
         $handler = new TrackBikeHandler($this->trackRepository, new DomainEventBusDummy());
-        $handler(new TrackBikeCommand($bikeId->toString(), $location, new \DateTimeImmutable()));
+        $handler(new TrackBikeCommand($bikeId->toString(), $location, new \DateTimeImmutable('now')));
     }
 
     protected function startRide(RideId $rideId, RiderId $riderId, BikeId $bikeId): void

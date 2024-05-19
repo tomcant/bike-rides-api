@@ -24,9 +24,10 @@
             <directory>tests/BikeRides/Billing/Application</directory>
             <directory>tests/BikeRides/Rides/Application</directory>
         </testsuite>
-<!--        <testsuite name="infrastructure">-->
-<!--            <directory>tests/BikeRides/Rides/Infrastructure</directory>-->
-<!--        </testsuite>-->
+        <testsuite name="infrastructure">
+            <directory>tests/BikeRides/Billing/Infrastructure</directory>
+            <directory>tests/BikeRides/Rides/Infrastructure</directory>
+        </testsuite>
         <testsuite name="ui">
             <directory>tests/BikeRides/Billing/Ui</directory>
             <directory>tests/BikeRides/Rides/Ui</directory>
