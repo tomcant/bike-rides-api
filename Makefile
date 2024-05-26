@@ -3,7 +3,7 @@
 
 SHELL := /bin/bash
 COMPOSE := docker compose -f docker/docker-compose.yml -p bike-rides-api
-APP := $(COMPOSE) exec -T php
+APP := $(COMPOSE) exec -T app-rides
 
 ##@ Setup
 
@@ -64,7 +64,7 @@ format: ## Fix style related code violations
 ##@ Fixtures
 
 fixture/bike: ## Create and activate a bike
-	@$(COMPOSE) exec php bash -c "TERM=xterm-256color bin/console fixture:bike"
+	@$(COMPOSE) exec app-rides bash -c "TERM=xterm-256color bin/console fixture:bike"
 
 ##@ Running Instance
 
@@ -72,7 +72,7 @@ open-api: ## Open the API in the default browser
 	open "http://localhost:8000/"
 
 shell: ## Access a shell on the running container
-	$(COMPOSE) exec php bash
+	$(COMPOSE) exec app-rides bash
 
 logs: ## Tail the container logs
 	$(COMPOSE) logs -f

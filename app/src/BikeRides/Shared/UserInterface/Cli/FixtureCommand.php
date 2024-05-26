@@ -10,7 +10,7 @@ use Symfony\Contracts\HttpClient\ResponseInterface;
 
 abstract class FixtureCommand extends Command
 {
-    private const BASE_URI = 'http://web';
+    private const BASE_URI = 'http://app-rides:8000';
 
     private readonly HttpClientInterface $client;
     private ?ResponseInterface $lastResponse;

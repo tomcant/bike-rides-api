@@ -1,27 +1,32 @@
 version: '3.9'
 
 services:
-  web:
-    image: docker.io/bref/fpm-dev-gateway:1.7.35
-    ports:
-      - '8000:80'
-    volumes:
-      - ../app/public:/var/task:ro
-    depends_on:
-      - php
-    environment:
-      HANDLER: public/index.php
-
-  php:
+  app-billing:
     image: ghcr.io/tomcant/bike-rides:0.0.1
     build: .
+    depends_on:
+      - postgres
+    ports:
+      - '8080:8000'
     volumes:
       - ../app:/var/task:rw,cached
       - ../app/var/log:/tmp/log
       - ~/.ssh:/root/.ssh:ro,delegated
       - ../reports:/var/reports:rw,delegated
+    env_file: .env.dev
+
+  app-rides:
+    image: ghcr.io/tomcant/bike-rides:0.0.1
+    build: .
     depends_on:
       - postgres
+    ports:
+      - '8081:8000'
+    volumes:
+      - ../app:/var/task:rw,cached
+      - ../app/var/log:/tmp/log
+      - ~/.ssh:/root/.ssh:ro,delegated
+      - ../reports:/var/reports:rw,delegated
     env_file: .env.dev
 
   postgres:

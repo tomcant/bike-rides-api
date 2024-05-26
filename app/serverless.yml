@@ -37,13 +37,13 @@ plugins:
 functions:
   api:
     handler: public/index.php
-    runtime: php-82-fpm
+    runtime: php-83-fpm
     vpc: ${self:custom.vpc}
     timeout: 10
     url: true
 
   console:
     handler: bin/console
-    runtime: php-82-console
+    runtime: php-83-console
     vpc: ${self:custom.vpc}
     timeout: 120
