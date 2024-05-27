@@ -1,7 +1,7 @@
 version: '3.9'
 
 services:
-  php:
+  app:
     environment:
       HOST: bike-rides.tunnel.dev.mybldr.net
       HTTPS: true
@@ -9,10 +9,10 @@ services:
   tunnel:
     image: ghcr.io/mybuilder/localtunnel-client:2.0.0
     depends_on:
-      - web
+      - app
     command:
       - '--host=https://tunnel.dev.mybldr.net'
       - '--subdomain=bike-rides'
-      - '--local-host=web'
-      - '--port=80'
+      - '--local-host=app'
+      - '--port=8000'
       - '--print-requests'
