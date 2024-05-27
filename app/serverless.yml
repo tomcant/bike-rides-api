@@ -27,6 +27,7 @@ provider:
       managedPolicies:
         - '${ssm:/${opt:stage}/api/lambda-policy-arn}'
   environment:
+    HTTPS: true
     APP_ENV: prod
     APP_SECRET: 'bref-ssm:/${opt:stage}/api/app-secret'
     DATABASE_URL: 'bref-ssm:/${opt:stage}/api/db-url'
