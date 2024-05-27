@@ -30,23 +30,14 @@ provider:
     HTTPS: true
     APP_ENV: prod
     APP_SECRET: 'bref-ssm:/${opt:stage}/api/app-secret'
+    APP_URL: 'bref-ssm:/${opt:stage}/api/url'
     DATABASE_URL: 'bref-ssm:/${opt:stage}/api/db-url'
 
 plugins:
   - ./vendor/bref/bref
 
 functions:
-  api-billing:
-    handler: public/index.php
-    runtime: php-83-fpm
-    vpc: ${self:custom.vpc}
-    timeout: 10
-    url: true
-    environment:
-      RIDES_API_URL:
-        Fn::GetAtt: ["ApiDashridesLambdaFunctionUrl", "FunctionUrl"]
-
-  api-rides:
+  api:
     handler: public/index.php
     runtime: php-83-fpm
     vpc: ${self:custom.vpc}
@@ -58,6 +49,18 @@ functions:
     runtime: php-83-console
     vpc: ${self:custom.vpc}
     timeout: 120
-    environment:
-      RIDES_API_URL:
-        Fn::GetAtt: ["ApiDashridesLambdaFunctionUrl", "FunctionUrl"]
+
+resources:
+  Resources:
+    ApiUrlSsmParameter:
+      Type: AWS::SSM::Parameter
+      Properties:
+        Name: /${opt:stage}/api/url
+        Type: String
+        Value:
+          Fn::GetAtt:
+            - ApiLambdaFunctionUrl
+            - FunctionUrl
+        Tags:
+          App: BikeRidesApi
+          Env: ${opt:stage}
