@@ -6,7 +6,8 @@ services:
         autowire: true
         autoconfigure: true
         bind:
-            $rideDetailsApiUrlTemplate: '%env(RIDE_DETAILS_API_URL_TEMPLATE)%'
+            $ridesApiUrl: '%env(RIDES_API_URL)%'
+            $rideDetailsApiUrlTemplate: '%env(RIDES_API_URL)%/rides/ride/{rideId}'
 
     App\:
         resource: '../src/'

@@ -35,7 +35,17 @@ plugins:
   - ./vendor/bref/bref
 
 functions:
-  api:
+  api-billing:
+    handler: public/index.php
+    runtime: php-83-fpm
+    vpc: ${self:custom.vpc}
+    timeout: 10
+    url: true
+    environment:
+      RIDES_API_URL:
+        Fn::GetAtt: ["ApiDashridesLambdaFunctionUrl", "FunctionUrl"]
+
+  api-rides:
     handler: public/index.php
     runtime: php-83-fpm
     vpc: ${self:custom.vpc}
@@ -47,3 +57,6 @@ functions:
     runtime: php-83-console
     vpc: ${self:custom.vpc}
     timeout: 120
+    environment:
+      RIDES_API_URL:
+        Fn::GetAtt: ["ApiDashridesLambdaFunctionUrl", "FunctionUrl"]
