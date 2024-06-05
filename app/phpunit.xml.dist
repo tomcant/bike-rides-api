@@ -21,14 +21,17 @@
             <directory>tests/BikeRides/Shared/Domain</directory>
         </testsuite>
         <testsuite name="application">
+            <directory>tests/BikeRides/Bikes/Application</directory>
             <directory>tests/BikeRides/Billing/Application</directory>
             <directory>tests/BikeRides/Rides/Application</directory>
         </testsuite>
         <testsuite name="infrastructure">
+            <directory>tests/BikeRides/Bikes/Infrastructure</directory>
             <directory>tests/BikeRides/Billing/Infrastructure</directory>
             <directory>tests/BikeRides/Rides/Infrastructure</directory>
         </testsuite>
         <testsuite name="ui">
+            <directory>tests/BikeRides/Bikes/UserInterface</directory>
             <directory>tests/BikeRides/Billing/UserInterface</directory>
             <directory>tests/BikeRides/Rides/UserInterface</directory>
         </testsuite>

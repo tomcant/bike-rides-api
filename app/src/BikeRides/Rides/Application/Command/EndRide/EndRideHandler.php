@@ -23,6 +23,11 @@ final readonly class EndRideHandler implements CommandHandler
 
         $this->rideRepository->store($ride);
 
-        $this->eventBus->publish(new RideEnded($command->rideId->toString()));
+        $this->eventBus->publish(
+            new RideEnded(
+                $command->rideId->toString(),
+                $ride->getBikeId()->toString(),
+            ),
+        );
     }
 }

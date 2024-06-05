@@ -25,7 +25,7 @@ final class RidePaymentTest extends UiTestCase
 
         self::getContainer()->set(HttpClientInterface::class, new MockHttpClient($fetchRideDetailsHttpResponse));
 
-        $this->publishEvent(new RideEnded($rideId));
+        $this->publishEvent(new RideEnded($rideId, 'bike_id'));
 
         $ridePayments = $this->fetchRidePayments($rideId);
 
@@ -59,12 +59,12 @@ final class RidePaymentTest extends UiTestCase
 
         self::getContainer()->set(HttpClientInterface::class, new MockHttpClient($fetchRideDetailsHttpResponse));
 
-        $this->publishEvent(new RideEnded($rideId));
+        $this->publishEvent(new RideEnded($rideId, 'bike_id'));
 
         self::assertSame(1, $this->fetchRidePayments($rideId)['total']);
         self::assertFalse($logHandler->hasNotice($expectedLogMessage));
 
-        $this->publishEvent(new RideEnded($rideId));
+        $this->publishEvent(new RideEnded($rideId, 'bike_id'));
 
         self::assertSame(1, $this->fetchRidePayments($rideId)['total']);
         self::assertTrue($logHandler->hasNotice($expectedLogMessage));

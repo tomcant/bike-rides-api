@@ -4,7 +4,7 @@ namespace App\BikeRides\Rides\Application\Query;
 
 use App\BikeRides\Rides\Domain\Model\Bike\BikeNotFound;
 use App\BikeRides\Rides\Domain\Model\Bike\BikeRepository;
-use App\BikeRides\Rides\Domain\Model\Shared\BikeId;
+use App\BikeRides\Shared\Domain\Model\BikeId;
 
 final readonly class GetBikeById
 {

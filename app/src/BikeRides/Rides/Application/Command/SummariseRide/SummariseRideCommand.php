@@ -2,8 +2,8 @@
 
 namespace App\BikeRides\Rides\Application\Command\SummariseRide;
 
-use App\BikeRides\Rides\Domain\Model\Shared\RideId;
 use App\BikeRides\Shared\Application\Command\Command;
+use App\BikeRides\Shared\Domain\Model\RideId;
 
 final readonly class SummariseRideCommand implements Command
 {

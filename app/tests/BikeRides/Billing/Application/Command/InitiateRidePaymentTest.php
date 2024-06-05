@@ -12,17 +12,16 @@ use App\BikeRides\Billing\Domain\Model\RidePayment\RidePaymentId;
 use App\BikeRides\Billing\Domain\Model\RidePayment\RidePaymentRepository;
 use App\BikeRides\Billing\Domain\Model\RidePayment\RidePrice;
 use App\BikeRides\Shared\Domain\Event\RidePaymentInitiated;
-use App\BikeRides\Shared\Domain\Helpers\DomainEvent;
 use App\BikeRides\Shared\Domain\Model\RideDuration;
 use App\Tests\BikeRides\Billing\Doubles\RideDetailsFetcherStub;
 use App\Tests\BikeRides\Billing\Doubles\RidePaymentDuplicateCheckerStub;
+use App\Tests\BikeRides\Shared\Application\Command\CommandTestCase;
 use App\Tests\BikeRides\Shared\Doubles\DomainEventBusDummy;
 use App\Tests\BikeRides\Shared\Doubles\DomainEventBusSpy;
 use App\Tests\BikeRides\Shared\Doubles\InMemoryEventStore;
 use Money\Money;
-use PHPUnit\Framework\TestCase;
 
-final class InitiateRidePaymentTest extends TestCase
+final class InitiateRidePaymentTest extends CommandTestCase
 {
     public function test_it_initiates_a_ride_payment(): void
     {
@@ -33,7 +32,7 @@ final class InitiateRidePaymentTest extends TestCase
         $rideId = RideId::fromString('ride_id');
 
         $rideDetails = new RideDetails(
-            $rideDuration = RideDuration::fromDateTimes(
+            $rideDuration = RideDuration::fromStartAndEnd(
                 $startedAt = (new \DateTimeImmutable())->setTime(hour: 12, minute: 30),
                 $startedAt->modify('+' . $rideDurationInMinutes . ' minutes'),
             ),
@@ -78,7 +77,7 @@ final class InitiateRidePaymentTest extends TestCase
         $rideId = RideId::fromString('ride_id');
 
         $rideDetails = new RideDetails(
-            RideDuration::fromDateTimes(
+            RideDuration::fromStartAndEnd(
                 new \DateTimeImmutable('now'),
                 new \DateTimeImmutable('+10 seconds'),
             ),
@@ -98,10 +97,5 @@ final class InitiateRidePaymentTest extends TestCase
         self::expectExceptionMessage(\sprintf("Duplicate payment for ride ID '%s'", $rideId->toString()));
 
         $handler(new InitiateRidePaymentCommand($ridePaymentId->toString(), $rideId->toString()));
-    }
-
-    protected static function assertDomainEventEquals(DomainEvent $expected, DomainEvent $actual): void
-    {
-        self::assertEquals($expected->serialize(), $actual->serialize());
     }
 }

@@ -2,11 +2,11 @@
 
 namespace App\Tests\BikeRides\Rides\Infrastructure;
 
-use App\BikeRides\Rides\Domain\Model\Shared\BikeId;
-use App\BikeRides\Rides\Domain\Model\Shared\RideId;
 use App\BikeRides\Rides\Domain\Projection\Ride\Ride;
 use App\BikeRides\Rides\Domain\Projection\Ride\RideNotFound;
 use App\BikeRides\Rides\Infrastructure\PostgresRideProjectionRepository;
+use App\BikeRides\Shared\Domain\Model\BikeId;
+use App\BikeRides\Shared\Domain\Model\RideId;
 use App\Foundation\Clock\Clock;
 use App\Tests\BikeRides\Shared\Infrastructure\PostgresTestCase;
 

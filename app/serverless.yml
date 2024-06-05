@@ -30,7 +30,8 @@ provider:
     HTTPS: true
     APP_ENV: prod
     APP_SECRET: 'bref-ssm:/${opt:stage}/api/app-secret'
-    APP_URL: 'bref-ssm:/${opt:stage}/api/url'
+    BIKES_API_URL: 'bref-ssm:/${opt:stage}/api/bikes-api-url'
+    RIDES_API_URL: 'bref-ssm:/${opt:stage}/api/rides-api-url'
     DATABASE_URL: 'bref-ssm:/${opt:stage}/api/db-url'
 
 plugins:
@@ -52,10 +53,23 @@ functions:
 
 resources:
   Resources:
-    ApiUrlSsmParameter:
+    BikesApiUrlSsmParameter:
       Type: AWS::SSM::Parameter
       Properties:
-        Name: /${opt:stage}/api/url
+        Name: /${opt:stage}/api/bikes-api-url
+        Type: String
+        Value:
+          Fn::GetAtt:
+            - ApiLambdaFunctionUrl
+            - FunctionUrl
+        Tags:
+          App: BikeRidesApi
+          Env: ${opt:stage}
+
+    RidesApiUrlSsmParameter:
+      Type: AWS::SSM::Parameter
+      Properties:
+        Name: /${opt:stage}/api/rides-api-url
         Type: String
         Value:
           Fn::GetAtt:

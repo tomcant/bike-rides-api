@@ -2,10 +2,10 @@
 
 namespace App\BikeRides\Rides\Application\Command\StartRide;
 
-use App\BikeRides\Rides\Domain\Model\Shared\BikeId;
-use App\BikeRides\Rides\Domain\Model\Shared\RideId;
-use App\BikeRides\Rides\Domain\Model\Shared\RiderId;
 use App\BikeRides\Shared\Application\Command\Command;
+use App\BikeRides\Shared\Domain\Model\BikeId;
+use App\BikeRides\Shared\Domain\Model\RideId;
+use App\BikeRides\Shared\Domain\Model\RiderId;
 
 final readonly class StartRideCommand implements Command
 {

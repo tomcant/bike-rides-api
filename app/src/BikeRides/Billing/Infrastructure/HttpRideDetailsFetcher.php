@@ -22,7 +22,7 @@ final readonly class HttpRideDetailsFetcher implements RideDetailsFetcher
         $response = $this->httpClient->request('GET', $rideDetailsApiUrl)->toArray();
 
         return new RideDetails(
-            RideDuration::fromDateTimes(
+            RideDuration::fromStartAndEnd(
                 (new \DateTimeImmutable())->setTimestamp($response['started_at']),
                 (new \DateTimeImmutable())->setTimestamp($response['ended_at']),
             ),

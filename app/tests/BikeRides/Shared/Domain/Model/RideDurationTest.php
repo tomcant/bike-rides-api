@@ -12,7 +12,7 @@ final class RideDurationTest extends TestCase
         $startedAt = (new \DateTimeImmutable())->setTime(hour: 12, minute: 30);
         $endedAt = (new \DateTimeImmutable())->setTime(hour: 12, minute: 40);
 
-        $rideDuration = RideDuration::fromDateTimes($startedAt, $endedAt);
+        $rideDuration = RideDuration::fromStartAndEnd($startedAt, $endedAt);
 
         self::assertSame(10, $rideDuration->minutes);
     }
@@ -22,7 +22,7 @@ final class RideDurationTest extends TestCase
         $startedAt = (new \DateTimeImmutable())->setTime(hour: 12, minute: 30);
         $endedAt = (new \DateTimeImmutable())->setTime(hour: 12, minute: 30, second: 1);
 
-        $rideDuration = RideDuration::fromDateTimes($startedAt, $endedAt);
+        $rideDuration = RideDuration::fromStartAndEnd($startedAt, $endedAt);
 
         self::assertSame(1, $rideDuration->minutes);
     }
@@ -32,7 +32,7 @@ final class RideDurationTest extends TestCase
         self::expectException(\DomainException::class);
         self::expectExceptionMessage('Ride end date/time must be after start date/time');
 
-        RideDuration::fromDateTimes(
+        RideDuration::fromStartAndEnd(
             startedAt: new \DateTimeImmutable('+1 second'),
             endedAt: new \DateTimeImmutable('now'),
         );
@@ -43,7 +43,7 @@ final class RideDurationTest extends TestCase
         self::expectException(\DomainException::class);
         self::expectExceptionMessage('Ride end date/time must be after start date/time');
 
-        RideDuration::fromDateTimes(
+        RideDuration::fromStartAndEnd(
             $startedAt = new \DateTimeImmutable('now'),
             endedAt: $startedAt,
         );

@@ -3,12 +3,12 @@
 namespace App\BikeRides\Rides\Domain\Model\Ride\Event;
 
 use App\BikeRides\Rides\Domain\Model\Ride\Ride;
-use App\BikeRides\Rides\Domain\Model\Shared\BikeId;
-use App\BikeRides\Rides\Domain\Model\Shared\RideId;
-use App\BikeRides\Rides\Domain\Model\Shared\RiderId;
 use App\BikeRides\Shared\Domain\Helpers\AggregateEvent;
 use App\BikeRides\Shared\Domain\Helpers\AggregateName;
 use App\BikeRides\Shared\Domain\Helpers\AggregateVersion;
+use App\BikeRides\Shared\Domain\Model\BikeId;
+use App\BikeRides\Shared\Domain\Model\RideId;
+use App\BikeRides\Shared\Domain\Model\RiderId;
 
 final readonly class RideWasStarted implements AggregateEvent
 {

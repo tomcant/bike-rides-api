@@ -41,15 +41,6 @@ final class Version20230818191327 extends AbstractMigration
         ');
 
         $this->addSql('
-            CREATE TABLE rides.tracks (
-                id SERIAL PRIMARY KEY,
-                bike_id UUID NOT NULL,
-                location JSONB NOT NULL,
-                tracked_at TIMESTAMPTZ NOT NULL
-            );
-        ');
-
-        $this->addSql('
             CREATE TABLE rides.projection_ride (
                 ride_id UUID NOT NULL,
                 rider_id VARCHAR NOT NULL,

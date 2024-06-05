@@ -3,14 +3,14 @@
 namespace App\BikeRides\Rides\Application\Command\SummariseRide;
 
 use App\BikeRides\Rides\Domain\Model\Ride\RideRepository;
-use App\BikeRides\Rides\Domain\Model\Ride\RouteBuilder;
+use App\BikeRides\Rides\Domain\Model\Ride\RouteFetcher;
 use App\BikeRides\Shared\Application\Command\CommandHandler;
 
 final readonly class SummariseRideHandler implements CommandHandler
 {
     public function __construct(
         private RideRepository $rideRepository,
-        private RouteBuilder $routeBuilder,
+        private RouteFetcher $routeFetcher,
     ) {
     }
 
@@ -18,7 +18,7 @@ final readonly class SummariseRideHandler implements CommandHandler
     {
         $ride = $this->rideRepository->getById($command->rideId);
 
-        $ride->summarise($this->routeBuilder);
+        $ride->summarise($this->routeFetcher);
 
         $this->rideRepository->store($ride);
     }

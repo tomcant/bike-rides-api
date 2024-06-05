@@ -37,7 +37,7 @@ final class GetRidePaymentByRideIdTest extends TestCase
 
         $ridePrice = (new RidePriceCalculator())
             ->calculatePrice(
-                RideDuration::fromDateTimes(
+                RideDuration::fromStartAndEnd(
                     new \DateTimeImmutable('-1 minute'),
                     new \DateTimeImmutable('now'),
                 ),

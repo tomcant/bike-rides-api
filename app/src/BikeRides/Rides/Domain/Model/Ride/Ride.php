@@ -2,12 +2,12 @@
 
 namespace App\BikeRides\Rides\Domain\Model\Ride;
 
-use App\BikeRides\Rides\Domain\Model\Shared\BikeId;
-use App\BikeRides\Rides\Domain\Model\Shared\RideId;
-use App\BikeRides\Rides\Domain\Model\Shared\RiderId;
 use App\BikeRides\Shared\Domain\Helpers\Aggregate;
 use App\BikeRides\Shared\Domain\Helpers\AggregateName;
+use App\BikeRides\Shared\Domain\Model\BikeId;
 use App\BikeRides\Shared\Domain\Model\RideDuration;
+use App\BikeRides\Shared\Domain\Model\RideId;
+use App\BikeRides\Shared\Domain\Model\RiderId;
 use App\Foundation\Clock\Clock;
 
 final class Ride extends Aggregate
@@ -100,7 +100,7 @@ final class Ride extends Aggregate
         );
     }
 
-    public function summarise(RouteBuilder $routeBuilder): void
+    public function summarise(RouteFetcher $routeFetcher): void
     {
         if ($this->hasBeenSummarised()) {
             throw new \DomainException('Ride has already been summarised');
@@ -111,8 +111,8 @@ final class Ride extends Aggregate
         }
 
         $summary = new Summary(
-            RideDuration::fromDateTimes($this->startedAt, $this->endedAt),
-            $routeBuilder->build($this),
+            RideDuration::fromStartAndEnd($this->startedAt, $this->endedAt),
+            $routeFetcher->fetch($this),
         );
 
         $this->raise(

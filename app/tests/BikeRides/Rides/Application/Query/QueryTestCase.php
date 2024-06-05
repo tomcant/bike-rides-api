@@ -6,13 +6,13 @@ use App\BikeRides\Rides\Domain\Model\Ride\Event\RideWasEnded;
 use App\BikeRides\Rides\Domain\Model\Ride\Event\RideWasStarted;
 use App\BikeRides\Rides\Domain\Model\Ride\Event\RideWasSummarised;
 use App\BikeRides\Rides\Domain\Model\Ride\Summary;
-use App\BikeRides\Rides\Domain\Model\Shared\BikeId;
-use App\BikeRides\Rides\Domain\Model\Shared\RideId;
-use App\BikeRides\Rides\Domain\Model\Shared\RiderId;
 use App\BikeRides\Shared\Domain\Helpers\AggregateEvent;
 use App\BikeRides\Shared\Domain\Helpers\AggregateEvents;
 use App\BikeRides\Shared\Domain\Helpers\AggregateEventsSubscriber;
 use App\BikeRides\Shared\Domain\Helpers\AggregateVersion;
+use App\BikeRides\Shared\Domain\Model\BikeId;
+use App\BikeRides\Shared\Domain\Model\RideId;
+use App\BikeRides\Shared\Domain\Model\RiderId;
 use PHPUnit\Framework\TestCase;
 
 abstract class QueryTestCase extends TestCase

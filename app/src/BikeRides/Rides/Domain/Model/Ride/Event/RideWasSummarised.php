@@ -4,10 +4,10 @@ namespace App\BikeRides\Rides\Domain\Model\Ride\Event;
 
 use App\BikeRides\Rides\Domain\Model\Ride\Ride;
 use App\BikeRides\Rides\Domain\Model\Ride\Summary;
-use App\BikeRides\Rides\Domain\Model\Shared\RideId;
 use App\BikeRides\Shared\Domain\Helpers\AggregateEvent;
 use App\BikeRides\Shared\Domain\Helpers\AggregateName;
 use App\BikeRides\Shared\Domain\Helpers\AggregateVersion;
+use App\BikeRides\Shared\Domain\Model\RideId;
 
 final readonly class RideWasSummarised implements AggregateEvent
 {

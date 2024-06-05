@@ -16,11 +16,11 @@ use App\BikeRides\Shared\Domain\Model\RideDuration;
 use App\Tests\BikeRides\Billing\Doubles\RideDetailsFetcherStub;
 use App\Tests\BikeRides\Billing\Doubles\RidePaymentDuplicateCheckerStub;
 use App\Tests\BikeRides\Billing\Doubles\RidePaymentGatewayStub;
+use App\Tests\BikeRides\Shared\Application\Command\CommandTestCase;
 use App\Tests\BikeRides\Shared\Doubles\DomainEventBusDummy;
 use App\Tests\BikeRides\Shared\Doubles\InMemoryEventStore;
-use PHPUnit\Framework\TestCase;
 
-final class CaptureRidePaymentTest extends TestCase
+final class CaptureRidePaymentTest extends CommandTestCase
 {
     private readonly RidePaymentRepository $ridePaymentRepository;
 
@@ -74,7 +74,7 @@ final class CaptureRidePaymentTest extends TestCase
     private function initiateRidePayment(RidePaymentId $ridePaymentId, RideId $rideId): void
     {
         $rideDetails = new RideDetails(
-            RideDuration::fromDateTimes(
+            RideDuration::fromStartAndEnd(
                 new \DateTimeImmutable('-1 minute'),
                 new \DateTimeImmutable('now'),
             ),

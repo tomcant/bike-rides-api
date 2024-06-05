@@ -4,8 +4,8 @@ namespace App\Tests\BikeRides\Rides\Infrastructure;
 
 use App\BikeRides\Rides\Domain\Model\Rider\Rider;
 use App\BikeRides\Rides\Domain\Model\Rider\RiderNotFound;
-use App\BikeRides\Rides\Domain\Model\Shared\RiderId;
 use App\BikeRides\Rides\Infrastructure\PostgresRiderRepository;
+use App\BikeRides\Shared\Domain\Model\RiderId;
 use App\Tests\BikeRides\Shared\Infrastructure\PostgresTestCase;
 
 final class PostgresRiderRepositoryTest extends PostgresTestCase

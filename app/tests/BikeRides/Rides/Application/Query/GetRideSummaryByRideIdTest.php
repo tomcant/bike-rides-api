@@ -5,9 +5,9 @@ namespace App\Tests\BikeRides\Rides\Application\Query;
 use App\BikeRides\Rides\Application\Query\GetRideSummaryByRideId;
 use App\BikeRides\Rides\Domain\Model\Ride\Route;
 use App\BikeRides\Rides\Domain\Model\Ride\Summary;
-use App\BikeRides\Rides\Domain\Model\Shared\RideId;
 use App\BikeRides\Rides\Domain\Projection\RideSummary\RideSummaryProjector;
 use App\BikeRides\Shared\Domain\Model\RideDuration;
+use App\BikeRides\Shared\Domain\Model\RideId;
 use App\Foundation\Location;
 use App\Tests\BikeRides\Rides\Doubles\InMemoryRideSummaryProjectionRepository;
 
@@ -30,7 +30,7 @@ final class GetRideSummaryByRideIdTest extends QueryTestCase
         $rideId = RideId::generate();
 
         $rideSummary = new Summary(
-            $duration = RideDuration::fromDateTimes(
+            $duration = RideDuration::fromStartAndEnd(
                 $startedAt = new \DateTimeImmutable('now'),
                 endedAt: new \DateTimeImmutable('+1 minute'),
             ),

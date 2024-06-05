@@ -36,7 +36,7 @@ db/%:
 can-release: security lint test ## Check the application is releasable
 
 test: db/test ## Run the test suite
-	$(APP) bin/phpunit --log-junit /var/reports/phpunit.xml
+	$(APP) bin/phpunit --log-junit /var/reports/phpunit.xml --order-by=random
 
 test/application: ## Run the application test suite
 	$(APP) bin/phpunit --testsuite application
@@ -64,7 +64,7 @@ format: ## Fix style related code violations
 ##@ Fixtures
 
 fixture/bike: ## Create and activate a bike
-	@$(COMPOSE) exec app bash -c "TERM=xterm-256color bin/console fixture:bike"
+	@$(COMPOSE) exec app bash -c "TERM=xterm-256color bin/console bikes:fixture:bike"
 
 ##@ Running Instance
 

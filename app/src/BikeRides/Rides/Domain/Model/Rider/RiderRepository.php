@@ -2,7 +2,7 @@
 
 namespace App\BikeRides\Rides\Domain\Model\Rider;
 
-use App\BikeRides\Rides\Domain\Model\Shared\RiderId;
+use App\BikeRides\Shared\Domain\Model\RiderId;
 
 interface RiderRepository
 {

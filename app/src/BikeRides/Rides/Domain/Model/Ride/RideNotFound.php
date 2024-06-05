@@ -2,7 +2,7 @@
 
 namespace App\BikeRides\Rides\Domain\Model\Ride;
 
-use App\BikeRides\Rides\Domain\Model\Shared\RideId;
+use App\BikeRides\Shared\Domain\Model\RideId;
 
 final class RideNotFound extends \DomainException
 {

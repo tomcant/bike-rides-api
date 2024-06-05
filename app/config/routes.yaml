@@ -1,3 +1,10 @@
+bikes:
+    resource:
+        path: ../src/BikeRides/Bikes/UserInterface/Http/
+        namespace: App\BikeRides\Bikes\UserInterface\Http
+    type: attribute
+
+
 billing:
     resource:
         path: ../src/BikeRides/Billing/UserInterface/Http/

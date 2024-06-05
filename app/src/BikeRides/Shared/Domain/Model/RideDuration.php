@@ -13,7 +13,7 @@ final readonly class RideDuration
     ) {
     }
 
-    public static function fromDateTimes(\DateTimeImmutable $startedAt, \DateTimeImmutable $endedAt): self
+    public static function fromStartAndEnd(\DateTimeImmutable $startedAt, \DateTimeImmutable $endedAt): self
     {
         $durationInSeconds = $endedAt->getTimestamp() - $startedAt->getTimestamp();
 

@@ -6,7 +6,7 @@ use App\BikeRides\Shared\Domain\Helpers\DomainEvent;
 
 final readonly class RideEnded extends DomainEvent
 {
-    public function __construct(public string $rideId)
+    public function __construct(public string $rideId, public string $bikeId)
     {
         parent::__construct();
     }
@@ -15,6 +15,7 @@ final readonly class RideEnded extends DomainEvent
     {
         return \json_encode_array([
             'rideId' => $this->rideId,
+            'bikeId' => $this->bikeId,
         ]);
     }
 }

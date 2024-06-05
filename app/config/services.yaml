@@ -1,13 +1,16 @@
 parameters:
-    env(APP_URL): ''
+    env(BIKES_API_URL): ''
+    env(RIDES_API_URL): ''
 
 services:
     _defaults:
         autowire: true
         autoconfigure: true
         bind:
-            $ridesApiUrl: '%env(trim-trailing-slash:APP_URL)%'
-            $rideDetailsApiUrlTemplate: '%env(trim-trailing-slash:APP_URL)%/rides/ride/{rideId}'
+            $bikesApiUrl: '%env(trim-trailing-slash:BIKES_API_URL)%'
+            $bikeApiUrlTemplate: '%env(trim-trailing-slash:BIKES_API_URL)%/bikes/bike/{bikeId}'
+            $bikeLocationsApiUrlTemplate: '%env(trim-trailing-slash:BIKES_API_URL)%/bikes/bike/{bikeId}/locations?from={from}&to={to}'
+            $rideDetailsApiUrlTemplate: '%env(trim-trailing-slash:RIDES_API_URL)%/rides/ride/{rideId}'
 
     App\:
         resource: '../src/'
@@ -15,6 +18,15 @@ services:
             - '../src/Framework/Migrations/'
             - '../src/Framework/Kernel.php'
             - '../src/Foundation/helpers.php'
+
+    #
+    # Bikes
+    #
+
+    App\BikeRides\Bikes\UserInterface\Http\:
+        resource: '../src/BikeRides/Bikes/UserInterface/Http/'
+        tags:
+            - 'controller.service_arguments'
 
     #
     # Billing
@@ -76,3 +88,9 @@ when@test:
             decorates: 'domain_event.bus.messenger.handlers_locator'
             arguments:
                 - '@App\Tests\BikeRides\Shared\Doubles\DomainEventSubscribersLocatorProxy.inner'
+
+        App\Tests\BikeRides\Rides\Doubles\RouteFetcherStub: ~
+        App\Tests\BikeRides\Rides\Doubles\BikeLocationFetcherStub: ~
+
+        App\BikeRides\Rides\Domain\Model\Ride\RouteFetcher: '@App\Tests\BikeRides\Rides\Doubles\RouteFetcherStub'
+        App\BikeRides\Rides\Application\Command\RefreshBikeLocation\BikeLocationFetcher: '@App\Tests\BikeRides\Rides\Doubles\BikeLocationFetcherStub'

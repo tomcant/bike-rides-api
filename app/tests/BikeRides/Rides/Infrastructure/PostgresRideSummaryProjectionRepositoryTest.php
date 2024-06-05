@@ -2,11 +2,11 @@
 
 namespace App\Tests\BikeRides\Rides\Infrastructure;
 
-use App\BikeRides\Rides\Domain\Model\Shared\RideId;
 use App\BikeRides\Rides\Domain\Projection\RideSummary\RideSummary;
 use App\BikeRides\Rides\Domain\Projection\RideSummary\RideSummaryNotFound;
 use App\BikeRides\Rides\Infrastructure\PostgresRideSummaryProjectionRepository;
 use App\BikeRides\Shared\Domain\Model\RideDuration;
+use App\BikeRides\Shared\Domain\Model\RideId;
 use App\Tests\BikeRides\Shared\Infrastructure\PostgresTestCase;
 
 final class PostgresRideSummaryProjectionRepositoryTest extends PostgresTestCase
@@ -24,7 +24,7 @@ final class PostgresRideSummaryProjectionRepositoryTest extends PostgresTestCase
     {
         $rideSummary = new RideSummary(
             rideId: RideId::generate()->toString(),
-            duration: RideDuration::fromDateTimes(
+            duration: RideDuration::fromStartAndEnd(
                 new \DateTimeImmutable('-1 minute'),
                 new \DateTimeImmutable('now'),
             ),

@@ -3,7 +3,7 @@
 namespace App\Tests\BikeRides\Rides\Doubles;
 
 use App\BikeRides\Rides\Domain\Model\Ride\BikeAvailabilityChecker;
-use App\BikeRides\Rides\Domain\Model\Shared\BikeId;
+use App\BikeRides\Shared\Domain\Model\BikeId;
 
 final class BikeAvailabilityCheckerStub implements BikeAvailabilityChecker
 {

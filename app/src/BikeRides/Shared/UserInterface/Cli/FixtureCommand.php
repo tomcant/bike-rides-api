@@ -15,12 +15,12 @@ abstract class FixtureCommand extends Command
     private OutputInterface $output;
 
     public function __construct(
-        private readonly string $ridesApiUrl,
+        private readonly string $bikesApiUrl,
         HttpClientInterface $client,
     ) {
         parent::__construct();
 
-        $this->client = $client->withOptions(['base_uri' => $ridesApiUrl]);
+        $this->client = $client->withOptions(['base_uri' => $bikesApiUrl]);
     }
 
     public function execute(InputInterface $input, OutputInterface $output): int
@@ -65,8 +65,8 @@ abstract class FixtureCommand extends Command
 
     private function getPathFromUrl(string $url): string
     {
-        if (\str_starts_with($url, $this->ridesApiUrl)) {
-            return \mb_substr($url, \mb_strlen($this->ridesApiUrl));
+        if (\str_starts_with($url, $this->bikesApiUrl)) {
+            return \mb_substr($url, \mb_strlen($this->bikesApiUrl));
         }
 
         return $url;
