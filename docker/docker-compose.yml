@@ -1,5 +1,3 @@
-version: '3.9'
-
 services:
   app:
     image: ghcr.io/tomcant/bike-rides:0.0.1
