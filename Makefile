@@ -55,7 +55,7 @@ lint: ## Run the linting tools
 	$(APP) php-cs-fixer fix --dry-run --diff
 
 security: ## Check dependencies for known vulnerabilities
-	$(APP) local-php-security-checker
+	$(APP) composer audit
 
 fmt: format
 format: ## Fix style related code violations

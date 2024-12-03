@@ -3,7 +3,6 @@ FROM docker.io/bref/php-83-fpm-dev:2.2.24
 COPY --from=docker.io/jakzal/phpqa:1.97.2-php8.3-alpine \
   /tools/deptrac \
   /tools/php-cs-fixer \
-  /tools/local-php-security-checker \
   /usr/bin/
 
 COPY --from=docker.io/composer:2.7.6 /usr/bin/composer /usr/bin/
