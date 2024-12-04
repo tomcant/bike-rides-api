@@ -59,4 +59,4 @@ jobs:
       - name: Run database migrations
         env:
           SERVERLESS_IMAGE: bike-rides-api:latest
-        run: bin/lambda-console staging "doctrine:migrations:migrate --no-interaction"
+        run: app/bin/lambda-console staging "doctrine:migrations:migrate --no-interaction"
