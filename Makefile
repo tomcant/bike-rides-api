@@ -36,19 +36,10 @@ db/%:
 can-release: security lint test ## Check the application is releasable
 
 test: db/test ## Run the test suite
-	$(APP) bin/phpunit --log-junit /var/reports/phpunit.xml --order-by=random
-
-test/application: ## Run the application test suite
-	$(APP) bin/phpunit --testsuite application
-
-test/infrastructure: db/test ## Run the infrastructure test suite
-	$(APP) bin/phpunit --testsuite infrastructure
-
-test/ui: db/test ## Run the UI test suite
-	$(APP) bin/phpunit --testsuite ui
+	$(APP) vendor/bin/phpunit --log-junit /var/reports/phpunit.xml --order-by=random
 
 test/%:
-	$(APP) bin/phpunit --filter $*
+	$(APP) vendor/bin/phpunit --filter $*
 
 lint: ## Run the linting tools
 	$(APP) composer validate --strict

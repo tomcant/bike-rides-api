@@ -1,11 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<!-- https://phpunit.readthedocs.io/en/latest/configuration.html -->
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
-         backupGlobals="false"
-         colors="true"
-         bootstrap="tests/bootstrap.php"
 >
     <php>
         <ini name="display_errors" value="1" />
@@ -13,34 +8,26 @@
         <env name="KERNEL_CLASS" value="App\Framework\Kernel" />
         <env name="APP_ENV" value="test" force="true" />
         <env name="SHELL_VERBOSITY" value="-1" />
-        <env name="SYMFONY_DEPRECATIONS_HELPER" value="weak" />
     </php>
 
     <testsuites>
-        <testsuite name="domain">
-            <directory>tests/BikeRides/Shared/Domain</directory>
+        <testsuite name="Unit">
+            <directory>./tests/BikeRides/Bikes/Unit</directory>
+            <directory>./tests/BikeRides/Billing/Unit</directory>
+            <directory>./tests/BikeRides/Rides/Unit</directory>
+            <directory>./tests/BikeRides/Shared/Unit</directory>
         </testsuite>
-        <testsuite name="application">
-            <directory>tests/BikeRides/Bikes/Application</directory>
-            <directory>tests/BikeRides/Billing/Application</directory>
-            <directory>tests/BikeRides/Rides/Application</directory>
+        <testsuite name="Integration">
+            <directory>./tests/BikeRides/Bikes/Integration</directory>
+            <directory>./tests/BikeRides/Billing/Integration</directory>
+            <directory>./tests/BikeRides/Rides/Integration</directory>
+            <directory>./tests/BikeRides/Shared/Integration</directory>
         </testsuite>
-        <testsuite name="infrastructure">
-            <directory>tests/BikeRides/Bikes/Infrastructure</directory>
-            <directory>tests/BikeRides/Billing/Infrastructure</directory>
-            <directory>tests/BikeRides/Rides/Infrastructure</directory>
+        <testsuite name="Functional">
+            <directory>./tests/BikeRides/Bikes/Functional</directory>
+            <directory>./tests/BikeRides/Billing/Functional</directory>
+            <directory>./tests/BikeRides/Rides/Functional</directory>
+            <directory>./tests/BikeRides/Shared/Functional</directory>
         </testsuite>
-        <testsuite name="ui">
-            <directory>tests/BikeRides/Bikes/UserInterface</directory>
-            <directory>tests/BikeRides/Billing/UserInterface</directory>
-            <directory>tests/BikeRides/Rides/UserInterface</directory>
-        </testsuite>
-<!--        <testsuite name="framework">-->
-<!--            <directory>tests/Framework</directory>-->
-<!--        </testsuite>-->
     </testsuites>
-
-    <listeners>
-        <listener class="Symfony\Bridge\PhpUnit\SymfonyTestsListener" />
-    </listeners>
 </phpunit>
