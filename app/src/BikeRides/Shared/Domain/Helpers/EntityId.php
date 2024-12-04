@@ -8,7 +8,7 @@ use Symfony\Component\Uid\Uuid;
 
 abstract readonly class EntityId
 {
-    private const NIL = '00000000-0000-0000-0000-000000000000';
+    private const string NIL = '00000000-0000-0000-0000-000000000000';
 
     private function __construct(private string $id)
     {

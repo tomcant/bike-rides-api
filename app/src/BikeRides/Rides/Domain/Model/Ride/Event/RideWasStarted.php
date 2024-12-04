@@ -14,7 +14,7 @@ use App\BikeRides\Shared\Domain\Model\RiderId;
 
 final readonly class RideWasStarted implements AggregateEvent
 {
-    public const EVENT_NAME = 'ride.started';
+    public const string EVENT_NAME = 'ride.started';
 
     public function __construct(
         public AggregateVersion $aggregateVersion,

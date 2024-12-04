@@ -14,8 +14,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 #[AsCommand(name: 'bikes:fixture:bike')]
 final class BikeFixtureCommand extends FixtureCommand
 {
-    private const DEFAULT_LATITUDE = 51.535704;
-    private const DEFAULT_LONGITUDE = -0.126946;
+    private const float DEFAULT_LATITUDE = 51.535704;
+    private const float DEFAULT_LONGITUDE = -0.126946;
 
     public function doExecute(InputInterface $input, OutputInterface $output): int
     {

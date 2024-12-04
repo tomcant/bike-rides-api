@@ -10,7 +10,7 @@ use App\Foundation\Clock\Clock;
 
 final class RidePayment extends Aggregate
 {
-    public const AGGREGATE_NAME = 'ride_payment';
+    public const string AGGREGATE_NAME = 'ride_payment';
     private RidePaymentId $ridePaymentId;
     private RideId $rideId;
     private RidePrice $ridePrice;

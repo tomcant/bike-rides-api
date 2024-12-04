@@ -9,7 +9,7 @@ use Money\Money;
 
 final readonly class RidePriceCalculator
 {
-    private const PRICE_PER_MINUTE_IN_PENCE = 25;
+    private const int PRICE_PER_MINUTE_IN_PENCE = 25;
 
     public function calculatePrice(RideDuration $rideDuration): RidePrice
     {

@@ -14,7 +14,7 @@ use App\Foundation\Clock\Clock;
 
 final class Ride extends Aggregate
 {
-    public const AGGREGATE_NAME = 'ride';
+    public const string AGGREGATE_NAME = 'ride';
     private RideId $rideId;
     private BikeId $bikeId;
     private \DateTimeImmutable $startedAt;

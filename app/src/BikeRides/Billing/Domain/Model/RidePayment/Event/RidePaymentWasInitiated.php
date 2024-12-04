@@ -14,7 +14,7 @@ use App\BikeRides\Shared\Domain\Helpers\AggregateVersion;
 
 final readonly class RidePaymentWasInitiated implements AggregateEvent
 {
-    public const EVENT_NAME = 'ride_payment.initiated';
+    public const string EVENT_NAME = 'ride_payment.initiated';
 
     public function __construct(
         public AggregateVersion $aggregateVersion,

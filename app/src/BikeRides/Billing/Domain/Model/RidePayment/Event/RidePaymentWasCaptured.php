@@ -13,7 +13,7 @@ use App\BikeRides\Shared\Domain\Helpers\AggregateVersion;
 
 final readonly class RidePaymentWasCaptured implements AggregateEvent
 {
-    public const EVENT_NAME = 'ride_payment.captured';
+    public const string EVENT_NAME = 'ride_payment.captured';
 
     public function __construct(
         public AggregateVersion $aggregateVersion,

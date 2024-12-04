@@ -13,7 +13,7 @@ use App\BikeRides\Shared\Domain\Model\RideId;
 
 final readonly class RideWasSummarised implements AggregateEvent
 {
-    public const EVENT_NAME = 'ride.summarised';
+    public const string EVENT_NAME = 'ride.summarised';
 
     public function __construct(
         public AggregateVersion $aggregateVersion,

@@ -6,7 +6,7 @@ namespace App\BikeRides\Shared\Domain\Model;
 
 final readonly class RideDuration
 {
-    private const SECONDS_IN_ONE_MINUTE = 60;
+    private const int SECONDS_IN_ONE_MINUTE = 60;
 
     private function __construct(
         public \DateTimeImmutable $startedAt,

@@ -14,7 +14,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 #[AsCommand(name: 'rides:fixture:rider')]
 final class RiderFixtureCommand extends FixtureCommand
 {
-    private const DEFAULT_RIDER_ID = 'rider_id';
+    private const string DEFAULT_RIDER_ID = 'rider_id';
 
     public function doExecute(InputInterface $input, OutputInterface $output): int
     {
