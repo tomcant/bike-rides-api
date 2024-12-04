@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 use Ergebnis\PhpCsFixer\Config;
 
-$ruleSet = Config\RuleSet\Php83::create()->withRules(
+$ruleSet = Config\RuleSet\Php84::create()->withRules(
     Config\Rules::fromArray([
         'multiline_string_to_heredoc' => false,
         'phpdoc_line_span' => [

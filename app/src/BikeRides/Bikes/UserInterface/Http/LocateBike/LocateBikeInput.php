@@ -18,7 +18,7 @@ final readonly class LocateBikeInput implements JsonSchemaInput
 
     public static function fromPayload(array $payload): JsonSchemaInput
     {
-        $bikeId = \trim($payload['bike_id']);
+        $bikeId = \mb_trim($payload['bike_id']);
 
         if ('' === $bikeId) {
             throw new BadRequestHttpException();

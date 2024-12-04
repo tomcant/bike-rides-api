@@ -15,7 +15,7 @@ final readonly class CreateRiderInput implements JsonSchemaInput
 
     public static function fromPayload(array $payload): JsonSchemaInput
     {
-        $riderId = \trim($payload['rider_id']);
+        $riderId = \mb_trim($payload['rider_id']);
 
         if ('' === $riderId) {
             throw new BadRequestHttpException();

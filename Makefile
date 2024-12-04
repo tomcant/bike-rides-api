@@ -43,14 +43,14 @@ test/%:
 
 lint: ## Run the linting tools
 	$(APP) composer validate --strict
-	$(APP) vendor/bin/php-cs-fixer fix --dry-run --diff
+	$(APP) sh -c 'PHP_CS_FIXER_IGNORE_ENV=1 vendor/bin/php-cs-fixer fix --dry-run --diff'
 
 security: ## Check dependencies for known vulnerabilities
 	$(APP) composer audit
 
 fmt: format
 format: ## Fix style related code violations
-	$(APP) vendor/bin/php-cs-fixer fix
+	$(APP) sh -c 'PHP_CS_FIXER_IGNORE_ENV=1 vendor/bin/php-cs-fixer fix'
 
 ##@ Fixtures
 

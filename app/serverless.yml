@@ -40,14 +40,14 @@ plugins:
 functions:
   api:
     handler: public/index.php
-    runtime: php-83-fpm
+    runtime: php-84-fpm
     vpc: ${self:custom.vpc}
     timeout: 10
     url: true
 
   console:
     handler: bin/console
-    runtime: php-83-console
+    runtime: php-84-console
     vpc: ${self:custom.vpc}
     timeout: 120
 

@@ -10,7 +10,7 @@ final readonly class TrimTrailingSlashEnvVarProcessor implements EnvVarProcessor
 {
     public function getEnv(string $prefix, string $name, \Closure $getEnv): string
     {
-        return \trim($getEnv($name), '/');
+        return \mb_trim($getEnv($name), '/');
     }
 
     public static function getProvidedTypes(): array
