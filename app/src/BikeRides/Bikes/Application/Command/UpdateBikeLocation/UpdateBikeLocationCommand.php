@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\BikeRides\Bikes\Application\Command\UpdateBikeLocation;
 
@@ -10,8 +12,10 @@ final readonly class UpdateBikeLocationCommand implements Command
 {
     public BikeId $bikeId;
 
-    public function __construct(string $bikeId, public Location $location)
-    {
+    public function __construct(
+        string $bikeId,
+        public Location $location,
+    ) {
         $this->bikeId = BikeId::fromString($bikeId);
     }
 

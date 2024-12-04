@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Tests\BikeRides\Bikes\Doubles;
 
@@ -8,7 +10,7 @@ use App\BikeRides\Shared\Domain\Model\BikeId;
 
 final class InMemoryBikeLocationRepository implements BikeLocationRepository
 {
-    /** @var array<BikeLocation> */
+    /** @var list<BikeLocation> */
     private array $bikeLocations;
 
     public function store(BikeLocation $bikeLocation): void

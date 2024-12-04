@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Tests\BikeRides\Bikes\UserInterface;
 
@@ -48,9 +50,9 @@ final class BikeLocationsApiTest extends BikesUiTestCase
         self::assertResponseStatusCodeSame(400);
     }
 
-    public function invalidLocationParamProvider(): array
+    public static function invalidLocationParamProvider(): iterable
     {
-        return [
+        yield from [
             'missing_location' => [[]],
             'missing_longitude' => [['location' => ['latitude' => 0]]],
             'missing_latitude' => [['location' => ['longitude' => 0]]],
@@ -112,9 +114,9 @@ final class BikeLocationsApiTest extends BikesUiTestCase
         self::assertResponseStatusCodeSame(400);
     }
 
-    public function invalidTimeRangeParamProvider(): array
+    public static function invalidTimeRangeParamProvider(): iterable
     {
-        return [
+        yield from [
             'missing_timestamps' => [[]],
             'missing_from_timestamp' => [['to' => 0]],
             'missing_to_timestamp' => [['from' => 0]],

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Tests\BikeRides\Shared\Doubles;
 
@@ -29,8 +31,7 @@ final class InMemoryEventStore implements EventStore
     public function get(AggregateName $name, EntityId $id): AggregateEvents
     {
         return $this->events->reduce(
-            fn (AggregateEvents $events, AggregateEvent $event)
-                => $event->getAggregateName()->equals($name) && $event->getAggregateId()->equals($id)
+            fn (AggregateEvents $events, AggregateEvent $event) => $event->getAggregateName()->equals($name) && $event->getAggregateId()->equals($id)
                     ? $events->add($this->toSerializedAndBack($event))
                     : $events,
             AggregateEvents::make(),

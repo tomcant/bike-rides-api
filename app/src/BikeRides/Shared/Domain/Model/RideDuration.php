@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\BikeRides\Shared\Domain\Model;
 
@@ -17,7 +19,7 @@ final readonly class RideDuration
     {
         $durationInSeconds = $endedAt->getTimestamp() - $startedAt->getTimestamp();
 
-        if ($durationInSeconds <= 0) {
+        if (0 >= $durationInSeconds) {
             throw new \DomainException('Ride end date/time must be after start date/time');
         }
 

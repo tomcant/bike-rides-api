@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Tests\BikeRides\Shared\UserInterface;
 
@@ -69,7 +71,7 @@ abstract class UiTestCase extends WebTestCase
 
         $content = $this->client->getResponse()->getContent();
 
-        return ! empty($content) ? \json_decode_array($content, options: 0) : null; // remove `options: 0` when API returns JSON instead of HTML for errors
+        return !empty($content) ? \json_decode_array($content, options: 0) : null; // remove `options: 0` when API returns JSON instead of HTML for errors
     }
 
     protected function parseResponseLinkUrl(): string
@@ -84,7 +86,7 @@ abstract class UiTestCase extends WebTestCase
     protected static function assertArrayHasKeys(array $array, array $keys): void
     {
         foreach ($keys as $key) {
-            static::assertArrayHasKey($key, $array);
+            self::assertArrayHasKey($key, $array);
         }
     }
 

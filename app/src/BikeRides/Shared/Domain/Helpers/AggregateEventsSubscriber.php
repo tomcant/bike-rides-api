@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\BikeRides\Shared\Domain\Helpers;
 
@@ -22,7 +24,7 @@ abstract class AggregateEventsSubscriber
 
     private function toEventHandleMethodName(AggregateEvent $event): string
     {
-        $eventName = \explode('\\', \get_class($event));
+        $eventName = \explode('\\', $event::class);
 
         return 'handle' . $eventName[\count($eventName) - 1];
     }

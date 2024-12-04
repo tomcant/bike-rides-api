@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\BikeRides\Billing\Domain\Model\RidePayment;
 
@@ -9,7 +11,6 @@ use App\Foundation\Clock\Clock;
 final class RidePayment extends Aggregate
 {
     public const AGGREGATE_NAME = 'ride_payment';
-
     private RidePaymentId $ridePaymentId;
     private RideId $rideId;
     private RidePrice $ridePrice;
@@ -42,7 +43,7 @@ final class RidePayment extends Aggregate
 
     public function isCaptured(): bool
     {
-        return $this->externalPaymentRef !== null;
+        return null !== $this->externalPaymentRef;
     }
 
     public static function initiate(

@@ -1,10 +1,12 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\BikeRides\Shared\Domain\Helpers;
 
 final class AggregateEvents implements \IteratorAggregate
 {
-    /** @param AggregateEvent[] $events */
+    /** @param list<AggregateEvent> $events */
     public function __construct(private array $events)
     {
     }

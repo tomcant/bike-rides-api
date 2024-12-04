@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Tests\BikeRides\Shared\Doubles;
 
@@ -23,7 +25,7 @@ final class DomainEventSubscribersLocatorProxy implements HandlersLocatorInterfa
     {
         $handlers = $this->locator->getHandlers($envelope);
 
-        if ($this->subscriberNamespace === null) {
+        if (null === $this->subscriberNamespace) {
             return $handlers;
         }
 

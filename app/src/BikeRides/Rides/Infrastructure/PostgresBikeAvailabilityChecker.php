@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\BikeRides\Rides\Infrastructure;
 
@@ -14,7 +16,7 @@ final readonly class PostgresBikeAvailabilityChecker implements BikeAvailability
 
     public function isAvailable(BikeId $bikeId): bool
     {
-        return ! $this
+        return !$this
             ->connection
             ->fetchOne(
                 '

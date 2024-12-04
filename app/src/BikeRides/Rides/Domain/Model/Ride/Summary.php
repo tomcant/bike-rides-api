@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\BikeRides\Rides\Domain\Model\Ride;
 
@@ -7,8 +9,10 @@ use App\Foundation\Location;
 
 final readonly class Summary
 {
-    public function __construct(public RideDuration $duration, public Route $route)
-    {
+    public function __construct(
+        public RideDuration $duration,
+        public Route $route,
+    ) {
     }
 
     public function toArray(): array

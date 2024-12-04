@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\BikeRides\Shared\UserInterface\Cli;
 
@@ -23,7 +25,7 @@ abstract class FixtureCommand extends Command
         $this->client = $client->withOptions(['base_uri' => $bikesApiUrl]);
     }
 
-    public function execute(InputInterface $input, OutputInterface $output): int
+    final public function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->output = $output;
 
@@ -74,13 +76,13 @@ abstract class FixtureCommand extends Command
 
     private function printStatusCode(int $statusCode): void
     {
-        $style = $statusCode >= 400 ? 'error' : 'info';
+        $style = 400 <= $statusCode ? 'error' : 'info';
         $this->output->writeln("<{$style}>{$statusCode}</>");
     }
 
-    private function printJsonIfVerbose(string|array $data): void
+    private function printJsonIfVerbose(array|string $data): void
     {
-        if (! $this->output->isVerbose()) {
+        if (!$this->output->isVerbose()) {
             return;
         }
 

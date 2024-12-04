@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\BikeRides\Bikes\UserInterface\Http\LocateBike;
 
@@ -8,15 +10,17 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 final readonly class LocateBikeInput implements JsonSchemaInput
 {
-    private function __construct(public string $bikeId, public Location $location)
-    {
+    private function __construct(
+        public string $bikeId,
+        public Location $location,
+    ) {
     }
 
     public static function fromPayload(array $payload): JsonSchemaInput
     {
         $bikeId = \trim($payload['bike_id']);
 
-        if ($bikeId === '') {
+        if ('' === $bikeId) {
             throw new BadRequestHttpException();
         }
 

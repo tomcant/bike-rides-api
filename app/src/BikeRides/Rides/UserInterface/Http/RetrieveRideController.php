@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\BikeRides\Rides\UserInterface\Http;
 
@@ -34,7 +36,7 @@ final class RetrieveRideController
                     ),
                     'method' => 'GET',
                 ],
-                'end' => $ride['ended_at'] !== null ? null : [
+                'end' => null !== $ride['ended_at'] ? null : [
                     'href' => $urlGenerator->generate(
                         'rides:ride:end',
                         ['rideId' => $ride['ride_id']],
@@ -42,7 +44,7 @@ final class RetrieveRideController
                     ),
                     'method' => 'POST',
                 ],
-                'summary' => $ride['ended_at'] === null ? null : [
+                'summary' => null === $ride['ended_at'] ? null : [
                     'href' => $urlGenerator->generate(
                         'rides:ride:summary',
                         ['rideId' => $ride['ride_id']],

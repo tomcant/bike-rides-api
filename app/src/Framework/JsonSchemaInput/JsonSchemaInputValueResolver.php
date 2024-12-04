@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Framework\JsonSchemaInput;
 
@@ -18,7 +20,7 @@ final readonly class JsonSchemaInputValueResolver implements ValueResolverInterf
 
     public function resolve(Request $request, ArgumentMetadata $argument): iterable
     {
-        if (! \is_subclass_of($argument->getType(), JsonSchemaInput::class)) {
+        if (!\is_subclass_of($argument->getType(), JsonSchemaInput::class)) {
             return [];
         }
 
@@ -33,13 +35,13 @@ final readonly class JsonSchemaInputValueResolver implements ValueResolverInterf
 
         $result = (new Validator())->validate($json, \json_encode($schema::getSchema()));
 
-        if (! $result->isValid()) {
+        if (!$result->isValid()) {
             $error = $result->error();
             $this->logger->error('JSON schema validation error', ['error' => $error]);
 
             throw new BadRequestHttpException(\json_encode((new ErrorFormatter())->formatOutput($error, 'basic')));
         }
 
-        return [$schema::fromPayload(\json_decode(\json_encode($json), true))];
+        yield from [$schema::fromPayload(\json_decode(\json_encode($json), true))];
     }
 }

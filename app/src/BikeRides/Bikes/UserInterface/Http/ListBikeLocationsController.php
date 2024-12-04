@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\BikeRides\Bikes\UserInterface\Http;
 
@@ -34,7 +36,7 @@ final class ListBikeLocationsController
     ): JsonResponse {
         $bike = $getBike->query($bikeId);
 
-        if ($bike === null) {
+        if (null === $bike) {
             throw new NotFoundHttpException();
         }
 

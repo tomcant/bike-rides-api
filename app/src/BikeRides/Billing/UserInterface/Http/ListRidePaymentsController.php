@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\BikeRides\Billing\UserInterface\Http;
 
@@ -16,14 +18,14 @@ final class ListRidePaymentsController
         UrlGeneratorInterface $urlGenerator,
         GetRidePaymentByRideId $getRidePaymentByRideId,
     ): JsonResponse {
-        if (! $request->query->has('ride-id')) {
+        if (!$request->query->has('ride-id')) {
             throw new \RuntimeException('Not implemented');
         }
 
         $rideId = $request->query->get('ride-id');
         $ridePayment = $getRidePaymentByRideId->query($rideId);
 
-        $embeddedRidePayments = $ridePayment === null ? [] : [
+        $embeddedRidePayments = null === $ridePayment ? [] : [
             [
                 'ride_payment_id' => $ridePayment['ride_payment_id'],
                 'ride_id' => $ridePayment['ride_id'],

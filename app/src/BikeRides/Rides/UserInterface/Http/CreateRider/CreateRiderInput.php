@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\BikeRides\Rides\UserInterface\Http\CreateRider;
 
@@ -15,7 +17,7 @@ final readonly class CreateRiderInput implements JsonSchemaInput
     {
         $riderId = \trim($payload['rider_id']);
 
-        if ($riderId === '') {
+        if ('' === $riderId) {
             throw new BadRequestHttpException();
         }
 

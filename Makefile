@@ -28,8 +28,8 @@ composer: ## Install the latest Composer dependencies
 db: db/dev db/test ## (Re)create the development and test databases
 db/%:
 	@$(APP) bin/console doctrine:database:drop --force --if-exists --env $*
-	@$(APP) bin/console doctrine:database:create -n --env $*
-	@$(APP) bin/console doctrine:migrations:migrate -n --allow-no-migration --env $*
+	@$(APP) bin/console doctrine:database:create --no-interaction --env $*
+	@$(APP) bin/console doctrine:migrations:migrate --allow-no-migration --no-interaction --env $*
 
 ##@ Testing/Linting
 
@@ -52,14 +52,14 @@ test/%:
 
 lint: ## Run the linting tools
 	$(APP) composer validate --strict
-	$(APP) php-cs-fixer fix --dry-run --diff
+	$(APP) vendor/bin/php-cs-fixer fix --dry-run --diff
 
 security: ## Check dependencies for known vulnerabilities
 	$(APP) composer audit
 
 fmt: format
 format: ## Fix style related code violations
-	$(APP) php-cs-fixer fix
+	$(APP) vendor/bin/php-cs-fixer fix
 
 ##@ Fixtures
 
@@ -68,7 +68,7 @@ fixture/bike: ## Create and activate a bike
 
 ##@ Running Instance
 
-open-api: ## Open the API in the default browser
+open: ## Open the API in the default browser
 	open "http://localhost:8000/"
 
 shell: ## Access a shell on the running container
@@ -78,7 +78,7 @@ logs: ## Tail the container logs
 	$(COMPOSE) logs -f
 
 ps: ## List the running containers
-	$(COMPOSE) ps
+	$(COMPOSE) ps -a
 
 ghcr-login: _require_GHCR_TOKEN
 	@NOW="$$(date +%s)"; \
@@ -92,4 +92,16 @@ _require_%:
 	@_=$(or $($*),$(error "`$*` env var required"))
 
 help:
-	@awk 'BEGIN {FS = ":.*##"; printf "\nUsage:\n  make \033[36m<target>\033[0m\n"} /^[a-zA-Z_-\/\/]+:.*?##/ { printf "  \033[36m%-20s\033[0m %s\n", $$1, $$2 } /^##@/ { printf "\n\033[1m%s\033[0m\n", substr($$0, 5) } ' $(MAKEFILE_LIST)
+	@echo "$$HEADER"
+	@awk 'BEGIN {FS = ":.*##"; printf "Usage:\n  make \033[36m<target>\033[0m\n"} /^[a-zA-Z_\-\/\/]+:.*?##/ { printf "  \033[36m%-20s\033[0m %s\n", $$1, $$2 } /^##@/ { printf "\n\033[1m%s\033[0m\n", substr($$0, 5) } ' $(MAKEFILE_LIST)
+	@echo
+
+define HEADER
+  ____  _ _          ____  _     _                _    ____ ___
+ | __ )(_) | _____  |  _ \(_) __| | ___  ___     / \  |  _ \_ _|
+ |  _ \| | |/ / _ \ | |_) | |/ _` |/ _ \/ __|   / _ \ | |_) | |
+ | |_) | |   <  __/ |  _ <| | (_| |  __/\__ \  / ___ \|  __/| |
+ |____/|_|_|\_\___| |_| \_\_|\__,_|\___||___/ /_/   \_\_|  |___|
+
+endef
+export HEADER

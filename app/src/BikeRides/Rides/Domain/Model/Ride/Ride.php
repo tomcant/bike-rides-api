@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\BikeRides\Rides\Domain\Model\Ride;
 
@@ -13,7 +15,6 @@ use App\Foundation\Clock\Clock;
 final class Ride extends Aggregate
 {
     public const AGGREGATE_NAME = 'ride';
-
     private RideId $rideId;
     private BikeId $bikeId;
     private \DateTimeImmutable $startedAt;
@@ -47,7 +48,7 @@ final class Ride extends Aggregate
 
     public function hasEnded(): bool
     {
-        return $this->endedAt !== null;
+        return null !== $this->endedAt;
     }
 
     public function getRoute(): ?Route
@@ -57,7 +58,7 @@ final class Ride extends Aggregate
 
     public function hasBeenSummarised(): bool
     {
-        return $this->summary !== null;
+        return null !== $this->summary;
     }
 
     public static function start(
@@ -66,7 +67,7 @@ final class Ride extends Aggregate
         BikeId $bikeId,
         BikeAvailabilityChecker $bikeAvailabilityChecker,
     ): self {
-        if (! $bikeAvailabilityChecker->isAvailable($bikeId)) {
+        if (!$bikeAvailabilityChecker->isAvailable($bikeId)) {
             throw new \DomainException(\sprintf('Bike "%s" is not available', $bikeId->toString()));
         }
 
@@ -106,7 +107,7 @@ final class Ride extends Aggregate
             throw new \DomainException('Ride has already been summarised');
         }
 
-        if (! $this->hasEnded()) {
+        if (!$this->hasEnded()) {
             throw new \DomainException('Ride has not ended');
         }
 

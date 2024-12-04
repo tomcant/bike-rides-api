@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Tests\BikeRides\Shared\Application\Command;
 
@@ -18,6 +20,6 @@ abstract class CommandTestCase extends TestCase
 
     protected static function assertDomainEventEquals(DomainEvent $expected, DomainEvent $actual): void
     {
-        static::assertEquals($expected->serialize(), $actual->serialize());
+        self::assertEquals($expected->serialize(), $actual->serialize());
     }
 }

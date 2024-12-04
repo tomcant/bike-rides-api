@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\BikeRides\Shared\Infrastructure;
 
@@ -9,8 +11,10 @@ use Symfony\Component\Messenger\MessageBusInterface;
 
 final readonly class SymfonyDomainEventBus implements DomainEventBus
 {
-    public function __construct(private MessageBusInterface $domainEventBus, private Connection $connection)
-    {
+    public function __construct(
+        private MessageBusInterface $domainEventBus,
+        private Connection $connection,
+    ) {
     }
 
     public function publish(DomainEvent $event): void

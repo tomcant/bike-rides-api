@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\BikeRides\Rides\Domain\Model\Bike;
 
@@ -11,6 +13,6 @@ interface BikeRepository
     /** @throws BikeNotFound */
     public function getById(BikeId $bikeId): Bike;
 
-    /** @return array<Bike> */
+    /** @return list<Bike> */
     public function list(): array;
 }

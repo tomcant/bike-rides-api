@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\BikeRides\Shared\Infrastructure;
 
@@ -63,13 +65,12 @@ final readonly class PostgresEventStore implements EventStore
 
         return \array_reduce(
             $result->fetchAllAssociative(),
-            fn (AggregateEvents $events, array $event)
-                => $events->add(
-                    $this->aggregateEventFactory->fromSerialized(
-                        $event['event_name'],
-                        $event['event_data'],
-                    ),
+            fn (AggregateEvents $events, array $event) => $events->add(
+                $this->aggregateEventFactory->fromSerialized(
+                    $event['event_name'],
+                    $event['event_data'],
                 ),
+            ),
             AggregateEvents::make(),
         );
     }

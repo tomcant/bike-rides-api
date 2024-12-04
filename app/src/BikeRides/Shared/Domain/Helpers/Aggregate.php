@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\BikeRides\Shared\Domain\Helpers;
 
@@ -17,12 +19,12 @@ abstract class Aggregate
 
     abstract public function getAggregateId(): EntityId;
 
-    public function getAggregateVersion(): AggregateVersion
+    final public function getAggregateVersion(): AggregateVersion
     {
         return $this->version;
     }
 
-    public function flushEvents(): AggregateEvents
+    final public function flushEvents(): AggregateEvents
     {
         $events = $this->events;
 
@@ -31,7 +33,7 @@ abstract class Aggregate
         return $events;
     }
 
-    public static function buildFrom(AggregateEvents $events): static
+    final public static function buildFrom(AggregateEvents $events): static
     {
         $aggregate = new static();
 
@@ -58,7 +60,7 @@ abstract class Aggregate
 
     private function toEventApplyMethodName(AggregateEvent $event): string
     {
-        $eventName = \explode('\\', \get_class($event));
+        $eventName = \explode('\\', $event::class);
 
         return 'apply' . $eventName[\count($eventName) - 1];
     }

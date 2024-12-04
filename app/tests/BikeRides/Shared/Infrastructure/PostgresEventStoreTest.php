@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Tests\BikeRides\Shared\Infrastructure;
 
@@ -15,7 +17,6 @@ use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 final class PostgresEventStoreTest extends PostgresTestCase
 {
     private const EVENT_STORE_TABLE_NAME = 'rides.event_store';
-
     private PostgresEventStore $eventStore;
     private AggregateEventsBusSpy $aggregateEventsBus;
 
