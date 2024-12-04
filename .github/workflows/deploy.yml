@@ -57,12 +57,6 @@ jobs:
               serverless deploy --verbose --conceal --stage staging --region "${AWS_REGION}"
 
       - name: Run database migrations
-        run: |
-          docker run \
-            -v $(pwd)/app:/var/task \
-            -e AWS_ACCESS_KEY_ID \
-            -e AWS_SECRET_ACCESS_KEY \
-            -e AWS_SESSION_TOKEN \
-            bike-rides-api:latest \
-              serverless bref:cli --stage staging --region "${AWS_REGION}" \
-                --args="doctrine:migrations:migrate --no-interaction"
+        env:
+          SERVERLESS_IMAGE: bike-rides-api:latest
+        run: bin/lambda-console staging "doctrine:migrations:migrate --no-interaction"

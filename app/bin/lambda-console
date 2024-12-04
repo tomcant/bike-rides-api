@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 readonly SCRIPT_PATH="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+readonly DOCKER_IMAGE=${SERVERLESS_IMAGE:-"ghcr.io/tomcant/bike-rides:0.0.1"}
 
 usage() {
   cat <<-EOM
@@ -30,7 +31,7 @@ docker run --rm \
   -v "${SCRIPT_PATH}"/..:/app \
   -e AWS_ACCESS_KEY_ID \
   -e AWS_SECRET_ACCESS_KEY \
-  ghcr.io/tomcant/bike-rides:0.0.1 \
+  "${DOCKER_IMAGE}" \
     serverless bref:cli \
       --args "${COMMAND}" \
       --stage "${STAGE}" \
