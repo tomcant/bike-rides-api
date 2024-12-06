@@ -8,6 +8,7 @@ use App\BikeRides\Rides\Domain\Model\Bike\Bike;
 use App\BikeRides\Rides\Domain\Model\Bike\BikeNotFound;
 use App\BikeRides\Rides\Domain\Model\Bike\BikeRepository;
 use App\BikeRides\Shared\Domain\Model\BikeId;
+use App\Foundation\Json;
 use App\Foundation\Location;
 use Doctrine\DBAL\Connection;
 
@@ -56,7 +57,7 @@ final readonly class PostgresBikeRepository implements BikeRepository
     {
         return new Bike(
             BikeId::fromString($record['bike_id']),
-            $record['location'] ? Location::fromArray(\json_decode_array($record['location'])) : null,
+            $record['location'] ? Location::fromArray(Json::decode($record['location'])) : null,
         );
     }
 
@@ -64,7 +65,7 @@ final readonly class PostgresBikeRepository implements BikeRepository
     {
         return [
             'bike_id' => $bike->bikeId->toString(),
-            'location' => $bike->location ? \json_encode_array($bike->location->toArray()) : null,
+            'location' => $bike->location ? Json::encode($bike->location->toArray()) : null,
         ];
     }
 }

@@ -7,6 +7,7 @@ namespace App\BikeRides\Billing\Application\Command\InitiateRidePayment;
 use App\BikeRides\Billing\Domain\Model\RidePayment\RideId;
 use App\BikeRides\Billing\Domain\Model\RidePayment\RidePaymentId;
 use App\BikeRides\Shared\Application\Command\Command;
+use App\Foundation\Json;
 
 final readonly class InitiateRidePaymentCommand implements Command
 {
@@ -21,7 +22,7 @@ final readonly class InitiateRidePaymentCommand implements Command
 
     public function serialize(): string
     {
-        return \json_encode_array([
+        return Json::encode([
             'ridePaymentId' => $this->ridePaymentId->toString(),
             'rideId' => $this->rideId->toString(),
         ]);

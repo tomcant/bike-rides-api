@@ -7,6 +7,7 @@ namespace App\BikeRides\Bikes\Infrastructure;
 use App\BikeRides\Bikes\Domain\Model\BikeLocation\BikeLocation;
 use App\BikeRides\Bikes\Domain\Model\BikeLocation\BikeLocationRepository;
 use App\BikeRides\Shared\Domain\Model\BikeId;
+use App\Foundation\Json;
 use App\Foundation\Location;
 use Doctrine\DBAL\Connection;
 
@@ -53,7 +54,7 @@ final readonly class PostgresBikeLocationRepository implements BikeLocationRepos
     {
         return new BikeLocation(
             BikeId::fromString($record['bike_id']),
-            Location::fromArray(\json_decode_array($record['location'])),
+            Location::fromArray(Json::decode($record['location'])),
             new \DateTimeImmutable($record['located_at']),
         );
     }
@@ -62,7 +63,7 @@ final readonly class PostgresBikeLocationRepository implements BikeLocationRepos
     {
         return [
             'bike_id' => $bikeLocation->bikeId->toString(),
-            'location' => \json_encode_array($bikeLocation->location->toArray()),
+            'location' => Json::encode($bikeLocation->location->toArray()),
             'located_at' => \datetime_timestamp($bikeLocation->locatedAt),
         ];
     }

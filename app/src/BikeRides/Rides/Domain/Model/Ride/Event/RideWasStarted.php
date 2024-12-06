@@ -11,6 +11,7 @@ use App\BikeRides\Shared\Domain\Helpers\AggregateVersion;
 use App\BikeRides\Shared\Domain\Model\BikeId;
 use App\BikeRides\Shared\Domain\Model\RideId;
 use App\BikeRides\Shared\Domain\Model\RiderId;
+use App\Foundation\Json;
 
 final readonly class RideWasStarted implements AggregateEvent
 {
@@ -47,7 +48,7 @@ final readonly class RideWasStarted implements AggregateEvent
 
     public function serialize(): string
     {
-        return \json_encode_array([
+        return Json::encode([
             'aggregateVersion' => $this->aggregateVersion->toInt(),
             'aggregateId' => $this->aggregateId->toString(),
             'riderId' => $this->riderId->toString(),
@@ -58,7 +59,7 @@ final readonly class RideWasStarted implements AggregateEvent
 
     public static function deserialize(string $serialized): self
     {
-        $event = \json_decode_array($serialized);
+        $event = Json::decode($serialized);
 
         return new self(
             AggregateVersion::fromInt($event['aggregateVersion']),

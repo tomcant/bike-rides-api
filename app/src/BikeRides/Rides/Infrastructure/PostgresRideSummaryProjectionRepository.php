@@ -8,6 +8,7 @@ use App\BikeRides\Rides\Domain\Projection\RideSummary\RideSummary;
 use App\BikeRides\Rides\Domain\Projection\RideSummary\RideSummaryNotFound;
 use App\BikeRides\Rides\Domain\Projection\RideSummary\RideSummaryProjectionRepository;
 use App\BikeRides\Shared\Domain\Model\RideDuration;
+use App\Foundation\Json;
 use Doctrine\DBAL\Connection;
 
 final readonly class PostgresRideSummaryProjectionRepository implements RideSummaryProjectionRepository
@@ -48,8 +49,8 @@ final readonly class PostgresRideSummaryProjectionRepository implements RideSumm
     {
         return new RideSummary(
             $record['ride_id'],
-            RideDuration::fromArray(\json_decode_array($record['duration'])),
-            \json_decode_array($record['route']),
+            RideDuration::fromArray(Json::decode($record['duration'])),
+            Json::decode($record['route']),
         );
     }
 
@@ -57,8 +58,8 @@ final readonly class PostgresRideSummaryProjectionRepository implements RideSumm
     {
         return [
             'ride_id' => $summary->rideId,
-            'duration' => \json_encode_array($summary->duration->toArray()),
-            'route' => \json_encode_array($summary->route),
+            'duration' => Json::encode($summary->duration->toArray()),
+            'route' => Json::encode($summary->route),
         ];
     }
 }

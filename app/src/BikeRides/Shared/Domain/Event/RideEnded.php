@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\BikeRides\Shared\Domain\Event;
 
 use App\BikeRides\Shared\Domain\Helpers\DomainEvent;
+use App\Foundation\Json;
 
 final readonly class RideEnded extends DomainEvent
 {
@@ -17,7 +18,7 @@ final readonly class RideEnded extends DomainEvent
 
     public function serialize(): string
     {
-        return \json_encode_array([
+        return Json::encode([
             'rideId' => $this->rideId,
             'bikeId' => $this->bikeId,
         ]);

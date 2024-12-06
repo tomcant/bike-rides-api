@@ -6,6 +6,7 @@ namespace App\BikeRides\Rides\Application\Command\RefreshBikeLocation;
 
 use App\BikeRides\Shared\Application\Command\Command;
 use App\BikeRides\Shared\Domain\Model\BikeId;
+use App\Foundation\Json;
 
 final readonly class RefreshBikeLocationCommand implements Command
 {
@@ -18,7 +19,7 @@ final readonly class RefreshBikeLocationCommand implements Command
 
     public function serialize(): string
     {
-        return \json_encode_array([
+        return Json::encode([
             'bikeId' => $this->bikeId->toString(),
         ]);
     }

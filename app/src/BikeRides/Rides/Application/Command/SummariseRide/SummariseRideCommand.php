@@ -6,6 +6,7 @@ namespace App\BikeRides\Rides\Application\Command\SummariseRide;
 
 use App\BikeRides\Shared\Application\Command\Command;
 use App\BikeRides\Shared\Domain\Model\RideId;
+use App\Foundation\Json;
 
 final readonly class SummariseRideCommand implements Command
 {
@@ -18,7 +19,7 @@ final readonly class SummariseRideCommand implements Command
 
     public function serialize(): string
     {
-        return \json_encode_array([
+        return Json::encode([
             'rideId' => $this->rideId->toString(),
         ]);
     }

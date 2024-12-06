@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\BikeRides\Shared\UserInterface\Cli;
 
+use App\Foundation\Json;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -93,9 +94,9 @@ abstract class FixtureCommand extends Command
         }
 
         if (\is_string($data)) {
-            $data = \json_decode_array($data);
+            $data = Json::decode($data);
         }
 
-        $this->output->writeln(\json_encode_array($data, \JSON_PRETTY_PRINT));
+        $this->output->writeln(Json::encode($data, \JSON_PRETTY_PRINT));
     }
 }

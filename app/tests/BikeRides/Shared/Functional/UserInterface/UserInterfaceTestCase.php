@@ -7,6 +7,7 @@ namespace App\Tests\BikeRides\Shared\Functional\UserInterface;
 use App\BikeRides\Shared\Domain\Helpers\DomainEvent;
 use App\BikeRides\Shared\Domain\Helpers\DomainEventBus;
 use App\Foundation\Clock\Clock;
+use App\Foundation\Json;
 use App\Tests\BikeRides\Shared\Doubles\ClockStub;
 use App\Tests\BikeRides\Shared\Doubles\DomainEventSubscribersLocatorProxy;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
@@ -53,7 +54,7 @@ abstract class UserInterfaceTestCase extends WebTestCase
             self::assertResponseIsSuccessful();
         }
 
-        return \json_decode_array($this->client->getResponse()->getContent());
+        return Json::decode($this->client->getResponse()->getContent());
     }
 
     protected function postJson(string $url, array $body = [], bool $assertResponseIsSuccessful = true): ?array
@@ -62,7 +63,7 @@ abstract class UserInterfaceTestCase extends WebTestCase
             'POST',
             $url,
             server: ['CONTENT_TYPE' => 'application/json'],
-            content: \json_encode_array($body),
+            content: Json::encode($body),
         );
 
         if ($assertResponseIsSuccessful) {
@@ -71,7 +72,7 @@ abstract class UserInterfaceTestCase extends WebTestCase
 
         $content = $this->client->getResponse()->getContent();
 
-        return !empty($content) ? \json_decode_array($content, options: 0) : null; // remove `options: 0` when API returns JSON instead of HTML for errors
+        return !empty($content) ? Json::decode($content, options: 0) : null; // remove `options: 0` when API returns JSON instead of HTML for errors
     }
 
     protected function parseResponseLinkUrl(): string
