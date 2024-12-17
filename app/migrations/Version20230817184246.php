@@ -22,11 +22,11 @@ final class Version20230817184246 extends AbstractMigration
         ');
 
         $this->addSql('
-            CREATE TABLE bikes.bike_locations (
+            CREATE TABLE bikes.tracking (
                 id SERIAL PRIMARY KEY,
                 bike_id UUID NOT NULL,
                 location JSONB NOT NULL,
-                located_at TIMESTAMPTZ NOT NULL
+                tracked_at TIMESTAMPTZ NOT NULL
             );
         ');
     }

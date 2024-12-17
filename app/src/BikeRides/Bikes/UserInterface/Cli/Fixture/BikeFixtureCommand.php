@@ -23,13 +23,15 @@ final class BikeFixtureCommand extends FixtureCommand
 
         $bike = $this->getJson($this->parseResponseLinkUrl());
 
-        $this->postJson($bike['_links']['activate']['href'], [
-            'bike_id' => $bike['bike_id'],
-            'location' => [
-                'latitude' => (float) $input->getOption('latitude'),
-                'longitude' => (float) $input->getOption('longitude'),
+        $this->postJson(
+            $bike['_links']['activate']['href'],
+            [
+                'location' => [
+                    'latitude' => (float) $input->getOption('latitude'),
+                    'longitude' => (float) $input->getOption('longitude'),
+                ],
             ],
-        ]);
+        );
 
         $output->writeln(\sprintf("\nBike ID: <info>%s</info>\n", $bike['bike_id']));
 

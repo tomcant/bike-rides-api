@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\BikeRides\Bikes\UserInterface\Http;
 
 use App\BikeRides\Bikes\Application\Query\GetBikeById;
-use App\BikeRides\Bikes\Application\Query\ListBikeLocationsByBikeId;
+use App\BikeRides\Bikes\Application\Query\ListTrackingEventsByBikeId;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,14 +14,15 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-#[Route('/bikes/bike/{bikeId}/locations', name: 'bikes:bike-location:list', methods: ['GET'])]
-final class ListBikeLocationsController
+#[Route('/bikes/tracking', name: 'bikes:tracking:list', methods: ['GET'])]
+final class ListTrackingEventsController
 {
     public function __invoke(
         Request $request,
         UrlGeneratorInterface $urlGenerator,
         GetBikeById $getBike,
-        ListBikeLocationsByBikeId $listBikeLocations,
+        ListTrackingEventsByBikeId $listTrackingEvents,
+        #[MapQueryParameter()]
         string $bikeId,
         #[MapQueryParameter(
             filter: \FILTER_VALIDATE_INT,
@@ -43,19 +44,19 @@ final class ListBikeLocationsController
         $from = (new \DateTimeImmutable())->setTimestamp($from);
         $to = (new \DateTimeImmutable())->setTimestamp($to);
 
-        $embeddedBikeLocations = \array_map(
-            static fn (array $bikeLocation) => [
-                'location' => $bikeLocation['location'],
-                'locatedAt' => $bikeLocation['locatedAt']->getTimestamp(),
+        $embeddedTrackingEvents = \array_map(
+            static fn (array $event) => [
+                'location' => $event['location'],
+                'trackedAt' => $event['trackedAt']->getTimestamp(),
             ],
-            $listBikeLocations->query($from, $to, $bikeId),
+            $listTrackingEvents->query($bikeId, $from, $to),
         );
 
         return new JsonResponse([
             '_links' => \array_filter([
                 'self' => [
                     'href' => $urlGenerator->generate(
-                        'bikes:bike-location:list',
+                        'bikes:tracking:list',
                         ['bikeId' => $bike['bike_id']],
                         UrlGeneratorInterface::ABSOLUTE_URL,
                     ),
@@ -71,9 +72,9 @@ final class ListBikeLocationsController
                 ],
             ]),
             '_embedded' => [
-                'bike_location' => $embeddedBikeLocations,
+                'tracking_event' => $embeddedTrackingEvents,
             ],
-            'total' => \count($embeddedBikeLocations),
+            'total' => \count($embeddedTrackingEvents),
         ]);
     }
 }

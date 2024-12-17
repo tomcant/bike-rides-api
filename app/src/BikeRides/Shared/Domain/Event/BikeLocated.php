@@ -13,7 +13,7 @@ final readonly class BikeLocated extends DomainEvent
     public function __construct(
         public string $bikeId,
         public Location $location,
-        public \DateTimeImmutable $locatedAt,
+        public \DateTimeImmutable $trackedAt,
     ) {
         parent::__construct();
     }
@@ -23,7 +23,7 @@ final readonly class BikeLocated extends DomainEvent
         return Json::encode([
             'bikeId' => $this->bikeId,
             'location' => $this->location->toArray(),
-            'locatedAt' => \datetime_timestamp($this->locatedAt),
+            'trackedAt' => \datetime_timestamp($this->trackedAt),
         ]);
     }
 }

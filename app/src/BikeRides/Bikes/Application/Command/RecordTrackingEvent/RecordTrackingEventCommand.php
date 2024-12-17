@@ -2,21 +2,21 @@
 
 declare(strict_types=1);
 
-namespace App\BikeRides\Bikes\Application\Command\LocateBike;
+namespace App\BikeRides\Bikes\Application\Command\RecordTrackingEvent;
 
 use App\BikeRides\Shared\Application\Command\Command;
 use App\BikeRides\Shared\Domain\Model\BikeId;
 use App\Foundation\Json;
 use App\Foundation\Location;
 
-final readonly class LocateBikeCommand implements Command
+final readonly class RecordTrackingEventCommand implements Command
 {
     public BikeId $bikeId;
 
     public function __construct(
         string $bikeId,
         public Location $location,
-        public \DateTimeImmutable $locatedAt,
+        public \DateTimeImmutable $trackedAt,
     ) {
         $this->bikeId = BikeId::fromString($bikeId);
     }
@@ -26,7 +26,7 @@ final readonly class LocateBikeCommand implements Command
         return Json::encode([
             'bikeId' => $this->bikeId->toString(),
             'location' => $this->location->toArray(),
-            'locatedAt' => \datetime_timestamp($this->locatedAt),
+            'trackedAt' => \datetime_timestamp($this->trackedAt),
         ]);
     }
 }

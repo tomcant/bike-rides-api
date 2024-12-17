@@ -6,15 +6,13 @@ namespace App\Tests\BikeRides\Bikes\Unit\Application\Command;
 
 use App\BikeRides\Bikes\Application\Command\ActivateBike\ActivateBikeCommand;
 use App\BikeRides\Bikes\Application\Command\ActivateBike\ActivateBikeHandler;
-use App\BikeRides\Bikes\Application\Command\LocateBike\LocateBikeCommand;
-use App\BikeRides\Bikes\Application\Command\LocateBike\LocateBikeHandler;
 use App\BikeRides\Bikes\Application\Command\RegisterBike\RegisterBikeCommand;
 use App\BikeRides\Bikes\Application\Command\RegisterBike\RegisterBikeHandler;
 use App\BikeRides\Bikes\Domain\Model\Bike\BikeRepository;
-use App\BikeRides\Bikes\Domain\Model\BikeLocation\BikeLocationRepository;
+use App\BikeRides\Bikes\Domain\Model\TrackingEvent\TrackingEventRepository;
 use App\BikeRides\Shared\Domain\Model\BikeId;
 use App\Foundation\Location;
-use App\Tests\BikeRides\Bikes\Doubles\InMemoryBikeLocationRepository;
+use App\Tests\BikeRides\Bikes\Doubles\InMemoryTrackingEventRepository;
 use App\Tests\BikeRides\Bikes\Unit\Doubles\InMemoryBikeRepository;
 use App\Tests\BikeRides\Shared\Doubles\DomainEventBusDummy;
 use App\Tests\BikeRides\Shared\Unit\Application\Command\CommandTestCase as BaseCommandTestCase;
@@ -22,14 +20,14 @@ use App\Tests\BikeRides\Shared\Unit\Application\Command\CommandTestCase as BaseC
 abstract class CommandTestCase extends BaseCommandTestCase
 {
     protected readonly BikeRepository $bikeRepository;
-    protected readonly BikeLocationRepository $bikeLocationRepository;
+    protected readonly TrackingEventRepository $trackingEventRepository;
 
     protected function setUp(): void
     {
         parent::setUp();
 
         $this->bikeRepository = new InMemoryBikeRepository();
-        $this->bikeLocationRepository = new InMemoryBikeLocationRepository();
+        $this->trackingEventRepository = new InMemoryTrackingEventRepository();
     }
 
     protected function registerBike(BikeId $bikeId): void
@@ -42,11 +40,5 @@ abstract class CommandTestCase extends BaseCommandTestCase
     {
         $handler = new ActivateBikeHandler($this->bikeRepository, new DomainEventBusDummy());
         $handler(new ActivateBikeCommand($bikeId->toString(), $location));
-    }
-
-    protected function locateBike(BikeId $bikeId, Location $location): void
-    {
-        $handler = new LocateBikeHandler($this->bikeLocationRepository, new DomainEventBusDummy());
-        $handler(new LocateBikeCommand($bikeId->toString(), $location, new \DateTimeImmutable('now')));
     }
 }

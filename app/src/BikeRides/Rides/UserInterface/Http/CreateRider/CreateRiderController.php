@@ -16,6 +16,6 @@ final class CreateRiderController
     {
         $bus->dispatch(new CreateRiderCommand($input->riderId));
 
-        return new Response();
+        return new Response(status: Response::HTTP_OK);
     }
 }

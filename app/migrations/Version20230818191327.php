@@ -25,9 +25,7 @@ final class Version20230818191327 extends AbstractMigration
             );
         ');
 
-        $this->addSql('
-            CREATE INDEX event_store_aggregate ON rides.event_store (aggregate_name, aggregate_id);
-        ');
+        $this->addSql('CREATE INDEX event_store_aggregate ON rides.event_store (aggregate_name, aggregate_id);');
 
         $this->addSql('
             CREATE TABLE rides.riders (

@@ -16,6 +16,6 @@ final class ActivateBikeController
     {
         $bus->dispatch(new ActivateBikeCommand($bikeId, $input->location));
 
-        return new Response();
+        return new Response(status: Response::HTTP_OK);
     }
 }

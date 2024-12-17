@@ -16,6 +16,6 @@ final class EndRideController
     {
         $bus->dispatch(new EndRideCommand($rideId));
 
-        return new Response();
+        return new Response(status: Response::HTTP_OK);
     }
 }

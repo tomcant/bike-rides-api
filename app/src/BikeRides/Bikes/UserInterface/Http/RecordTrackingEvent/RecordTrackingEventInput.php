@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\BikeRides\Bikes\UserInterface\Http\LocateBike;
+namespace App\BikeRides\Bikes\UserInterface\Http\RecordTrackingEvent;
 
 use App\Foundation\Location;
 use App\Framework\JsonSchemaInput\JsonSchemaInput;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
-final readonly class LocateBikeInput implements JsonSchemaInput
+final readonly class RecordTrackingEventInput implements JsonSchemaInput
 {
     private function __construct(
         public string $bikeId,

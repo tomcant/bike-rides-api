@@ -14,37 +14,33 @@ final readonly class HttpRouteFetcher implements RouteFetcher
 {
     public function __construct(
         private HttpClientInterface $httpClient,
-        private string $bikeLocationsApiUrlTemplate,
+        private string $trackingApiUrlTemplate,
     ) {
     }
 
     public function fetch(Ride $ride): Route
     {
-        $bikeLocationsApiUrl = \str_replace(
-            [
-                '{bikeId}',
-                '{from}',
-                '{to}',
-            ],
+        $trackingApiUrl = \str_replace(
+            ['{bikeId}', '{from}', '{to}'],
             [
                 $ride->getBikeId()->toString(),
                 $ride->getStartedAt()->getTimestamp(),
                 $ride->getEndedAt()->getTimestamp(),
             ],
-            $this->bikeLocationsApiUrlTemplate,
+            $this->trackingApiUrlTemplate,
         );
 
-        $bikeLocations = $this->httpClient->request('GET', $bikeLocationsApiUrl)->toArray();
+        $tracking = $this->httpClient->request('GET', $trackingApiUrl)->toArray();
 
         return new Route(
             \array_combine(
                 \array_map(
-                    static fn ($bikeLocation) => $bikeLocation['locatedAt'],
-                    $bikeLocations['_embedded']['bike_location'],
+                    static fn ($event) => $event['trackedAt'],
+                    $tracking['_embedded']['tracking_event'],
                 ),
                 \array_map(
-                    static fn ($bikeLocation) => Location::fromArray($bikeLocation['location']),
-                    $bikeLocations['_embedded']['bike_location'],
+                    static fn ($event) => Location::fromArray($event['location']),
+                    $tracking['_embedded']['tracking_event'],
                 ),
             ),
         );

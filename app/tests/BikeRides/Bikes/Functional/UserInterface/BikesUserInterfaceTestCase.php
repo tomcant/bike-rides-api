@@ -29,10 +29,10 @@ abstract class BikesUserInterfaceTestCase extends UserInterfaceTestCase
         );
     }
 
-    protected function locateBike(string $bikeId, Location $location): void
+    protected function recordTrackingEvent(string $bikeId, Location $location): void
     {
         $this->postJson(
-            '/bikes/bike/locate',
+            '/bikes/tracking',
             [
                 'bike_id' => $bikeId,
                 'location' => $location->toArray(),
@@ -40,8 +40,8 @@ abstract class BikesUserInterfaceTestCase extends UserInterfaceTestCase
         );
     }
 
-    protected function listBikeLocations(string $bikeId, \DateTimeImmutable $from, \DateTimeImmutable $to): array
+    protected function listTrackingEvents(string $bikeId, \DateTimeImmutable $from, \DateTimeImmutable $to): array
     {
-        return $this->getJson("/bikes/bike/{$bikeId}/locations?from={$from->getTimestamp()}&to={$to->getTimestamp()}");
+        return $this->getJson("/bikes/tracking?bikeId={$bikeId}&from={$from->getTimestamp()}&to={$to->getTimestamp()}");
     }
 }

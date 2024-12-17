@@ -2,29 +2,29 @@
 
 declare(strict_types=1);
 
-namespace App\BikeRides\Bikes\Application\Command\LocateBike;
+namespace App\BikeRides\Bikes\Application\Command\RecordTrackingEvent;
 
-use App\BikeRides\Bikes\Domain\Model\BikeLocation\BikeLocation;
-use App\BikeRides\Bikes\Domain\Model\BikeLocation\BikeLocationRepository;
+use App\BikeRides\Bikes\Domain\Model\TrackingEvent\TrackingEvent;
+use App\BikeRides\Bikes\Domain\Model\TrackingEvent\TrackingEventRepository;
 use App\BikeRides\Shared\Application\Command\CommandHandler;
 use App\BikeRides\Shared\Domain\Event\BikeLocated;
 use App\BikeRides\Shared\Domain\Helpers\DomainEventBus;
 
-final readonly class LocateBikeHandler implements CommandHandler
+final readonly class RecordTrackingEventHandler implements CommandHandler
 {
     public function __construct(
-        private BikeLocationRepository $bikeLocationRepository,
+        private TrackingEventRepository $trackingEventRepository,
         private DomainEventBus $eventBus,
     ) {
     }
 
-    public function __invoke(LocateBikeCommand $command): void
+    public function __invoke(RecordTrackingEventCommand $command): void
     {
-        $this->bikeLocationRepository->store(
-            new BikeLocation(
+        $this->trackingEventRepository->store(
+            new TrackingEvent(
                 $command->bikeId,
                 $command->location,
-                $command->locatedAt,
+                $command->trackedAt,
             ),
         );
 
@@ -32,7 +32,7 @@ final readonly class LocateBikeHandler implements CommandHandler
             new BikeLocated(
                 $command->bikeId->toString(),
                 $command->location,
-                $command->locatedAt,
+                $command->trackedAt,
             ),
         );
     }
