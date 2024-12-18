@@ -7,16 +7,13 @@ namespace App\BikeRides\Bikes\Application\Command\ActivateBike;
 use App\BikeRides\Shared\Application\Command\Command;
 use App\BikeRides\Shared\Domain\Model\BikeId;
 use App\Foundation\Json;
-use App\Foundation\Location;
 
 final readonly class ActivateBikeCommand implements Command
 {
     public BikeId $bikeId;
 
-    public function __construct(
-        string $bikeId,
-        public Location $location,
-    ) {
+    public function __construct(string $bikeId)
+    {
         $this->bikeId = BikeId::fromString($bikeId);
     }
 
@@ -24,7 +21,6 @@ final readonly class ActivateBikeCommand implements Command
     {
         return Json::encode([
             'bikeId' => $this->bikeId->toString(),
-            'location' => $this->location->toArray(),
         ]);
     }
 }

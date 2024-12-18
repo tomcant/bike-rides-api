@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\BikeRides\Bikes\UserInterface\Http\ActivateBike;
+namespace App\BikeRides\Bikes\UserInterface\Http;
 
 use App\BikeRides\Bikes\Application\Command\ActivateBike\ActivateBikeCommand;
 use App\BikeRides\Shared\Application\Command\CommandBus;
@@ -12,9 +12,9 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/bikes/bike/{bikeId}/activate', name: 'bikes:bike:activate', methods: ['POST'])]
 final class ActivateBikeController
 {
-    public function __invoke(CommandBus $bus, ActivateBikeInput $input, string $bikeId): Response
+    public function __invoke(CommandBus $bus, string $bikeId): Response
     {
-        $bus->dispatch(new ActivateBikeCommand($bikeId, $input->location));
+        $bus->dispatch(new ActivateBikeCommand($bikeId));
 
         return new Response(status: Response::HTTP_OK);
     }

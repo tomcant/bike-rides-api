@@ -5,31 +5,42 @@ declare(strict_types=1);
 namespace App\BikeRides\Bikes\Application\Command\ActivateBike;
 
 use App\BikeRides\Bikes\Domain\Model\Bike\BikeRepository;
+use App\BikeRides\Bikes\Domain\Model\TrackingEvent\TrackingEventRepository;
 use App\BikeRides\Shared\Application\Command\CommandHandler;
 use App\BikeRides\Shared\Domain\Event\BikeActivated;
 use App\BikeRides\Shared\Domain\Helpers\DomainEventBus;
+use App\BikeRides\Shared\Domain\Model\BikeId;
+use App\Foundation\Location;
 
 final readonly class ActivateBikeHandler implements CommandHandler
 {
     public function __construct(
-        private BikeRepository $repository,
+        private BikeRepository $bikeRepository,
+        private TrackingEventRepository $trackingEventRepository,
         private DomainEventBus $eventBus,
     ) {
     }
 
     public function __invoke(ActivateBikeCommand $command): void
     {
-        $bike = $this->repository->getById($command->bikeId);
+        $bike = $this->bikeRepository->getById($command->bikeId);
 
-        $bike->activate($command->location);
+        $bike->activate();
 
-        $this->repository->store($bike);
+        $this->bikeRepository->store($bike);
 
         $this->eventBus->publish(
             new BikeActivated(
                 $command->bikeId->toString(),
-                $command->location,
+                $this->getLastLocation($command->bikeId),
             ),
         );
+    }
+
+    private function getLastLocation(BikeId $bikeId): Location
+    {
+        $lastTrackingEvent = $this->trackingEventRepository->getLastEventForBikeId($bikeId);
+
+        return $lastTrackingEvent->location;
     }
 }

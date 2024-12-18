@@ -7,6 +7,7 @@ namespace App\BikeRides\Billing\UserInterface\Http;
 use App\BikeRides\Billing\Application\Query\GetRidePaymentByRideId;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Attribute\MapQueryParameter;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
@@ -17,12 +18,9 @@ final class ListRidePaymentsController
         Request $request,
         UrlGeneratorInterface $urlGenerator,
         GetRidePaymentByRideId $getRidePaymentByRideId,
+        #[MapQueryParameter()]
+        string $rideId,
     ): JsonResponse {
-        if (!$request->query->has('ride-id')) {
-            throw new \RuntimeException('Not implemented');
-        }
-
-        $rideId = $request->query->get('ride-id');
         $ridePayment = $getRidePaymentByRideId->query($rideId);
 
         $embeddedRidePayments = null === $ridePayment ? [] : [

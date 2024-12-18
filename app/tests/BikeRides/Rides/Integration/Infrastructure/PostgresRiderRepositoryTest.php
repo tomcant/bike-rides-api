@@ -30,7 +30,7 @@ final class PostgresRiderRepositoryTest extends PostgresTestCase
         self::assertEquals($rider, $this->repository->getById($rider->riderId));
     }
 
-    public function test_unable_to_get_by_unknown_id(): void
+    public function test_it_cannot_get_a_rider_by_an_unknown_rider_id(): void
     {
         self::expectException(RiderNotFound::class);
 

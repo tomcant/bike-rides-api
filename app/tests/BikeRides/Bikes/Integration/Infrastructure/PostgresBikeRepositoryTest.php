@@ -8,7 +8,6 @@ use App\BikeRides\Bikes\Domain\Model\Bike\Bike;
 use App\BikeRides\Bikes\Domain\Model\Bike\BikeNotFound;
 use App\BikeRides\Bikes\Infrastructure\PostgresBikeRepository;
 use App\BikeRides\Shared\Domain\Model\BikeId;
-use App\Foundation\Location;
 use App\Tests\BikeRides\Shared\Integration\Infrastructure\PostgresTestCase;
 
 final class PostgresBikeRepositoryTest extends PostgresTestCase
@@ -24,7 +23,7 @@ final class PostgresBikeRepositoryTest extends PostgresTestCase
 
     public function test_it_stores_a_bike(): void
     {
-        $bike = new Bike(BikeId::generate(), location: null, isActive: false);
+        $bike = new Bike(BikeId::generate(), isActive: false);
 
         $this->repository->store($bike);
 
@@ -33,18 +32,18 @@ final class PostgresBikeRepositoryTest extends PostgresTestCase
 
     public function test_it_stores_an_updated_bike(): void
     {
-        $bike = new Bike(BikeId::generate(), location: null, isActive: false);
+        $bike = new Bike(BikeId::generate(), isActive: false);
 
         $this->repository->store($bike);
 
-        $bike->activate(new Location(1, 1));
+        $bike->activate();
 
         $this->repository->store($bike);
 
         self::assertEquals($bike, $this->repository->getById($bike->bikeId));
     }
 
-    public function test_unable_to_get_by_unknown_id(): void
+    public function test_it_cannot_get_a_bike_by_an_unknown_bike_id(): void
     {
         self::expectException(BikeNotFound::class);
 

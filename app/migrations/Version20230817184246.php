@@ -16,7 +16,6 @@ final class Version20230817184246 extends AbstractMigration
         $this->addSql('
             CREATE TABLE bikes.bikes (
                 bike_id UUID PRIMARY KEY,
-                location JSONB,
                 is_active BOOL
             );
         ');

@@ -38,7 +38,7 @@ final class PostgresRideSummaryProjectionRepositoryTest extends PostgresTestCase
         self::assertEquals($rideSummary, $this->repository->getByRideId($rideSummary->rideId));
     }
 
-    public function test_unable_to_get_by_unknown_ride_id(): void
+    public function test_it_cannot_get_a_ride_by_an_unknown_ride_id(): void
     {
         self::expectException(RideSummaryNotFound::class);
 

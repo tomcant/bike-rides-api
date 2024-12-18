@@ -24,7 +24,6 @@ final readonly class GetBikeById
 
         return [
             'bike_id' => $bike->bikeId->toString(),
-            'location' => $bike->location?->toArray(),
             'is_active' => $bike->isActive,
         ];
     }

@@ -37,7 +37,7 @@ final class TrackingApiTest extends BikesUserInterfaceTestCase
     }
 
     /** @dataProvider invalidLocationProvider */
-    public function test_tracking_returns_a_400_response_for_an_invalid_location(array $location): void
+    public function test_recording_a_tracking_event_returns_a_400_response_for_an_invalid_location(array $location): void
     {
         $bike = $this->registerBike();
 
@@ -57,25 +57,6 @@ final class TrackingApiTest extends BikesUserInterfaceTestCase
             'missing_longitude' => [['location' => ['latitude' => 0]]],
             'missing_latitude' => [['location' => ['longitude' => 0]]],
         ];
-    }
-
-    public function test_the_current_bike_location_is_updated_when_a_tracking_event_is_recorded(): void
-    {
-        $bike = $this->registerBike();
-
-        $this->postJson(
-            '/bikes/tracking',
-            [
-                'bike_id' => $bike['bike_id'],
-                'location' => $location = [
-                    'latitude' => 51.535704,
-                    'longitude' => -0.126946,
-                ],
-            ],
-        );
-
-        $currentBikeLocation = $this->retrieveBike($bike['bike_id'])['location'];
-        self::assertEquals($location, $currentBikeLocation);
     }
 
     public function test_it_lists_tracking_events(): void
@@ -103,7 +84,7 @@ final class TrackingApiTest extends BikesUserInterfaceTestCase
     }
 
     /** @dataProvider invalidTimeRangeProvider */
-    public function test_list_tracking_events_returns_400_response_for_invalid_time_range(array $timeRange): void
+    public function test_listing_tracking_events_returns_a_400_response_for_an_invalid_time_range(array $timeRange): void
     {
         $bike = $this->registerBike();
         $queryString = \http_build_query(['bikeId' => $bike['bike_id'], ...$timeRange]);
@@ -123,7 +104,7 @@ final class TrackingApiTest extends BikesUserInterfaceTestCase
         ];
     }
 
-    public function test_list_tracking_events_returns_404_response_for_unknown_bike(): void
+    public function test_listing_tracking_events_returns_a_404_response_for_an_unknown_bike(): void
     {
         $bikeId = Uuid::v4()->toRfc4122();
 

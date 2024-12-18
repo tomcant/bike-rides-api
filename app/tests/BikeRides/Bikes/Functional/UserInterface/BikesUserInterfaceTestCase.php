@@ -18,15 +18,12 @@ abstract class BikesUserInterfaceTestCase extends UserInterfaceTestCase
 
     protected function retrieveBike(string $bikeId): array
     {
-        return $this->getJson('/bikes/bike/' . $bikeId);
+        return $this->getJson("/bikes/bike/{$bikeId}");
     }
 
-    protected function activateBike(string $bikeId, Location $location): void
+    protected function activateBike(string $bikeId): void
     {
-        $this->postJson(
-            "/bikes/bike/{$bikeId}/activate",
-            ['location' => $location->toArray()],
-        );
+        $this->postJson("/bikes/bike/{$bikeId}/activate");
     }
 
     protected function recordTrackingEvent(string $bikeId, Location $location): void

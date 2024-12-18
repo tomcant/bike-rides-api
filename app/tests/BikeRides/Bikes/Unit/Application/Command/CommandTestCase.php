@@ -6,11 +6,14 @@ namespace App\Tests\BikeRides\Bikes\Unit\Application\Command;
 
 use App\BikeRides\Bikes\Application\Command\ActivateBike\ActivateBikeCommand;
 use App\BikeRides\Bikes\Application\Command\ActivateBike\ActivateBikeHandler;
+use App\BikeRides\Bikes\Application\Command\RecordTrackingEvent\RecordTrackingEventCommand;
+use App\BikeRides\Bikes\Application\Command\RecordTrackingEvent\RecordTrackingEventHandler;
 use App\BikeRides\Bikes\Application\Command\RegisterBike\RegisterBikeCommand;
 use App\BikeRides\Bikes\Application\Command\RegisterBike\RegisterBikeHandler;
 use App\BikeRides\Bikes\Domain\Model\Bike\BikeRepository;
 use App\BikeRides\Bikes\Domain\Model\TrackingEvent\TrackingEventRepository;
 use App\BikeRides\Shared\Domain\Model\BikeId;
+use App\Foundation\Clock\Clock;
 use App\Foundation\Location;
 use App\Tests\BikeRides\Bikes\Doubles\InMemoryTrackingEventRepository;
 use App\Tests\BikeRides\Bikes\Unit\Doubles\InMemoryBikeRepository;
@@ -36,9 +39,19 @@ abstract class CommandTestCase extends BaseCommandTestCase
         $handler(new RegisterBikeCommand($bikeId->toString()));
     }
 
-    protected function activateBike(BikeId $bikeId, Location $location): void
+    protected function recordTrackingEvent(BikeId $bikeId, Location $location): void
     {
-        $handler = new ActivateBikeHandler($this->bikeRepository, new DomainEventBusDummy());
-        $handler(new ActivateBikeCommand($bikeId->toString(), $location));
+        $handler = new RecordTrackingEventHandler($this->trackingEventRepository);
+        $handler(new RecordTrackingEventCommand($bikeId->toString(), $location, Clock::now()));
+    }
+
+    protected function activateBike(BikeId $bikeId): void
+    {
+        $handler = new ActivateBikeHandler(
+            $this->bikeRepository,
+            $this->trackingEventRepository,
+            new DomainEventBusDummy(),
+        );
+        $handler(new ActivateBikeCommand($bikeId->toString()));
     }
 }

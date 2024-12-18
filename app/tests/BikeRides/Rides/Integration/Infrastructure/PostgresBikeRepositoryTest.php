@@ -44,7 +44,7 @@ final class PostgresBikeRepositoryTest extends PostgresTestCase
         self::assertEquals($bike, $this->repository->getById($bike->bikeId));
     }
 
-    public function test_unable_to_get_by_unknown_id(): void
+    public function test_it_cannot_get_a_bike_by_an_unknown_bike_id(): void
     {
         self::expectException(BikeNotFound::class);
 

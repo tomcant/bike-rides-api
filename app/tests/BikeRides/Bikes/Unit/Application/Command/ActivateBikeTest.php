@@ -22,6 +22,7 @@ final class ActivateBikeTest extends CommandTestCase
 
         $this->handler = new ActivateBikeHandler(
             $this->bikeRepository,
+            $this->trackingEventRepository,
             $this->eventBus = new DomainEventBusSpy(),
         );
     }
@@ -29,11 +30,11 @@ final class ActivateBikeTest extends CommandTestCase
     public function test_it_activates_a_bike(): void
     {
         $this->registerBike($bikeId = BikeId::generate());
-        $location = new Location(0, 0);
+        $this->recordTrackingEvent($bikeId, $location = new Location(0, 0));
 
-        ($this->handler)(new ActivateBikeCommand($bikeId->toString(), $location));
+        ($this->handler)(new ActivateBikeCommand($bikeId->toString()));
 
-        self::assertEquals($location, $this->bikeRepository->getById($bikeId)->location);
+        self::assertTrue($this->bikeRepository->getById($bikeId)->isActive);
 
         self::assertDomainEventEquals(
             new BikeActivated(
@@ -47,11 +48,17 @@ final class ActivateBikeTest extends CommandTestCase
     public function test_it_cannot_activate_a_bike_that_is_already_active(): void
     {
         $this->registerBike($bikeId = BikeId::generate());
-        $this->activateBike($bikeId, new Location(0, 0));
+        $this->recordTrackingEvent($bikeId, new Location(0, 0));
+        $this->activateBike($bikeId);
 
         self::expectException(\DomainException::class);
         self::expectExceptionMessage('Bike is already active');
 
-        ($this->handler)(new ActivateBikeCommand($bikeId->toString(), new Location(0, 0)));
+        ($this->handler)(new ActivateBikeCommand($bikeId->toString()));
+    }
+
+    public function test_it_cannot_activate_a_bike_before_recording_a_track_event(): void
+    {
+        self::markTestSkipped();
     }
 }

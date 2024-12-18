@@ -46,7 +46,6 @@ final class RetrieveBikeController
                 ],
             ]),
             'bike_id' => $bike['bike_id'],
-            'location' => $bike['location'],
             'is_active' => $bike['is_active'],
         ]);
     }

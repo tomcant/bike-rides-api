@@ -18,6 +18,13 @@ final class InMemoryTrackingEventRepository implements TrackingEventRepository
         $this->events[$event->bikeId->toString()][] = $event;
     }
 
+    public function getLastEventForBikeId(BikeId $bikeId): ?TrackingEvent
+    {
+        $events = $this->events[$bikeId->toString()] ?? [];
+
+        return \end($events) ?: null;
+    }
+
     public function getBetweenForBikeId(BikeId $bikeId, \DateTimeInterface $from, \DateTimeInterface $to): array
     {
         return \array_filter(

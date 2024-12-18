@@ -55,7 +55,7 @@ final class RideApiTest extends RidesUserInterfaceTestCase
         $bike = $this->createBike();
         $ride = $this->startRide($rider['rider_id'], $bike['bike_id']);
 
-        $response = $this->getJson('/rides/ride/' . $ride['ride_id']);
+        $response = $this->getJson("/rides/ride/{$ride['ride_id']}");
 
         self::assertArrayHasKeys($response, ['_links', 'ride_id', 'rider_id', 'bike_id', 'started_at', 'ended_at']);
         self::assertArrayHasKeys($response['_links'], ['self', 'end']);

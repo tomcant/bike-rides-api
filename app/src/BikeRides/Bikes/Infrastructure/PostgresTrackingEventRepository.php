@@ -28,6 +28,26 @@ final readonly class PostgresTrackingEventRepository implements TrackingEventRep
         );
     }
 
+    public function getLastEventForBikeId(BikeId $bikeId): ?TrackingEvent
+    {
+        $record = $this->connection->fetchAssociative(
+            '
+                SELECT *
+                FROM bikes.tracking
+                WHERE bike_id = :bike_id
+                ORDER BY tracked_at DESC
+                LIMIT 1
+            ',
+            ['bike_id' => $bikeId->toString()],
+        );
+
+        if (false === $record) {
+            return null;
+        }
+
+        return self::mapRecordToObject($record);
+    }
+
     public function getBetweenForBikeId(BikeId $bikeId, \DateTimeInterface $from, \DateTimeInterface $to): array
     {
         $records = $this->connection->fetchAllAssociative(

@@ -13,7 +13,7 @@ abstract class RidesUserInterfaceTestCase extends UserInterfaceTestCase
 {
     protected function startRide(string $riderId, string $bikeId): array
     {
-        $bike = $this->getJson('/rides/bike/' . $bikeId);
+        $bike = $this->getJson("/rides/bike/{$bikeId}");
 
         $response = $this->postJson($bike['_links']['start-ride']['href'], ['rider_id' => $riderId]);
 
@@ -22,14 +22,14 @@ abstract class RidesUserInterfaceTestCase extends UserInterfaceTestCase
 
     protected function endRide(string $rideId): void
     {
-        $ride = $this->getJson('/rides/ride/' . $rideId);
+        $ride = $this->getJson("/rides/ride/{$rideId}");
 
         $this->postJson($ride['_links']['end']['href']);
     }
 
     protected function retrieveRide(string $rideId): array
     {
-        return $this->getJson('/rides/ride/' . $rideId);
+        return $this->getJson("/rides/ride/{$rideId}");
     }
 
     protected function createBike(): array
@@ -43,7 +43,7 @@ abstract class RidesUserInterfaceTestCase extends UserInterfaceTestCase
 
     protected function retrieveBike(string $bikeId): array
     {
-        return $this->getJson('/rides/bike/' . $bikeId);
+        return $this->getJson("/rides/bike/{$bikeId}");
     }
 
     protected function createRider(): array

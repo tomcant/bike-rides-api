@@ -8,8 +8,6 @@ use App\BikeRides\Bikes\Domain\Model\Bike\Bike;
 use App\BikeRides\Bikes\Domain\Model\Bike\BikeNotFound;
 use App\BikeRides\Bikes\Domain\Model\Bike\BikeRepository;
 use App\BikeRides\Shared\Domain\Model\BikeId;
-use App\Foundation\Json;
-use App\Foundation\Location;
 use Doctrine\DBAL\Connection;
 
 final readonly class PostgresBikeRepository implements BikeRepository
@@ -22,11 +20,10 @@ final readonly class PostgresBikeRepository implements BikeRepository
     {
         $this->connection->executeStatement(
             '
-                INSERT INTO bikes.bikes (bike_id, location, is_active)
-                VALUES (:bike_id, :location, :is_active)
+                INSERT INTO bikes.bikes (bike_id, is_active)
+                VALUES (:bike_id, :is_active)
                 ON CONFLICT (bike_id) DO UPDATE
-                  SET location = :location,
-                      is_active = :is_active
+                  SET is_active = :is_active
             ',
             self::mapObjectToRecord($bike),
         );
@@ -48,18 +45,13 @@ final readonly class PostgresBikeRepository implements BikeRepository
 
     private static function mapRecordToObject(array $record): Bike
     {
-        return new Bike(
-            BikeId::fromString($record['bike_id']),
-            $record['location'] ? Location::fromArray(Json::decode($record['location'])) : null,
-            $record['is_active'],
-        );
+        return new Bike(BikeId::fromString($record['bike_id']), $record['is_active']);
     }
 
     private static function mapObjectToRecord(Bike $bike): array
     {
         return [
             'bike_id' => $bike->bikeId->toString(),
-            'location' => $bike->location ? Json::encode($bike->location->toArray()) : null,
             'is_active' => $bike->isActive ? 'true' : 'false',
         ];
     }
