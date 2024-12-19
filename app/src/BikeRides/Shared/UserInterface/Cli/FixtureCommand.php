@@ -47,7 +47,7 @@ abstract class FixtureCommand extends Command
         return $this->lastResponse->toArray();
     }
 
-    protected function postJson(string $url, array $body = []): void
+    protected function postJson(string $url, array $body = []): ?array
     {
         $this->output->write("<options=bold>POST</> <fg=blue>{$this->getPathFromUrl($url)}</> ");
 
@@ -55,6 +55,8 @@ abstract class FixtureCommand extends Command
 
         $this->printStatusCode($this->lastResponse->getStatusCode());
         $this->printJsonIfVerbose($this->lastResponse->getContent());
+
+        return '' !== $this->lastResponse->getContent() ? $this->lastResponse->toArray() : null;
     }
 
     protected function parseResponseLinkUrl(): string

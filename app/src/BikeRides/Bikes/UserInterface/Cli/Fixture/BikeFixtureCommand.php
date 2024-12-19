@@ -19,13 +19,14 @@ final class BikeFixtureCommand extends FixtureCommand
 
     public function doExecute(InputInterface $input, OutputInterface $output): int
     {
-        $this->postJson('/bikes/bike');
+        ['bike_id' => $bikeId] = $this->postJson('/bikes/bike');
 
         $bike = $this->getJson($this->parseResponseLinkUrl());
 
         $this->postJson(
-            $bike['_links']['activate']['href'],
+            '/bikes/tracking',
             [
+                'bike_id' => $bikeId,
                 'location' => [
                     'latitude' => (float) $input->getOption('latitude'),
                     'longitude' => (float) $input->getOption('longitude'),
@@ -33,7 +34,9 @@ final class BikeFixtureCommand extends FixtureCommand
             ],
         );
 
-        $output->writeln(\sprintf("\nBike ID: <info>%s</info>\n", $bike['bike_id']));
+        $this->postJson($bike['_links']['activate']['href']);
+
+        $output->writeln(\sprintf("\nBike ID: <info>%s</info>\n", $bikeId));
 
         return Command::SUCCESS;
     }
