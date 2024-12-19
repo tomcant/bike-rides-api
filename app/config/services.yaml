@@ -14,9 +14,21 @@ services:
     App\:
         resource: '../src/'
         exclude:
-            - '../src/Framework/Migrations/'
+            - '../src/Foundation/'
             - '../src/Framework/Kernel.php'
-            - '../src/Foundation/helpers.php'
+
+    _instanceof:
+        App\BikeRides\Shared\Application\Command\CommandHandler:
+            tags:
+                - { name: messenger.message_handler, bus: command.bus }
+
+        App\BikeRides\Shared\Domain\Helpers\AggregateEventsSubscriber:
+            tags:
+                - { name: messenger.message_handler, bus: aggregate_events.bus }
+
+        App\BikeRides\Shared\Domain\Helpers\DomainEventSubscriber:
+            tags:
+                - { name: messenger.message_handler, bus: domain_event.bus }
 
     #
     # Bikes
@@ -64,22 +76,6 @@ services:
         arguments:
             $aggregateEventFactory: '@App\BikeRides\Rides\Domain\Model\Ride\Event\RideEventFactory'
             $dbTableName: 'rides.event_store'
-
-    #
-    # Shared
-    #
-
-    App\BikeRides\Shared\Infrastructure\SymfonyCommandBus:
-        arguments:
-            - '@command.bus'
-
-    App\BikeRides\Shared\Infrastructure\SymfonyAggregateEventsBus:
-        arguments:
-            - '@aggregate_events.bus'
-
-    App\BikeRides\Shared\Infrastructure\SymfonyDomainEventBus:
-        arguments:
-            - '@domain_event.bus'
 
 when@test:
     services:

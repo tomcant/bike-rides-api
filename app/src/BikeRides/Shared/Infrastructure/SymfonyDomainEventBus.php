@@ -7,11 +7,13 @@ namespace App\BikeRides\Shared\Infrastructure;
 use App\BikeRides\Shared\Domain\Helpers\DomainEvent;
 use App\BikeRides\Shared\Domain\Helpers\DomainEventBus;
 use Doctrine\DBAL\Connection;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\Messenger\MessageBusInterface;
 
 final readonly class SymfonyDomainEventBus implements DomainEventBus
 {
     public function __construct(
+        #[Autowire(service: 'domain_event.bus')]
         private MessageBusInterface $domainEventBus,
         private Connection $connection,
     ) {

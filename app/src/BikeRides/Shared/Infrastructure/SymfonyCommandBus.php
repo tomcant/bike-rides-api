@@ -8,6 +8,7 @@ use App\BikeRides\Shared\Application\Command\Command;
 use App\BikeRides\Shared\Application\Command\CommandBus;
 use App\BikeRides\Shared\Application\Command\CommandNotRegistered;
 use Doctrine\DBAL\Connection;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\Messenger\Exception\HandlerFailedException;
 use Symfony\Component\Messenger\Exception\NoHandlerForMessageException;
 use Symfony\Component\Messenger\MessageBusInterface;
@@ -15,6 +16,7 @@ use Symfony\Component\Messenger\MessageBusInterface;
 final readonly class SymfonyCommandBus implements CommandBus
 {
     public function __construct(
+        #[Autowire(service: 'command.bus')]
         private MessageBusInterface $bus,
         private Connection $connection,
     ) {
