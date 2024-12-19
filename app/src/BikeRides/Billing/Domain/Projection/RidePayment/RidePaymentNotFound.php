@@ -8,7 +8,7 @@ final class RidePaymentNotFound extends \DomainException
 {
     public static function forRidePaymentId(string $ridePaymentId): self
     {
-        return new self(\sprintf("Unable to find ride payment with id '%s'", $ridePaymentId));
+        return new self(\sprintf("Unable to find ride payment with ID '%s'", $ridePaymentId));
     }
 
     public static function forRideId(string $rideId): self

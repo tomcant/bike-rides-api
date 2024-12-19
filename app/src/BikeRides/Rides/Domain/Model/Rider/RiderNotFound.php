@@ -10,6 +10,6 @@ final class RiderNotFound extends \DomainException
 {
     public function __construct(RiderId $id)
     {
-        parent::__construct(\sprintf("Unable to find rider with id '%s'", $id->toString()));
+        parent::__construct(\sprintf("Unable to find rider with ID '%s'", $id->toString()));
     }
 }

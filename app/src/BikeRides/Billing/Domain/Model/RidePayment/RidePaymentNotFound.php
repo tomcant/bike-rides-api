@@ -8,6 +8,6 @@ final class RidePaymentNotFound extends \DomainException
 {
     public function __construct(RidePaymentId $id)
     {
-        parent::__construct(\sprintf("Unable to find ride payment with id '%s'", $id->toString()));
+        parent::__construct(\sprintf("Unable to find ride payment with ID '%s'", $id->toString()));
     }
 }

@@ -17,12 +17,8 @@ final readonly class RecordTrackingEventHandler implements CommandHandler
 
     public function __invoke(RecordTrackingEventCommand $command): void
     {
-        $this->trackingEventRepository->store(
-            new TrackingEvent(
-                $command->bikeId,
-                $command->location,
-                $command->trackedAt,
-            ),
-        );
+        $event = new TrackingEvent($command->bikeId, $command->location, $command->trackedAt);
+
+        $this->trackingEventRepository->store($event);
     }
 }

@@ -6,6 +6,7 @@ namespace App\Tests\BikeRides\Bikes\Unit\Application\Command;
 
 use App\BikeRides\Bikes\Application\Command\ActivateBike\ActivateBikeCommand;
 use App\BikeRides\Bikes\Application\Command\ActivateBike\ActivateBikeHandler;
+use App\BikeRides\Bikes\Domain\Model\Bike\CouldNotActivateBike;
 use App\BikeRides\Shared\Domain\Event\BikeActivated;
 use App\BikeRides\Shared\Domain\Model\BikeId;
 use App\Foundation\Location;
@@ -51,8 +52,8 @@ final class ActivateBikeTest extends CommandTestCase
         $this->recordTrackingEvent($bikeId, new Location(0, 0));
         $this->activateBike($bikeId);
 
-        self::expectException(\DomainException::class);
-        self::expectExceptionMessage('Bike is already active');
+        self::expectException(CouldNotActivateBike::class);
+        self::expectExceptionMessage("Could not activate bike with ID '{$bikeId->toString()}'. Reason: 'Bike is already active'");
 
         ($this->handler)(new ActivateBikeCommand($bikeId->toString()));
     }

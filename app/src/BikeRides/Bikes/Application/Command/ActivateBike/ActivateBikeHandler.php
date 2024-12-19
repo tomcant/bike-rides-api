@@ -32,12 +32,12 @@ final readonly class ActivateBikeHandler implements CommandHandler
         $this->eventBus->publish(
             new BikeActivated(
                 $command->bikeId->toString(),
-                $this->getLastLocation($command->bikeId),
+                $this->getLastBikeLocation($command->bikeId),
             ),
         );
     }
 
-    private function getLastLocation(BikeId $bikeId): Location
+    private function getLastBikeLocation(BikeId $bikeId): Location
     {
         $lastTrackingEvent = $this->trackingEventRepository->getLastEventForBikeId($bikeId);
 

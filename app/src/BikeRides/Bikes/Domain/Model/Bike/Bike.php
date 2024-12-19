@@ -22,7 +22,7 @@ final class Bike
     public function activate(): void
     {
         if ($this->isActive) {
-            throw new \DomainException('Bike is already active');
+            throw CouldNotActivateBike::alreadyActive($this->bikeId);
         }
 
         $this->isActive = true;
