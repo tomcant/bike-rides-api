@@ -32,8 +32,8 @@
     },
     "require-dev": {
         "ergebnis/php-cs-fixer-config": "^6.39",
-        "phpstan/phpstan": "^2.0",
-        "phpunit/phpunit": "^11.4.4",
+        "phpstan/phpstan": "^2.0.4",
+        "phpunit/phpunit": "^11.5.1",
         "symfony/browser-kit": "7.2.*",
         "symfony/css-selector": "7.2.*"
     },
