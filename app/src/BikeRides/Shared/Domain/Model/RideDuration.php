@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\BikeRides\Shared\Domain\Model;
 
+use App\Foundation\Timestamp;
+
 final readonly class RideDuration
 {
     private const int SECONDS_IN_ONE_MINUTE = 60;
@@ -31,8 +33,8 @@ final readonly class RideDuration
     public function toArray(): array
     {
         return [
-            'startedAt' => \datetime_timestamp($this->startedAt),
-            'endedAt' => \datetime_timestamp($this->endedAt),
+            'startedAt' => Timestamp::format($this->startedAt),
+            'endedAt' => Timestamp::format($this->endedAt),
             'minutes' => $this->minutes,
         ];
     }
@@ -40,8 +42,8 @@ final readonly class RideDuration
     public static function fromArray(array $rideDuration): self
     {
         return new self(
-            new \DateTimeImmutable($rideDuration['startedAt']),
-            new \DateTimeImmutable($rideDuration['endedAt']),
+            Timestamp::from($rideDuration['startedAt']),
+            Timestamp::from($rideDuration['endedAt']),
             $rideDuration['minutes'],
         );
     }

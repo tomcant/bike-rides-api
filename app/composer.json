@@ -49,7 +49,7 @@
             "App\\": "src/"
         },
         "files": [
-            "src/Foundation/helpers.php"
+            "src/Foundation/money.php"
         ]
     },
     "autoload-dev": {

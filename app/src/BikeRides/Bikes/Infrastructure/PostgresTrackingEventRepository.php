@@ -9,6 +9,7 @@ use App\BikeRides\Bikes\Domain\Model\TrackingEvent\TrackingEventRepository;
 use App\BikeRides\Shared\Domain\Model\BikeId;
 use App\Foundation\Json;
 use App\Foundation\Location;
+use App\Foundation\Timestamp;
 use Doctrine\DBAL\Connection;
 
 final readonly class PostgresTrackingEventRepository implements TrackingEventRepository
@@ -59,8 +60,8 @@ final readonly class PostgresTrackingEventRepository implements TrackingEventRep
             ',
             [
                 'bike_id' => $bikeId->toString(),
-                'from' => \datetime_timestamp($from),
-                'to' => \datetime_timestamp($to),
+                'from' => Timestamp::format($from),
+                'to' => Timestamp::format($to),
             ],
         );
 
@@ -72,7 +73,7 @@ final readonly class PostgresTrackingEventRepository implements TrackingEventRep
         return new TrackingEvent(
             BikeId::fromString($record['bike_id']),
             Location::fromArray(Json::decode($record['location'])),
-            new \DateTimeImmutable($record['tracked_at']),
+            Timestamp::from($record['tracked_at']),
         );
     }
 
@@ -81,7 +82,7 @@ final readonly class PostgresTrackingEventRepository implements TrackingEventRep
         return [
             'bike_id' => $event->bikeId->toString(),
             'location' => Json::encode($event->location->toArray()),
-            'tracked_at' => \datetime_timestamp($event->trackedAt),
+            'tracked_at' => Timestamp::format($event->trackedAt),
         ];
     }
 }

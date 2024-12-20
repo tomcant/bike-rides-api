@@ -52,29 +52,32 @@ final class ListTrackingEventsController
             $listTrackingEvents->query($bikeId, $from, $to),
         );
 
-        return new JsonResponse([
-            '_links' => \array_filter([
-                'self' => [
-                    'href' => $urlGenerator->generate(
-                        'bikes:tracking:list',
-                        ['bikeId' => $bike['bike_id']],
-                        UrlGeneratorInterface::ABSOLUTE_URL,
-                    ),
-                    'method' => 'GET',
+        return new JsonResponse(
+            [
+                '_links' => \array_filter([
+                    'self' => [
+                        'href' => $urlGenerator->generate(
+                            'bikes:tracking:list',
+                            ['bikeId' => $bike['bike_id']],
+                            UrlGeneratorInterface::ABSOLUTE_URL,
+                        ),
+                        'method' => 'GET',
+                    ],
+                    'bike' => [
+                        'href' => $urlGenerator->generate(
+                            'bikes:bike:retrieve',
+                            ['bikeId' => $bike['bike_id']],
+                            UrlGeneratorInterface::ABSOLUTE_URL,
+                        ),
+                        'method' => 'GET',
+                    ],
+                ]),
+                '_embedded' => [
+                    'tracking_event' => $embeddedTrackingEvents,
                 ],
-                'bike' => [
-                    'href' => $urlGenerator->generate(
-                        'bikes:bike:retrieve',
-                        ['bikeId' => $bike['bike_id']],
-                        UrlGeneratorInterface::ABSOLUTE_URL,
-                    ),
-                    'method' => 'GET',
-                ],
-            ]),
-            '_embedded' => [
-                'tracking_event' => $embeddedTrackingEvents,
+                'total' => \count($embeddedTrackingEvents),
             ],
-            'total' => \count($embeddedTrackingEvents),
-        ]);
+            headers: ['Content-Type' => 'application/hal+json'],
+        );
     }
 }

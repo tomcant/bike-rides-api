@@ -16,10 +16,10 @@ final class RideProjector extends AggregateEventsSubscriber
     protected function handleRideWasStarted(Event\RideWasStarted $event): void
     {
         $ride = Ride::start(
-            $event->getAggregateId()->toString(),
-            $event->riderId->toString(),
-            $event->bikeId->toString(),
-            $event->occurredAt,
+            rideId: $event->getAggregateId()->toString(),
+            riderId: $event->riderId->toString(),
+            bikeId: $event->bikeId->toString(),
+            startedAt: $event->occurredAt,
         );
 
         $this->repository->store($ride);

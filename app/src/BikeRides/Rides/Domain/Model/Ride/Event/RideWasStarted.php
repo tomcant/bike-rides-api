@@ -12,6 +12,7 @@ use App\BikeRides\Shared\Domain\Model\BikeId;
 use App\BikeRides\Shared\Domain\Model\RideId;
 use App\BikeRides\Shared\Domain\Model\RiderId;
 use App\Foundation\Json;
+use App\Foundation\Timestamp;
 
 final readonly class RideWasStarted implements AggregateEvent
 {
@@ -53,7 +54,7 @@ final readonly class RideWasStarted implements AggregateEvent
             'aggregateId' => $this->aggregateId->toString(),
             'riderId' => $this->riderId->toString(),
             'bikeId' => $this->bikeId->toString(),
-            'occurredAt' => \datetime_timestamp($this->occurredAt),
+            'occurredAt' => Timestamp::format($this->occurredAt),
         ]);
     }
 
@@ -66,7 +67,7 @@ final readonly class RideWasStarted implements AggregateEvent
             RideId::fromString($event['aggregateId']),
             RiderId::fromString($event['riderId']),
             BikeId::fromString($event['bikeId']),
-            new \DateTimeImmutable($event['occurredAt']),
+            Timestamp::from($event['occurredAt']),
         );
     }
 }

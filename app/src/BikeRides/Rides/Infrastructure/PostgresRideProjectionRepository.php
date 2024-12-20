@@ -7,6 +7,7 @@ namespace App\BikeRides\Rides\Infrastructure;
 use App\BikeRides\Rides\Domain\Projection\Ride\Ride;
 use App\BikeRides\Rides\Domain\Projection\Ride\RideNotFound;
 use App\BikeRides\Rides\Domain\Projection\Ride\RideProjectionRepository;
+use App\Foundation\Timestamp;
 use Doctrine\DBAL\Connection;
 
 final readonly class PostgresRideProjectionRepository implements RideProjectionRepository
@@ -51,8 +52,8 @@ final readonly class PostgresRideProjectionRepository implements RideProjectionR
             $record['ride_id'],
             $record['rider_id'],
             $record['bike_id'],
-            new \DateTimeImmutable($record['started_at']),
-            $record['ended_at'] ? new \DateTimeImmutable($record['ended_at']) : null,
+            Timestamp::from($record['started_at']),
+            Timestamp::fromNullable($record['ended_at']),
         );
     }
 
@@ -62,8 +63,8 @@ final readonly class PostgresRideProjectionRepository implements RideProjectionR
             'ride_id' => $ride->rideId,
             'rider_id' => $ride->riderId,
             'bike_id' => $ride->bikeId,
-            'started_at' => \datetime_timestamp($ride->startedAt),
-            'ended_at' => \datetime_optional_timestamp($ride->endedAt),
+            'started_at' => Timestamp::format($ride->startedAt),
+            'ended_at' => Timestamp::formatNullable($ride->endedAt),
         ];
     }
 }

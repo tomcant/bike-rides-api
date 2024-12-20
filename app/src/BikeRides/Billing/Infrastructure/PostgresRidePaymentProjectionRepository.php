@@ -8,6 +8,7 @@ use App\BikeRides\Billing\Domain\Projection\RidePayment\RidePayment;
 use App\BikeRides\Billing\Domain\Projection\RidePayment\RidePaymentNotFound;
 use App\BikeRides\Billing\Domain\Projection\RidePayment\RidePaymentProjectionRepository;
 use App\Foundation\Json;
+use App\Foundation\Timestamp;
 use Doctrine\DBAL\Connection;
 
 final readonly class PostgresRidePaymentProjectionRepository implements RidePaymentProjectionRepository
@@ -71,8 +72,8 @@ final readonly class PostgresRidePaymentProjectionRepository implements RidePaym
             $record['ride_id'],
             \money_from_array(Json::decode($record['total_price'])),
             \money_from_array(Json::decode($record['price_per_minute'])),
-            new \DateTimeImmutable($record['initiated_at']),
-            $record['captured_at'] ? new \DateTimeImmutable($record['captured_at']) : null,
+            Timestamp::from($record['initiated_at']),
+            Timestamp::fromNullable($record['captured_at']),
             $record['external_payment_ref'],
         );
     }
@@ -84,8 +85,8 @@ final readonly class PostgresRidePaymentProjectionRepository implements RidePaym
             'ride_id' => $ridePayment->rideId,
             'total_price' => Json::encode($ridePayment->totalPrice->jsonSerialize()),
             'price_per_minute' => Json::encode($ridePayment->pricePerMinute->jsonSerialize()),
-            'initiated_at' => \datetime_timestamp($ridePayment->initiatedAt),
-            'captured_at' => \datetime_optional_timestamp($ridePayment->capturedAt),
+            'initiated_at' => Timestamp::format($ridePayment->initiatedAt),
+            'captured_at' => Timestamp::formatNullable($ridePayment->capturedAt),
             'external_payment_ref' => $ridePayment->externalRef,
         ];
     }

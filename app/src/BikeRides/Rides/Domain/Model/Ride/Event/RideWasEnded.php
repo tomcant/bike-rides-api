@@ -10,6 +10,7 @@ use App\BikeRides\Shared\Domain\Helpers\AggregateName;
 use App\BikeRides\Shared\Domain\Helpers\AggregateVersion;
 use App\BikeRides\Shared\Domain\Model\RideId;
 use App\Foundation\Json;
+use App\Foundation\Timestamp;
 
 final readonly class RideWasEnded implements AggregateEvent
 {
@@ -47,7 +48,7 @@ final readonly class RideWasEnded implements AggregateEvent
         return Json::encode([
             'aggregateVersion' => $this->aggregateVersion->toInt(),
             'aggregateId' => $this->aggregateId->toString(),
-            'occurredAt' => \datetime_timestamp($this->occurredAt),
+            'occurredAt' => Timestamp::format($this->occurredAt),
         ]);
     }
 
@@ -58,7 +59,7 @@ final readonly class RideWasEnded implements AggregateEvent
         return new self(
             AggregateVersion::fromInt($event['aggregateVersion']),
             RideId::fromString($event['aggregateId']),
-            new \DateTimeImmutable($event['occurredAt']),
+            Timestamp::from($event['occurredAt']),
         );
     }
 }

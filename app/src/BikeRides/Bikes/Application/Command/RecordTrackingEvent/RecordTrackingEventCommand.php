@@ -8,6 +8,7 @@ use App\BikeRides\Shared\Application\Command\Command;
 use App\BikeRides\Shared\Domain\Model\BikeId;
 use App\Foundation\Json;
 use App\Foundation\Location;
+use App\Foundation\Timestamp;
 
 final readonly class RecordTrackingEventCommand implements Command
 {
@@ -26,7 +27,7 @@ final readonly class RecordTrackingEventCommand implements Command
         return Json::encode([
             'bikeId' => $this->bikeId->toString(),
             'location' => $this->location->toArray(),
-            'trackedAt' => \datetime_timestamp($this->trackedAt),
+            'trackedAt' => Timestamp::format($this->trackedAt),
         ]);
     }
 }

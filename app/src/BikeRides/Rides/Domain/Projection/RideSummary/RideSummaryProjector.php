@@ -16,9 +16,9 @@ final class RideSummaryProjector extends AggregateEventsSubscriber
     protected function handleRideWasSummarised(Event\RideWasSummarised $event): void
     {
         $summary = new RideSummary(
-            $event->getAggregateId()->toString(),
-            $event->summary->duration,
-            $event->summary->route->toArray(),
+            rideId: $event->getAggregateId()->toString(),
+            duration: $event->summary->duration,
+            route: $event->summary->route->toArray(),
         );
 
         $this->repository->store($summary);

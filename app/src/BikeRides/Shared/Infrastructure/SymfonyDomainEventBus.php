@@ -6,6 +6,7 @@ namespace App\BikeRides\Shared\Infrastructure;
 
 use App\BikeRides\Shared\Domain\Helpers\DomainEvent;
 use App\BikeRides\Shared\Domain\Helpers\DomainEventBus;
+use App\Foundation\Timestamp;
 use Doctrine\DBAL\Connection;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\Messenger\MessageBusInterface;
@@ -35,7 +36,7 @@ final readonly class SymfonyDomainEventBus implements DomainEventBus
             [
                 'eventName' => $event::class,
                 'eventData' => $event->serialize(),
-                'occurredAt' => \datetime_timestamp($event->occurredAt),
+                'occurredAt' => Timestamp::format($event->occurredAt),
             ],
         );
     }

@@ -25,13 +25,9 @@ final readonly class Summary
 
     public static function fromArray(array $summary): self
     {
-        $route = new Route(
-            \array_map(
-                static fn ($location) => Location::fromArray($location),
-                $summary['route'],
-            ),
+        return new self(
+            RideDuration::fromArray($summary['duration']),
+            new Route(\array_map(Location::fromArray(...), $summary['route'])),
         );
-
-        return new self(RideDuration::fromArray($summary['duration']), $route);
     }
 }

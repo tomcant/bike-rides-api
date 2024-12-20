@@ -8,6 +8,6 @@ final class RideSummaryNotFound extends \DomainException
 {
     public function __construct(string $rideId)
     {
-        parent::__construct(\sprintf("Unable to find ride summary with ride id '%s'", $rideId));
+        parent::__construct(\sprintf("Unable to find ride summary with ride ID '%s'", $rideId));
     }
 }
