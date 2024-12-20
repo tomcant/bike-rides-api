@@ -6,6 +6,7 @@ namespace App\Tests\BikeRides\Bikes\Functional\UserInterface;
 
 use App\Foundation\Clock\Clock;
 use App\Foundation\Location;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Component\Uid\Uuid;
 
 final class TrackingApiTest extends BikesUserInterfaceTestCase
@@ -36,7 +37,7 @@ final class TrackingApiTest extends BikesUserInterfaceTestCase
         self::assertEquals($location, $events['_embedded']['tracking_event'][0]['location']);
     }
 
-    /** @dataProvider invalidLocationProvider */
+    #[DataProvider('invalidLocationProvider')]
     public function test_recording_a_tracking_event_returns_a_400_response_for_an_invalid_location(array $location): void
     {
         $bike = $this->registerBike();
@@ -83,7 +84,7 @@ final class TrackingApiTest extends BikesUserInterfaceTestCase
         self::assertEquals($locationThree->toArray(), $list['_embedded']['tracking_event'][2]['location']);
     }
 
-    /** @dataProvider invalidTimeRangeProvider */
+    #[DataProvider('invalidTimeRangeProvider')]
     public function test_listing_tracking_events_returns_a_400_response_for_an_invalid_time_range(array $timeRange): void
     {
         $bike = $this->registerBike();

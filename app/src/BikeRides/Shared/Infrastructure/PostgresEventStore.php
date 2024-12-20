@@ -66,10 +66,7 @@ final readonly class PostgresEventStore implements EventStore
         return \array_reduce(
             $result->fetchAllAssociative(),
             fn (AggregateEvents $events, array $event) => $events->add(
-                $this->aggregateEventFactory->fromSerialized(
-                    $event['event_name'],
-                    $event['event_data'],
-                ),
+                $this->aggregateEventFactory->fromSerialized($event['event_name'], $event['event_data']),
             ),
             AggregateEvents::make(),
         );
