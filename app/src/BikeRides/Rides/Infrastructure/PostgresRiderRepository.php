@@ -42,11 +42,13 @@ final readonly class PostgresRiderRepository implements RiderRepository
         return self::mapRecordToObject($record);
     }
 
+    /** @param array{rider_id: string} $record */
     private static function mapRecordToObject(array $record): Rider
     {
         return new Rider(RiderId::fromString($record['rider_id']));
     }
 
+    /** @return array{rider_id: string} */
     private static function mapObjectToRecord(Rider $rider): array
     {
         return ['rider_id' => $rider->riderId->toString()];

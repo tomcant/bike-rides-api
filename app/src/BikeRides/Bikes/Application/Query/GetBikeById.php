@@ -14,6 +14,12 @@ final readonly class GetBikeById
     {
     }
 
+    /**
+     * @return ?array{
+     *   bike_id: string,
+     *   is_active: bool,
+     * }
+     */
     public function query(string $bikeId): ?array
     {
         try {

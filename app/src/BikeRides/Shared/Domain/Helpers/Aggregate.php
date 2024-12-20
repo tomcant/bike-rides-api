@@ -9,7 +9,7 @@ abstract class Aggregate
     private AggregateEvents $events;
     private AggregateVersion $version;
 
-    protected function __construct()
+    final protected function __construct()
     {
         $this->events = AggregateEvents::make();
         $this->version = AggregateVersion::zero();

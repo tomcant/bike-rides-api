@@ -13,6 +13,17 @@ final readonly class GetRidePaymentByRideId
     {
     }
 
+    /**
+     * @return ?array{
+     *   ride_payment_id: string,
+     *   ride_id: string,
+     *   total_price: \Money\Money,
+     *   price_per_minute: \Money\Money,
+     *   initiated_at: \DateTimeImmutable,
+     *   captured_at: ?\DateTimeImmutable,
+     *   external_payment_ref: ?string,
+     * }
+     */
     public function query(string $rideId): ?array
     {
         try {

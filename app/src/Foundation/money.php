@@ -3,7 +3,11 @@
 declare(strict_types=1);
 
 if (!\function_exists('money_from_array')) {
-    /** @throws InvalidArgumentException */
+    /**
+     * @param array{amount: int|string, currency: string} $money
+     *
+     * @throws InvalidArgumentException
+     */
     function money_from_array(array $money): Money\Money
     {
         return new Money\Money($money['amount'], new Money\Currency($money['currency']));

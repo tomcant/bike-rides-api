@@ -13,6 +13,15 @@ final readonly class GetRideById
     {
     }
 
+    /**
+     * @return ?array{
+     *   ride_id: string,
+     *   rider_id: string,
+     *   bike_id: string,
+     *   started_at: \DateTimeImmutable,
+     *   ended_at: ?\DateTimeImmutable,
+     * }
+     */
     public function query(string $rideId): ?array
     {
         try {

@@ -10,6 +10,7 @@ use App\BikeRides\Rides\Domain\Projection\RideSummary\RideSummaryProjectionRepos
 
 final class InMemoryRideSummaryProjectionRepository implements RideSummaryProjectionRepository
 {
+    /** @var array<string, RideSummary> */
     private array $summaries = [];
 
     public function store(RideSummary $summary): void

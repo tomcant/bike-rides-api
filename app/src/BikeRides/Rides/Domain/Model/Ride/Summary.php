@@ -15,6 +15,19 @@ final readonly class Summary
     ) {
     }
 
+    /**
+     * @return array{
+     *   duration: array{
+     *     startedAt: string,
+     *     endedAt: string,
+     *     minutes: int,
+     *   },
+     *   route: array<int, array{
+     *     latitude: float,
+     *     longitude: float,
+     *   }>
+     * }
+     */
     public function toArray(): array
     {
         return [
@@ -23,6 +36,19 @@ final readonly class Summary
         ];
     }
 
+    /**
+     * @param array{
+     *   duration: array{
+     *     startedAt: string,
+     *     endedAt: string,
+     *     minutes: int,
+     *   },
+     *   route: array<int, array{
+     *     latitude: float,
+     *     longitude: float,
+     *   }>
+     * } $summary
+     */
     public static function fromArray(array $summary): self
     {
         return new self(

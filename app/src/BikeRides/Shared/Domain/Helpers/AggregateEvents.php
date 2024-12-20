@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace App\BikeRides\Shared\Domain\Helpers;
 
-final class AggregateEvents implements \IteratorAggregate
+/** @implements \IteratorAggregate<AggregateEvent> */
+final readonly class AggregateEvents implements \IteratorAggregate
 {
     /** @param list<AggregateEvent> $events */
     public function __construct(private array $events)
@@ -37,7 +38,7 @@ final class AggregateEvents implements \IteratorAggregate
         return new \ArrayIterator($this->events);
     }
 
-    public function reduce(callable $function, $initial)
+    public function reduce(callable $function, mixed $initial): mixed
     {
         return \array_reduce($this->events, $function, $initial);
     }

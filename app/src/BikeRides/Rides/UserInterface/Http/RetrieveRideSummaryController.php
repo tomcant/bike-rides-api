@@ -27,7 +27,7 @@ final class RetrieveRideSummaryController
         }
 
         return new JsonResponse([
-            '_links' => \array_filter([
+            '_links' => [
                 'self' => [
                     'href' => $urlGenerator->generate(
                         'rides:ride:summary',
@@ -44,7 +44,7 @@ final class RetrieveRideSummaryController
                     ),
                     'method' => 'GET',
                 ],
-            ]),
+            ],
             'ride_id' => $summary['ride_id'],
             'duration' => [
                 'started_at' => $summary['duration']['started_at']->getTimestamp(),

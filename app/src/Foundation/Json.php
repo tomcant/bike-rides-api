@@ -11,6 +11,7 @@ final class Json
         return \json_encode($value, $options, $depth);
     }
 
+    /** @return array<mixed, mixed> */
     public static function decode(string $json, bool $associative = true, int $depth = 512, int $options = \JSON_THROW_ON_ERROR): array
     {
         return \json_decode($json, $associative, $depth, $options) ?? [];

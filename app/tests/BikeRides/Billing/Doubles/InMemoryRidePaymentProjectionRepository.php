@@ -10,6 +10,7 @@ use App\BikeRides\Billing\Domain\Projection\RidePayment\RidePaymentProjectionRep
 
 final class InMemoryRidePaymentProjectionRepository implements RidePaymentProjectionRepository
 {
+    /** @var array<string, RidePayment> */
     private array $ridePayments = [];
 
     public function store(RidePayment $ridePayment): void

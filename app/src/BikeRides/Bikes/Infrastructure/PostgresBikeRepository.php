@@ -43,11 +43,23 @@ final readonly class PostgresBikeRepository implements BikeRepository
         return self::mapRecordToObject($record);
     }
 
+    /**
+     * @param  array{
+     *   bike_id: string,
+     *   is_active: bool,
+     * } $record
+     */
     private static function mapRecordToObject(array $record): Bike
     {
         return new Bike(BikeId::fromString($record['bike_id']), $record['is_active']);
     }
 
+    /**
+     * @return array{
+     *   bike_id: string,
+     *   is_active: string,
+     * }
+     */
     private static function mapObjectToRecord(Bike $bike): array
     {
         return [

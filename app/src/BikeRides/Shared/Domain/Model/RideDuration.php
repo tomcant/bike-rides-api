@@ -30,6 +30,13 @@ final readonly class RideDuration
         return new self($startedAt, $endedAt, $durationInMinutes);
     }
 
+    /**
+     * @return array{
+     *   startedAt: string,
+     *   endedAt: string,
+     *   minutes: int,
+     * }
+     */
     public function toArray(): array
     {
         return [
@@ -39,6 +46,13 @@ final readonly class RideDuration
         ];
     }
 
+    /**
+     * @param array{
+     *   startedAt: string,
+     *   endedAt: string,
+     *   minutes: int,
+     * } $rideDuration
+     */
     public static function fromArray(array $rideDuration): self
     {
         return new self(

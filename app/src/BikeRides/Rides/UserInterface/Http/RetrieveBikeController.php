@@ -27,7 +27,7 @@ final class RetrieveBikeController
         }
 
         return new JsonResponse([
-            '_links' => \array_filter([
+            '_links' => [
                 'self' => [
                     'href' => $urlGenerator->generate(
                         'rides:bike:retrieve',
@@ -44,7 +44,7 @@ final class RetrieveBikeController
                     ),
                     'method' => 'POST',
                 ],
-            ]),
+            ],
             'bike_id' => $bike['bike_id'],
             'location' => $bike['location'],
         ]);

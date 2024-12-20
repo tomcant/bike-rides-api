@@ -10,7 +10,7 @@ use App\BikeRides\Shared\Domain\Model\BikeId;
 
 final class InMemoryTrackingEventRepository implements TrackingEventRepository
 {
-    /** @var list<list<TrackingEvent>> */
+    /** @var array<string, list<TrackingEvent>> */
     private array $events;
 
     public function store(TrackingEvent $event): void

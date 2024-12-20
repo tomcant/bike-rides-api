@@ -14,7 +14,7 @@ use Symfony\Contracts\HttpClient\ResponseInterface;
 abstract class FixtureCommand extends Command
 {
     private readonly HttpClientInterface $client;
-    private ?ResponseInterface $lastResponse;
+    private ResponseInterface $lastResponse;
     private OutputInterface $output;
 
     public function __construct(
@@ -35,6 +35,7 @@ abstract class FixtureCommand extends Command
 
     abstract public function doExecute(InputInterface $input, OutputInterface $output): int;
 
+    /** @return array<mixed, mixed> */
     protected function getJson(string $url): array
     {
         $this->output->write("<options=bold>GET</> <fg=blue>{$this->getPathFromUrl($url)}</> ");
@@ -47,6 +48,11 @@ abstract class FixtureCommand extends Command
         return $this->lastResponse->toArray();
     }
 
+    /**
+     * @param array<mixed, mixed> $body
+     *
+     * @return ?array<mixed, mixed>
+     */
     protected function postJson(string $url, array $body = []): ?array
     {
         $this->output->write("<options=bold>POST</> <fg=blue>{$this->getPathFromUrl($url)}</> ");
@@ -61,7 +67,7 @@ abstract class FixtureCommand extends Command
 
     protected function parseResponseLinkUrl(): string
     {
-        $link = $this->lastResponse?->getHeaders()['link'][0] ?? '';
+        $link = $this->lastResponse->getHeaders()['link'][0] ?? '';
 
         \preg_match('/<(.+)>; rel="[^\"]+"/', $link, $matches);
 
@@ -83,6 +89,7 @@ abstract class FixtureCommand extends Command
         $this->output->writeln("<{$style}>{$statusCode}</>");
     }
 
+    /** @param array<mixed, mixed>|string $data */
     private function printJsonIfVerbose(array|string $data): void
     {
         if (!$this->output->isVerbose()) {

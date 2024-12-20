@@ -24,8 +24,8 @@ final readonly class HttpBikeLocationFetcher implements BikeLocationFetcher
             ['{bikeId}', '{from}', '{to}'],
             [
                 $bikeId->toString(),
-                Clock::now()->modify('-1 minute')->getTimestamp(),
-                Clock::now()->getTimestamp(),
+                (string) Clock::now()->modify('-1 minute')->getTimestamp(),
+                (string) Clock::now()->getTimestamp(),
             ],
             $this->trackingApiUrlTemplate,
         );

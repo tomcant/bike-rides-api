@@ -68,6 +68,13 @@ final readonly class PostgresTrackingEventRepository implements TrackingEventRep
         return \array_map(self::mapRecordToObject(...), $records);
     }
 
+    /**
+     * @param array{
+     *   bike_id: string,
+     *   location: string,
+     *   tracked_at: string,
+     * } $record
+     */
     private static function mapRecordToObject(array $record): TrackingEvent
     {
         return new TrackingEvent(
@@ -77,6 +84,13 @@ final readonly class PostgresTrackingEventRepository implements TrackingEventRep
         );
     }
 
+    /**
+     * @return array{
+     *   bike_id: string,
+     *   location: string,
+     *   tracked_at: string,
+     * }
+     */
     private static function mapObjectToRecord(TrackingEvent $event): array
     {
         return [

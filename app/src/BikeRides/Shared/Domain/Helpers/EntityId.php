@@ -10,7 +10,7 @@ abstract readonly class EntityId
 {
     private const string NIL = '00000000-0000-0000-0000-000000000000';
 
-    private function __construct(private string $id)
+    final private function __construct(private string $id)
     {
         if (!Uuid::isValid($id)) {
             throw new \DomainException(\sprintf("'%s' is not a valid %s", $id, static::class));

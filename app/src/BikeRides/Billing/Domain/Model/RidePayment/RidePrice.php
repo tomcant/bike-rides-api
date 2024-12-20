@@ -16,6 +16,23 @@ final readonly class RidePrice
     ) {
     }
 
+    /**
+     * @return array{
+     *   totalPrice: array{
+     *     amount: string,
+     *     currency: string,
+     *   },
+     *   pricePerMinute: array{
+     *     amount: string,
+     *     currency: string,
+     *   },
+     *   rideDuration: array{
+     *     startedAt: string,
+     *     endedAt: string,
+     *     minutes: int,
+     *   },
+     * }
+     */
     public function toArray(): array
     {
         return [
@@ -25,6 +42,23 @@ final readonly class RidePrice
         ];
     }
 
+    /**
+     * @param array{
+     *   totalPrice: array{
+     *     amount: string,
+     *     currency: string,
+     *   },
+     *   pricePerMinute: array{
+     *     amount: string,
+     *     currency: string,
+     *   },
+     *   rideDuration: array{
+     *     startedAt: string,
+     *     endedAt: string,
+     *     minutes: int,
+     *   },
+     * } $ridePrice
+     */
     public static function fromArray(array $ridePrice): self
     {
         return new self(

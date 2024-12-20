@@ -72,8 +72,9 @@ final class RidePaymentTest extends UserInterfaceTestCase
         self::assertTrue($logHandler->hasNotice($expectedLogMessage));
     }
 
+    /** @return array<mixed, mixed> */
     private function fetchRidePayments(string $rideId): array
     {
-        return $this->getJson("/billing/ride-payment?rideId={$rideId}");
+        return $this->getJson("/billing/ride-payment?ride_id={$rideId}");
     }
 }

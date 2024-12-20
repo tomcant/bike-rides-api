@@ -15,7 +15,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 abstract class UserInterfaceTestCase extends WebTestCase
 {
-    protected readonly KernelBrowser $client;
+    protected KernelBrowser $client;
 
     protected function setUp(): void
     {
@@ -27,7 +27,7 @@ abstract class UserInterfaceTestCase extends WebTestCase
 
         static::getContainer()->get('database_connection')->beginTransaction();
 
-        static::restrictDomainEventSubscribersByBoundedContext();
+        self::restrictDomainEventSubscribersByBoundedContext();
 
         Clock::useClock(new ClockStub());
     }
@@ -46,6 +46,7 @@ abstract class UserInterfaceTestCase extends WebTestCase
         static::getContainer()->get(DomainEventBus::class)->publish($event);
     }
 
+    /** @return array<mixed, mixed> */
     protected function getJson(string $url, bool $assertResponseIsSuccessful = true): array
     {
         $this->client->request('GET', $url);
@@ -57,6 +58,11 @@ abstract class UserInterfaceTestCase extends WebTestCase
         return Json::decode($this->client->getResponse()->getContent());
     }
 
+    /**
+     * @param array<mixed, mixed> $body
+     *
+     * @return ?array<mixed, mixed>
+     */
     protected function postJson(string $url, array $body = [], bool $assertResponseIsSuccessful = true): ?array
     {
         $this->client->request(
@@ -84,6 +90,10 @@ abstract class UserInterfaceTestCase extends WebTestCase
         return $matches[1];
     }
 
+    /**
+     * @param non-empty-array<string, mixed> $array
+     * @param non-empty-list<string>         $keys
+     */
     protected static function assertArrayHasKeys(array $array, array $keys): void
     {
         foreach ($keys as $key) {

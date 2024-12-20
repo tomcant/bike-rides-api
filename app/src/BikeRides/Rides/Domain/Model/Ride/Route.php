@@ -8,6 +8,7 @@ use App\Foundation\Location;
 
 final readonly class Route
 {
+    /** @var array<int, Location> */
     private array $locations;
 
     /** @param array<int, Location> $locations */
@@ -21,6 +22,7 @@ final readonly class Route
         $this->locations = $locations;
     }
 
+    /** @return array<int, array{latitude: float, longitude: float}> */
     public function toArray(): array
     {
         return \array_map(

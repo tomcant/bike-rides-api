@@ -16,7 +16,6 @@ use App\BikeRides\Rides\Domain\Model\Bike\BikeRepository;
 use App\BikeRides\Rides\Domain\Model\Ride\Event\RideEventFactory;
 use App\BikeRides\Rides\Domain\Model\Ride\RideRepository;
 use App\BikeRides\Rides\Domain\Model\Rider\RiderRepository;
-use App\BikeRides\Shared\Domain\Helpers\EventStore;
 use App\BikeRides\Shared\Domain\Model\BikeId;
 use App\BikeRides\Shared\Domain\Model\RideId;
 use App\BikeRides\Shared\Domain\Model\RiderId;
@@ -30,10 +29,9 @@ use App\Tests\BikeRides\Shared\Unit\Application\Command\CommandTestCase as BaseC
 
 abstract class CommandTestCase extends BaseCommandTestCase
 {
-    protected readonly EventStore $eventStore;
-    protected readonly RideRepository $rideRepository;
-    protected readonly RiderRepository $riderRepository;
-    protected readonly BikeRepository $bikeRepository;
+    protected RideRepository $rideRepository;
+    protected RiderRepository $riderRepository;
+    protected BikeRepository $bikeRepository;
 
     protected function setUp(): void
     {

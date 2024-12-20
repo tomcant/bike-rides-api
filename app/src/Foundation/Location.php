@@ -12,6 +12,7 @@ final class Location
     ) {
     }
 
+    /** @param array<mixed, mixed> $data */
     public static function fromArray(array $data): self
     {
         if (!\is_numeric($data['latitude'] ?? null) || !\is_numeric($data['longitude'] ?? null)) {
@@ -24,6 +25,7 @@ final class Location
         );
     }
 
+    /** @return array{latitude: float, longitude: float} */
     public function toArray(): array
     {
         return [

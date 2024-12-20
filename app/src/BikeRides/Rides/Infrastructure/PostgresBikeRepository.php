@@ -53,19 +53,31 @@ final readonly class PostgresBikeRepository implements BikeRepository
         );
     }
 
+    /**
+     * @param array{
+     *   bike_id: string,
+     *   location: ?string,
+     * } $record
+     */
     private static function mapRecordToObject(array $record): Bike
     {
         return new Bike(
             BikeId::fromString($record['bike_id']),
-            $record['location'] ? Location::fromArray(Json::decode($record['location'])) : null,
+            Location::fromArray(Json::decode($record['location'])),
         );
     }
 
+    /**
+     * @return array{
+     *   bike_id: string,
+     *   location: ?string,
+     * }
+     */
     private static function mapObjectToRecord(Bike $bike): array
     {
         return [
             'bike_id' => $bike->bikeId->toString(),
-            'location' => $bike->location ? Json::encode($bike->location->toArray()) : null,
+            'location' => Json::encode($bike->location->toArray()),
         ];
     }
 }

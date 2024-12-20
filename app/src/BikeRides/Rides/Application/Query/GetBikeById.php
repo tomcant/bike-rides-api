@@ -14,6 +14,15 @@ final readonly class GetBikeById
     {
     }
 
+    /**
+     * @return ?array{
+     *   bike_id: string,
+     *   location: array{
+     *     latitude: float,
+     *     longitude: float,
+     *   },
+     * }
+     */
     public function query(string $bikeId): ?array
     {
         try {
@@ -24,7 +33,7 @@ final readonly class GetBikeById
 
         return [
             'bike_id' => $bike->bikeId->toString(),
-            'location' => $bike->location?->toArray(),
+            'location' => $bike->location->toArray(),
         ];
     }
 }

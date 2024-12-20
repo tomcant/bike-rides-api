@@ -44,6 +44,7 @@ test/%:
 lint: ## Run the linting tools
 	$(APP) composer validate --strict
 	$(APP) sh -c 'PHP_CS_FIXER_IGNORE_ENV=1 vendor/bin/php-cs-fixer fix --dry-run --diff'
+	$(APP) vendor/bin/phpstan analyse --no-interaction
 
 security: ## Check dependencies for known vulnerabilities
 	$(APP) composer audit

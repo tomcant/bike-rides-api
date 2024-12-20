@@ -46,6 +46,15 @@ final readonly class PostgresRideProjectionRepository implements RideProjectionR
         return self::mapRecordToObject($record);
     }
 
+    /**
+     * @param array{
+     *   ride_id: string,
+     *   rider_id: string,
+     *   bike_id: string,
+     *   started_at: string,
+     *   ended_at: ?string,
+     * } $record
+     */
     private static function mapRecordToObject(array $record): Ride
     {
         return new Ride(
@@ -57,6 +66,15 @@ final readonly class PostgresRideProjectionRepository implements RideProjectionR
         );
     }
 
+    /**
+     * @return array{
+     *   ride_id: string,
+     *   rider_id: string,
+     *   bike_id: string,
+     *   started_at: string,
+     *   ended_at: ?string,
+     * }
+     */
     private static function mapObjectToRecord(Ride $ride): array
     {
         return [

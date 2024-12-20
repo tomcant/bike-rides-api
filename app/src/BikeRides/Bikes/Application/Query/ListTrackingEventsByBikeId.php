@@ -14,6 +14,15 @@ final readonly class ListTrackingEventsByBikeId
     {
     }
 
+    /**
+     * @return list<array{
+     *   location: array{
+     *     latitude: float,
+     *     longitude: float,
+     *   },
+     *   trackedAt: \DateTimeImmutable,
+     * }>
+     */
     public function query(string $bikeId, \DateTimeImmutable $from, \DateTimeImmutable $to): array
     {
         return \array_map(

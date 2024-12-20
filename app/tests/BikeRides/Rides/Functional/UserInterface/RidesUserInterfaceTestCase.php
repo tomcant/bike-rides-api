@@ -11,6 +11,7 @@ use App\Tests\BikeRides\Shared\Functional\UserInterface\UserInterfaceTestCase;
 
 abstract class RidesUserInterfaceTestCase extends UserInterfaceTestCase
 {
+    /** @return array<mixed, mixed> */
     protected function startRide(string $riderId, string $bikeId): array
     {
         $bike = $this->getJson("/rides/bike/{$bikeId}");
@@ -27,11 +28,13 @@ abstract class RidesUserInterfaceTestCase extends UserInterfaceTestCase
         $this->postJson($ride['_links']['end']['href']);
     }
 
+    /** @return array<mixed, mixed> */
     protected function retrieveRide(string $rideId): array
     {
         return $this->getJson("/rides/ride/{$rideId}");
     }
 
+    /** @return array<mixed, mixed> */
     protected function createBike(): array
     {
         $bikeId = BikeId::generate()->toString();
@@ -41,11 +44,13 @@ abstract class RidesUserInterfaceTestCase extends UserInterfaceTestCase
         return $this->retrieveBike($bikeId);
     }
 
+    /** @return array<mixed, mixed> */
     protected function retrieveBike(string $bikeId): array
     {
         return $this->getJson("/rides/bike/{$bikeId}");
     }
 
+    /** @return array{rider_id: string} */
     protected function createRider(): array
     {
         $riderId = \uniqid('rider_');

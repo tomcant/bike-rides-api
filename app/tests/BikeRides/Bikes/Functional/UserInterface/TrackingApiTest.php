@@ -37,6 +37,7 @@ final class TrackingApiTest extends BikesUserInterfaceTestCase
         self::assertEquals($location, $events['_embedded']['tracking_event'][0]['location']);
     }
 
+    /** @param array{location?: array{latitude?: int, longitude?: int }} $location */
     #[DataProvider('invalidLocationProvider')]
     public function test_recording_a_tracking_event_returns_a_400_response_for_an_invalid_location(array $location): void
     {
@@ -51,6 +52,7 @@ final class TrackingApiTest extends BikesUserInterfaceTestCase
         self::assertResponseStatusCodeSame(400);
     }
 
+    /** @return iterable<array{location?: array{latitude?: int, longitude?: int}}> */
     public static function invalidLocationProvider(): iterable
     {
         yield from [
@@ -69,14 +71,14 @@ final class TrackingApiTest extends BikesUserInterfaceTestCase
         $this->recordTrackingEvent($bike['bike_id'], $locationThree = new Location(2, 2));
         $toTimestamp = Clock::now()->getTimestamp();
 
-        $list = $this->getJson("/bikes/tracking?bikeId={$bike['bike_id']}&from={$fromTimestamp}&to={$toTimestamp}");
+        $list = $this->getJson("/bikes/tracking?bike_id={$bike['bike_id']}&from={$fromTimestamp}&to={$toTimestamp}");
 
         self::assertCount(3, $list['_embedded']['tracking_event']);
         self::assertSame(3, $list['total']);
 
         foreach ($list['_embedded']['tracking_event'] as $event) {
-            self::assertArrayHasKeys($event, ['location', 'trackedAt']);
-            self::assertIsNumeric($event['trackedAt']);
+            self::assertArrayHasKeys($event, ['location', 'tracked_at']);
+            self::assertIsNumeric($event['tracked_at']);
         }
 
         self::assertEquals($locationOne->toArray(), $list['_embedded']['tracking_event'][0]['location']);
@@ -84,17 +86,19 @@ final class TrackingApiTest extends BikesUserInterfaceTestCase
         self::assertEquals($locationThree->toArray(), $list['_embedded']['tracking_event'][2]['location']);
     }
 
+    /** @param list<array{from?: mixed, to?: mixed}> $timeRange */
     #[DataProvider('invalidTimeRangeProvider')]
     public function test_listing_tracking_events_returns_a_400_response_for_an_invalid_time_range(array $timeRange): void
     {
         $bike = $this->registerBike();
-        $queryString = \http_build_query(['bikeId' => $bike['bike_id'], ...$timeRange]);
+        $queryString = \http_build_query(['bike_id' => $bike['bike_id'], ...$timeRange]);
 
         $this->client->request('GET', "/bikes/tracking?{$queryString}");
 
         self::assertResponseStatusCodeSame(400);
     }
 
+    /** @return iterable<array{from?: mixed, to?: mixed}> */
     public static function invalidTimeRangeProvider(): iterable
     {
         yield from [
@@ -109,7 +113,7 @@ final class TrackingApiTest extends BikesUserInterfaceTestCase
     {
         $bikeId = Uuid::v4()->toRfc4122();
 
-        $this->client->request('GET', "/bikes/tracking?bikeId={$bikeId}&from=0&to=1");
+        $this->client->request('GET', "/bikes/tracking?bike_id={$bikeId}&from=0&to=1");
 
         self::assertResponseStatusCodeSame(404);
     }

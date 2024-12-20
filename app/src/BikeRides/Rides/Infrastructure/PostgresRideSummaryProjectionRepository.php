@@ -45,6 +45,13 @@ final readonly class PostgresRideSummaryProjectionRepository implements RideSumm
         return self::mapRecordToObject($record);
     }
 
+    /**
+     * @param array{
+     *   ride_id: string,
+     *   duration: string,
+     *   route: string,
+     * } $record
+     */
     private static function mapRecordToObject(array $record): RideSummary
     {
         return new RideSummary(
@@ -54,6 +61,13 @@ final readonly class PostgresRideSummaryProjectionRepository implements RideSumm
         );
     }
 
+    /**
+     * @return array{
+     *   ride_id: string,
+     *   duration: string,
+     *   route: string,
+     * }
+     */
     private static function mapObjectToRecord(RideSummary $summary): array
     {
         return [

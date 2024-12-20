@@ -22,7 +22,7 @@ final class ListTrackingEventsController
         UrlGeneratorInterface $urlGenerator,
         GetBikeById $getBike,
         ListTrackingEventsByBikeId $listTrackingEvents,
-        #[MapQueryParameter()]
+        #[MapQueryParameter(name: 'bike_id')]
         string $bikeId,
         #[MapQueryParameter(
             filter: \FILTER_VALIDATE_INT,
@@ -47,14 +47,14 @@ final class ListTrackingEventsController
         $embeddedTrackingEvents = \array_map(
             static fn (array $event) => [
                 'location' => $event['location'],
-                'trackedAt' => $event['trackedAt']->getTimestamp(),
+                'tracked_at' => $event['trackedAt']->getTimestamp(),
             ],
             $listTrackingEvents->query($bikeId, $from, $to),
         );
 
         return new JsonResponse(
             [
-                '_links' => \array_filter([
+                '_links' => [
                     'self' => [
                         'href' => $urlGenerator->generate(
                             'bikes:tracking:list',
@@ -71,7 +71,7 @@ final class ListTrackingEventsController
                         ),
                         'method' => 'GET',
                     ],
-                ]),
+                ],
                 '_embedded' => [
                     'tracking_event' => $embeddedTrackingEvents,
                 ],

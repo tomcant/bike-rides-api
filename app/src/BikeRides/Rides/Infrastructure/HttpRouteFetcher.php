@@ -24,8 +24,8 @@ final readonly class HttpRouteFetcher implements RouteFetcher
             ['{bikeId}', '{from}', '{to}'],
             [
                 $ride->getBikeId()->toString(),
-                $ride->getStartedAt()->getTimestamp(),
-                $ride->getEndedAt()->getTimestamp(),
+                (string) $ride->getStartedAt()->getTimestamp(),
+                (string) $ride->getEndedAt()->getTimestamp(),
             ],
             $this->trackingApiUrlTemplate,
         );

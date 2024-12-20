@@ -18,6 +18,7 @@ final readonly class JsonSchemaInputValueResolver implements ValueResolverInterf
     {
     }
 
+    /** @return iterable<JsonSchemaInput> */
     public function resolve(Request $request, ArgumentMetadata $argument): iterable
     {
         if (!\is_subclass_of($argument->getType(), JsonSchemaInput::class)) {
@@ -30,7 +31,7 @@ final readonly class JsonSchemaInputValueResolver implements ValueResolverInterf
             $json = new \stdClass();
         }
 
-        /** @var JsonSchemaInput $schema */
+        /** @var class-string<JsonSchemaInput> $schema */
         $schema = $argument->getType();
 
         $result = (new Validator())->validate($json, \json_encode($schema::getSchema()));
@@ -42,6 +43,6 @@ final readonly class JsonSchemaInputValueResolver implements ValueResolverInterf
             throw new BadRequestHttpException(\json_encode((new ErrorFormatter())->formatOutput($error, 'basic')));
         }
 
-        yield from [$schema::fromPayload(\json_decode(\json_encode($json), true))];
+        yield from [$schema::fromPayload(\json_decode(\json_encode($json), associative: true))];
     }
 }

@@ -13,6 +13,20 @@ final readonly class GetRideSummaryByRideId
     {
     }
 
+    /**
+     * @return ?array{
+     *   ride_id: string,
+     *   duration: array{
+     *     started_at: \DateTimeImmutable,
+     *     ended_at: \DateTimeImmutable,
+     *     minutes: int,
+     *   },
+     *   route: array<int, array{
+     *     latitude: float,
+     *     longitude: float,
+     *   }>,
+     * }
+     */
     public function query(string $rideId): ?array
     {
         try {

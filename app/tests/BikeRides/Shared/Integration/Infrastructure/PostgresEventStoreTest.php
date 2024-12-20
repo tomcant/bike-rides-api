@@ -6,6 +6,7 @@ namespace App\Tests\BikeRides\Shared\Integration\Infrastructure;
 
 use App\BikeRides\Rides\Domain\Model\Ride\Event\RideEventFactory;
 use App\BikeRides\Rides\Domain\Model\Ride\Ride;
+use App\BikeRides\Shared\Domain\Helpers\AggregateEvents;
 use App\BikeRides\Shared\Domain\Model\BikeId;
 use App\BikeRides\Shared\Domain\Model\RideId;
 use App\BikeRides\Shared\Domain\Model\RiderId;
@@ -16,7 +17,7 @@ use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 
 final class PostgresEventStoreTest extends PostgresTestCase
 {
-    private const EVENT_STORE_TABLE_NAME = 'rides.event_store';
+    private const string EVENT_STORE_TABLE_NAME = 'rides.event_store';
     private PostgresEventStore $eventStore;
     private AggregateEventsBusSpy $aggregateEventsBus;
 
@@ -61,6 +62,7 @@ final class PostgresEventStoreTest extends PostgresTestCase
         $this->eventStore->store($events);
     }
 
+    /** @return array{Ride, AggregateEvents} */
     private function startRide(): array
     {
         $ride = Ride::start(

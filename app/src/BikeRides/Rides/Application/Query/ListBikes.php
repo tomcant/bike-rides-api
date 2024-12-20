@@ -13,12 +13,21 @@ final readonly class ListBikes
     {
     }
 
+    /**
+     * @return list<array{
+     *   bike_id: string,
+     *   location: array{
+     *     latitude: float,
+     *     longitude: float,
+     *   },
+     * }>
+     */
     public function query(): array
     {
         return \array_map(
             static fn (Bike $bike) => [
                 'bike_id' => $bike->bikeId->toString(),
-                'location' => $bike->location?->toArray(),
+                'location' => $bike->location->toArray(),
             ],
             $this->repository->list(),
         );

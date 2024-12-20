@@ -12,11 +12,29 @@ final readonly class RideDetails
     {
     }
 
+    /**
+     * @return array{
+     *   duration: array{
+     *     startedAt: string,
+     *     endedAt: string,
+     *     minutes: int,
+     *   },
+     * }
+     */
     public function toArray(): array
     {
         return ['duration' => $this->duration->toArray()];
     }
 
+    /**
+     * @param array{
+     *   duration: array{
+     *     startedAt: string,
+     *     endedAt: string,
+     *     minutes: int,
+     *   },
+     * } $rideDetails
+     */
     public static function fromArray(array $rideDetails): self
     {
         return new self(RideDuration::fromArray($rideDetails['duration']));

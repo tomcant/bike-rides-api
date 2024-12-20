@@ -9,6 +9,7 @@ use App\Tests\BikeRides\Shared\Functional\UserInterface\UserInterfaceTestCase;
 
 abstract class BikesUserInterfaceTestCase extends UserInterfaceTestCase
 {
+    /** @return array<mixed, mixed> */
     protected function registerBike(): array
     {
         $response = $this->postJson('/bikes/bike');
@@ -16,6 +17,7 @@ abstract class BikesUserInterfaceTestCase extends UserInterfaceTestCase
         return $this->retrieveBike($response['bike_id']);
     }
 
+    /** @return array<mixed, mixed> */
     protected function retrieveBike(string $bikeId): array
     {
         return $this->getJson("/bikes/bike/{$bikeId}");
@@ -37,8 +39,9 @@ abstract class BikesUserInterfaceTestCase extends UserInterfaceTestCase
         );
     }
 
+    /** @return array<mixed, mixed> */
     protected function listTrackingEvents(string $bikeId, \DateTimeImmutable $from, \DateTimeImmutable $to): array
     {
-        return $this->getJson("/bikes/tracking?bikeId={$bikeId}&from={$from->getTimestamp()}&to={$to->getTimestamp()}");
+        return $this->getJson("/bikes/tracking?bike_id={$bikeId}&from={$from->getTimestamp()}&to={$to->getTimestamp()}");
     }
 }

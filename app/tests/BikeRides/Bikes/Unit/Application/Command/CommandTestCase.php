@@ -22,8 +22,8 @@ use App\Tests\BikeRides\Shared\Unit\Application\Command\CommandTestCase as BaseC
 
 abstract class CommandTestCase extends BaseCommandTestCase
 {
-    protected readonly BikeRepository $bikeRepository;
-    protected readonly TrackingEventRepository $trackingEventRepository;
+    protected BikeRepository $bikeRepository;
+    protected TrackingEventRepository $trackingEventRepository;
 
     protected function setUp(): void
     {

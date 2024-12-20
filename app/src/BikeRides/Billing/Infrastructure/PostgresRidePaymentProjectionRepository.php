@@ -65,6 +65,17 @@ final readonly class PostgresRidePaymentProjectionRepository implements RidePaym
         return self::mapRecordToObject($record);
     }
 
+    /**
+     * @param array{
+     *    ride_payment_id: string,
+     *    ride_id: string,
+     *    total_price: string,
+     *    price_per_minute: string,
+     *    initiated_at: string,
+     *    captured_at: ?string,
+     *    external_payment_ref: string,
+     *  } $record
+     */
     private static function mapRecordToObject(array $record): RidePayment
     {
         return new RidePayment(
@@ -78,6 +89,17 @@ final readonly class PostgresRidePaymentProjectionRepository implements RidePaym
         );
     }
 
+    /**
+     * @return array{
+     *   ride_payment_id: string,
+     *   ride_id: string,
+     *   total_price: string,
+     *   price_per_minute: string,
+     *   initiated_at: string,
+     *   captured_at: ?string,
+     *   external_payment_ref: string,
+     * }
+     */
     private static function mapObjectToRecord(RidePayment $ridePayment): array
     {
         return [

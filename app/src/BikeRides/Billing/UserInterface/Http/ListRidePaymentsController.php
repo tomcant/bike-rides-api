@@ -18,7 +18,7 @@ final class ListRidePaymentsController
         Request $request,
         UrlGeneratorInterface $urlGenerator,
         GetRidePaymentByRideId $getRidePaymentByRideId,
-        #[MapQueryParameter()]
+        #[MapQueryParameter(name: 'ride_id')]
         string $rideId,
     ): JsonResponse {
         $ridePayment = $getRidePaymentByRideId->query($rideId);

@@ -20,7 +20,7 @@ final class ListBikesController
     ): JsonResponse {
         $embeddedBikes = \array_map(
             static fn (array $bike) => [
-                '_links' => \array_filter([
+                '_links' => [
                     'self' => [
                         'href' => $urlGenerator->generate(
                             'rides:bike:retrieve',
@@ -37,7 +37,7 @@ final class ListBikesController
                         ),
                         'method' => 'POST',
                     ],
-                ]),
+                ],
                 'bike_id' => $bike['bike_id'],
                 'location' => $bike['location'],
             ],

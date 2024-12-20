@@ -11,7 +11,7 @@ use App\BikeRides\Shared\Domain\Model\BikeId;
 
 final class InMemoryBikeRepository implements BikeRepository
 {
-    /** @var Bike */
+    /** @var array<string, Bike> */
     private array $bikes;
 
     public function store(Bike $bike): void

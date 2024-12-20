@@ -24,7 +24,7 @@ use App\Tests\BikeRides\Shared\Unit\Application\Command\CommandTestCase;
 
 final class CaptureRidePaymentTest extends CommandTestCase
 {
-    private readonly RidePaymentRepository $ridePaymentRepository;
+    private RidePaymentRepository $ridePaymentRepository;
 
     protected function setUp(): void
     {
