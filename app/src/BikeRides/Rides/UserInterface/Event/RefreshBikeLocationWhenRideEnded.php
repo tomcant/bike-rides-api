@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\BikeRides\Rides\UserInterface\Event;
 
 use App\BikeRides\Rides\Application\Command\RefreshBikeLocation\RefreshBikeLocationCommand;
-use App\BikeRides\Shared\Domain\Event\RideEnded;
 use BikeRides\Foundation\Application\Command\CommandBus;
 use BikeRides\Foundation\Domain\DomainEventSubscriber;
+use BikeRides\SharedKernel\Domain\Event\RideEnded;
 
 final readonly class RefreshBikeLocationWhenRideEnded implements DomainEventSubscriber
 {

@@ -6,8 +6,8 @@ namespace App\Tests\BikeRides\Bikes\Unit\Application\Command;
 
 use App\BikeRides\Bikes\Application\Command\RecordTrackingEvent\RecordTrackingEventCommand;
 use App\BikeRides\Bikes\Application\Command\RecordTrackingEvent\RecordTrackingEventHandler;
-use App\BikeRides\Shared\Domain\Model\BikeId;
-use App\Foundation\Location;
+use BikeRides\SharedKernel\Domain\Model\BikeId;
+use BikeRides\SharedKernel\Domain\Model\Location;
 
 final class RecordTrackingEventTest extends CommandTestCase
 {

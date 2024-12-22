@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\BikeRides\Bikes\Functional\UserInterface;
 
-use App\Foundation\Location;
 use App\Tests\BikeRides\Shared\Functional\UserInterface\UserInterfaceTestCase;
+use BikeRides\SharedKernel\Domain\Model\Location;
 
 abstract class BikesUserInterfaceTestCase extends UserInterfaceTestCase
 {

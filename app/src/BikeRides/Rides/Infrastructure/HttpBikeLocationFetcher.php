@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\BikeRides\Rides\Infrastructure;
 
 use App\BikeRides\Rides\Application\Command\RefreshBikeLocation\BikeLocationFetcher;
-use App\BikeRides\Shared\Domain\Model\BikeId;
-use App\Foundation\Location;
 use BikeRides\Foundation\Clock\Clock;
+use BikeRides\SharedKernel\Domain\Model\BikeId;
+use BikeRides\SharedKernel\Domain\Model\Location;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 final readonly class HttpBikeLocationFetcher implements BikeLocationFetcher

@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Tests\BikeRides\Rides\Functional\UserInterface;
 
-use App\BikeRides\Shared\Domain\Event\BikeActivated;
-use App\BikeRides\Shared\Domain\Model\BikeId;
-use App\Foundation\Location;
+use BikeRides\SharedKernel\Domain\Event\BikeActivated;
+use BikeRides\SharedKernel\Domain\Model\BikeId;
+use BikeRides\SharedKernel\Domain\Model\Location;
 
 final class BikeApiTest extends RidesUserInterfaceTestCase
 {

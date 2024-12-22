@@ -12,13 +12,13 @@ use App\BikeRides\Bikes\Application\Command\RegisterBike\RegisterBikeCommand;
 use App\BikeRides\Bikes\Application\Command\RegisterBike\RegisterBikeHandler;
 use App\BikeRides\Bikes\Domain\Model\Bike\BikeRepository;
 use App\BikeRides\Bikes\Domain\Model\TrackingEvent\TrackingEventRepository;
-use App\BikeRides\Shared\Domain\Model\BikeId;
-use App\Foundation\Location;
 use App\Tests\BikeRides\Bikes\Doubles\InMemoryTrackingEventRepository;
 use App\Tests\BikeRides\Bikes\Unit\Doubles\InMemoryBikeRepository;
 use App\Tests\BikeRides\Shared\Doubles\DomainEventBusDummy;
 use App\Tests\BikeRides\Shared\Unit\Application\Command\CommandTestCase as BaseCommandTestCase;
 use BikeRides\Foundation\Clock\Clock;
+use BikeRides\SharedKernel\Domain\Model\BikeId;
+use BikeRides\SharedKernel\Domain\Model\Location;
 
 abstract class CommandTestCase extends BaseCommandTestCase
 {

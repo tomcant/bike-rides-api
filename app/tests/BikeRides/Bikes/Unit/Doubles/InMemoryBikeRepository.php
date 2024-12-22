@@ -7,7 +7,7 @@ namespace App\Tests\BikeRides\Bikes\Unit\Doubles;
 use App\BikeRides\Bikes\Domain\Model\Bike\Bike;
 use App\BikeRides\Bikes\Domain\Model\Bike\BikeNotFound;
 use App\BikeRides\Bikes\Domain\Model\Bike\BikeRepository;
-use App\BikeRides\Shared\Domain\Model\BikeId;
+use BikeRides\SharedKernel\Domain\Model\BikeId;
 
 final class InMemoryBikeRepository implements BikeRepository
 {

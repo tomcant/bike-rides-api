@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\BikeRides\Bikes\Functional\UserInterface;
 
-use App\Foundation\Location;
+use BikeRides\SharedKernel\Domain\Model\Location;
 
 final class BikeApiTest extends BikesUserInterfaceTestCase
 {

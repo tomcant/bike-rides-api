@@ -2,17 +2,16 @@
 
 declare(strict_types=1);
 
-namespace App\BikeRides\Shared\Domain\Event;
+namespace BikeRides\SharedKernel\Domain\Event;
 
-use App\Foundation\Location;
 use BikeRides\Foundation\Domain\DomainEvent;
 use BikeRides\Foundation\Json;
 
-final readonly class BikeActivated extends DomainEvent
+final readonly class RideEnded extends DomainEvent
 {
     public function __construct(
+        public string $rideId,
         public string $bikeId,
-        public Location $location,
     ) {
         parent::__construct();
     }
@@ -20,8 +19,8 @@ final readonly class BikeActivated extends DomainEvent
     public function serialize(): string
     {
         return Json::encode([
+            'rideId' => $this->rideId,
             'bikeId' => $this->bikeId,
-            'location' => $this->location->toArray(),
         ]);
     }
 }

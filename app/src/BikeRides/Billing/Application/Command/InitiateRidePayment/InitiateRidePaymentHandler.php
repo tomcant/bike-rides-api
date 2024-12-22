@@ -9,9 +9,9 @@ use App\BikeRides\Billing\Domain\Model\RidePayment\RidePayment;
 use App\BikeRides\Billing\Domain\Model\RidePayment\RidePaymentAlreadyExists as RidePaymentAlreadyExistsDomainException;
 use App\BikeRides\Billing\Domain\Model\RidePayment\RidePaymentDuplicateChecker;
 use App\BikeRides\Billing\Domain\Model\RidePayment\RidePaymentRepository;
-use App\BikeRides\Shared\Domain\Event\RidePaymentInitiated;
 use BikeRides\Foundation\Application\Command\CommandHandler;
 use BikeRides\Foundation\Domain\DomainEventBus;
+use BikeRides\SharedKernel\Domain\Event\RidePaymentInitiated;
 
 final readonly class InitiateRidePaymentHandler implements CommandHandler
 {

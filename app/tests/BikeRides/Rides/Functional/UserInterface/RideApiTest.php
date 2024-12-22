@@ -7,7 +7,7 @@ namespace App\Tests\BikeRides\Rides\Functional\UserInterface;
 use App\BikeRides\Rides\Application\Command\RefreshBikeLocation\BikeLocationFetcher;
 use App\BikeRides\Rides\Domain\Model\Ride\Route;
 use App\BikeRides\Rides\Domain\Model\Ride\RouteFetcher;
-use App\Foundation\Location;
+use BikeRides\SharedKernel\Domain\Model\Location;
 
 final class RideApiTest extends RidesUserInterfaceTestCase
 {

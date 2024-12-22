@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\BikeRides\Shared\Unit\Domain\Model;
 
-use App\BikeRides\Shared\Domain\Model\RideDuration;
+use BikeRides\SharedKernel\Domain\Model\RideDuration;
 use PHPUnit\Framework\TestCase;
 
 final class RideDurationTest extends TestCase

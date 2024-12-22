@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\BikeRides\Shared\Domain\Event;
+namespace BikeRides\SharedKernel\Domain\Event;
 
 use BikeRides\Foundation\Domain\DomainEvent;
 use BikeRides\Foundation\Json;

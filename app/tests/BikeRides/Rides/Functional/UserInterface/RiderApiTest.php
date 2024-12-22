@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\BikeRides\Rides\Functional\UserInterface;
 
 use App\BikeRides\Rides\Domain\Model\Rider\RiderRepository;
-use App\BikeRides\Shared\Domain\Model\RiderId;
+use BikeRides\SharedKernel\Domain\Model\RiderId;
 
 final class RiderApiTest extends RidesUserInterfaceTestCase
 {

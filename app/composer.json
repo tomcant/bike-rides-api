@@ -12,6 +12,7 @@
         "ext-intl": "*",
         "ext-pdo": "*",
         "bike-rides/foundation": "dev-main",
+        "bike-rides/shared-kernel": "dev-main",
         "bref/bref": "^2.3.11",
         "bref/secrets-loader": "^1.1",
         "bref/symfony-bridge": "^1.0.3",
@@ -41,7 +42,7 @@
     "repositories": [
         {
             "type": "path",
-            "url": "../packages/foundation"
+            "url": "../packages/*"
         }
     ],
     "config": {

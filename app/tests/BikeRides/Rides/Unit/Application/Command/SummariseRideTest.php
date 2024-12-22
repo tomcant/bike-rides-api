@@ -7,11 +7,11 @@ namespace App\Tests\BikeRides\Rides\Unit\Application\Command;
 use App\BikeRides\Rides\Application\Command\SummariseRide\SummariseRideCommand;
 use App\BikeRides\Rides\Application\Command\SummariseRide\SummariseRideHandler;
 use App\BikeRides\Rides\Domain\Model\Ride\Route;
-use App\BikeRides\Shared\Domain\Model\BikeId;
-use App\BikeRides\Shared\Domain\Model\RideId;
-use App\BikeRides\Shared\Domain\Model\RiderId;
-use App\Foundation\Location;
 use App\Tests\BikeRides\Rides\Doubles\RouteFetcherStub;
+use BikeRides\SharedKernel\Domain\Model\BikeId;
+use BikeRides\SharedKernel\Domain\Model\Location;
+use BikeRides\SharedKernel\Domain\Model\RideId;
+use BikeRides\SharedKernel\Domain\Model\RiderId;
 
 final class SummariseRideTest extends CommandTestCase
 {

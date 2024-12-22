@@ -14,13 +14,13 @@ use App\BikeRides\Billing\Domain\Model\RidePayment\RideDetails;
 use App\BikeRides\Billing\Domain\Model\RidePayment\RideId;
 use App\BikeRides\Billing\Domain\Model\RidePayment\RidePaymentId;
 use App\BikeRides\Billing\Domain\Model\RidePayment\RidePaymentRepository;
-use App\BikeRides\Shared\Domain\Model\RideDuration;
 use App\Tests\BikeRides\Billing\Doubles\RideDetailsFetcherStub;
 use App\Tests\BikeRides\Billing\Doubles\RidePaymentDuplicateCheckerStub;
 use App\Tests\BikeRides\Billing\Doubles\RidePaymentGatewayStub;
 use App\Tests\BikeRides\Shared\Doubles\DomainEventBusDummy;
 use App\Tests\BikeRides\Shared\Doubles\InMemoryEventStore;
 use App\Tests\BikeRides\Shared\Unit\Application\Command\CommandTestCase;
+use BikeRides\SharedKernel\Domain\Model\RideDuration;
 
 final class CaptureRidePaymentTest extends CommandTestCase
 {

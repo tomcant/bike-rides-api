@@ -6,12 +6,12 @@ namespace App\BikeRides\Rides\Domain\Model\Ride\Event;
 
 use App\BikeRides\Rides\Domain\Model\Ride\Ride;
 use App\BikeRides\Rides\Domain\Model\Ride\Summary;
-use App\BikeRides\Shared\Domain\Model\RideId;
 use BikeRides\Foundation\Domain\AggregateEvent;
 use BikeRides\Foundation\Domain\AggregateName;
 use BikeRides\Foundation\Domain\AggregateVersion;
 use BikeRides\Foundation\Json;
 use BikeRides\Foundation\Timestamp;
+use BikeRides\SharedKernel\Domain\Model\RideId;
 
 final readonly class RideWasSummarised implements AggregateEvent
 {

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "629be5a3085bd86743c7b2b1b807e7ba",
+    "content-hash": "5d90a2eb50d02ea289a37a985aa53e79",
     "packages": [
         {
             "name": "async-aws/core",
@@ -313,7 +313,14 @@
             "dist": {
                 "type": "path",
                 "url": "../packages/foundation",
-                "reference": "9e8f7935c1152145ac2af14eb2fc0b616ab51706"
+                "reference": "9b46ccc9b3f64e5345b1f0dd4b08bcf158c896fa"
+            },
+            "require": {
+                "moneyphp/money": "^4.6",
+                "symfony/uid": "^7.2"
+            },
+            "require-dev": {
+                "phpstan/phpstan": "^2.0"
             },
             "type": "library",
             "autoload": {
@@ -324,6 +331,62 @@
                     "src/money.php"
                 ]
             },
+            "scripts": {
+                "lint": [
+                    "@composer validate --strict",
+                    "phpstan"
+                ],
+                "test": [
+                    "echo \"No tests present\" && exit 0"
+                ]
+            },
+            "license": [
+                "proprietary"
+            ],
+            "description": "Common concerns shared by the services of the Bike Rides API.",
+            "transport-options": {
+                "relative": true
+            }
+        },
+        {
+            "name": "bike-rides/shared-kernel",
+            "version": "dev-main",
+            "dist": {
+                "type": "path",
+                "url": "../packages/shared-kernel",
+                "reference": "ad2e4d06e8eef6dfb263141a1aafe616c186a204"
+            },
+            "require": {
+                "bike-rides/foundation": "dev-main"
+            },
+            "require-dev": {
+                "phpstan/phpstan": "^2.0",
+                "phpunit/phpunit": "^11.5"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "BikeRides\\SharedKernel\\": "src"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "BikeRides\\SharedKernel\\Tests\\": "tests"
+                }
+            },
+            "scripts": {
+                "lint": [
+                    "@composer validate --strict",
+                    "phpstan"
+                ],
+                "test": [
+                    "phpunit"
+                ]
+            },
+            "license": [
+                "proprietary"
+            ],
+            "description": "Common domain concerns shared by the Bounded Contexts of the Bike Rides API (i.e. the Shared Kernel concept from DDD).",
             "transport-options": {
                 "relative": true
             }
@@ -9034,7 +9097,8 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "bike-rides/foundation": 20
+        "bike-rides/foundation": 20,
+        "bike-rides/shared-kernel": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,

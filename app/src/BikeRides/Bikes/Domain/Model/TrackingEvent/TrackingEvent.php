@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\BikeRides\Bikes\Domain\Model\TrackingEvent;
 
-use App\BikeRides\Shared\Domain\Model\BikeId;
-use App\Foundation\Location;
+use BikeRides\SharedKernel\Domain\Model\BikeId;
+use BikeRides\SharedKernel\Domain\Model\Location;
 
 final readonly class TrackingEvent
 {

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\BikeRides\Bikes\UserInterface\Http\RecordTrackingEvent;
 
-use App\Foundation\Location;
 use App\Framework\JsonSchemaInput\JsonSchemaInput;
+use BikeRides\SharedKernel\Domain\Model\Location;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 final readonly class RecordTrackingEventInput implements JsonSchemaInput

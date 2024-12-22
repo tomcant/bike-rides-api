@@ -7,7 +7,7 @@ namespace App\BikeRides\Rides\Infrastructure;
 use App\BikeRides\Rides\Domain\Model\Ride\Ride;
 use App\BikeRides\Rides\Domain\Model\Ride\Route;
 use App\BikeRides\Rides\Domain\Model\Ride\RouteFetcher;
-use App\Foundation\Location;
+use BikeRides\SharedKernel\Domain\Model\Location;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 final readonly class HttpRouteFetcher implements RouteFetcher

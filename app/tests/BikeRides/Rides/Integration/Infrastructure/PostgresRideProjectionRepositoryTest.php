@@ -7,10 +7,10 @@ namespace App\Tests\BikeRides\Rides\Integration\Infrastructure;
 use App\BikeRides\Rides\Domain\Projection\Ride\Ride;
 use App\BikeRides\Rides\Domain\Projection\Ride\RideNotFound;
 use App\BikeRides\Rides\Infrastructure\PostgresRideProjectionRepository;
-use App\BikeRides\Shared\Domain\Model\BikeId;
-use App\BikeRides\Shared\Domain\Model\RideId;
 use App\Tests\BikeRides\Shared\Integration\Infrastructure\PostgresTestCase;
 use BikeRides\Foundation\Clock\Clock;
+use BikeRides\SharedKernel\Domain\Model\BikeId;
+use BikeRides\SharedKernel\Domain\Model\RideId;
 
 final class PostgresRideProjectionRepositoryTest extends PostgresTestCase
 {

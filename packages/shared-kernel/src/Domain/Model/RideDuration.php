@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\BikeRides\Shared\Domain\Model;
+namespace BikeRides\SharedKernel\Domain\Model;
 
 use BikeRides\Foundation\Timestamp;
 
@@ -30,29 +30,7 @@ final readonly class RideDuration
         return new self($startedAt, $endedAt, $durationInMinutes);
     }
 
-    /**
-     * @return array{
-     *   startedAt: string,
-     *   endedAt: string,
-     *   minutes: int,
-     * }
-     */
-    public function toArray(): array
-    {
-        return [
-            'startedAt' => Timestamp::format($this->startedAt),
-            'endedAt' => Timestamp::format($this->endedAt),
-            'minutes' => $this->minutes,
-        ];
-    }
-
-    /**
-     * @param array{
-     *   startedAt: string,
-     *   endedAt: string,
-     *   minutes: int,
-     * } $rideDuration
-     */
+    /** @param array{startedAt: string, endedAt: string, minutes: int} $rideDuration */
     public static function fromArray(array $rideDuration): self
     {
         return new self(
@@ -60,5 +38,15 @@ final readonly class RideDuration
             Timestamp::from($rideDuration['endedAt']),
             $rideDuration['minutes'],
         );
+    }
+
+    /** @return array{startedAt: string, endedAt: string, minutes: int} */
+    public function toArray(): array
+    {
+        return [
+            'startedAt' => Timestamp::format($this->startedAt),
+            'endedAt' => Timestamp::format($this->endedAt),
+            'minutes' => $this->minutes,
+        ];
     }
 }

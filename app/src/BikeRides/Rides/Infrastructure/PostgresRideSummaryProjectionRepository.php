@@ -7,8 +7,8 @@ namespace App\BikeRides\Rides\Infrastructure;
 use App\BikeRides\Rides\Domain\Projection\RideSummary\RideSummary;
 use App\BikeRides\Rides\Domain\Projection\RideSummary\RideSummaryNotFound;
 use App\BikeRides\Rides\Domain\Projection\RideSummary\RideSummaryProjectionRepository;
-use App\BikeRides\Shared\Domain\Model\RideDuration;
 use BikeRides\Foundation\Json;
+use BikeRides\SharedKernel\Domain\Model\RideDuration;
 use Doctrine\DBAL\Connection;
 
 final readonly class PostgresRideSummaryProjectionRepository implements RideSummaryProjectionRepository

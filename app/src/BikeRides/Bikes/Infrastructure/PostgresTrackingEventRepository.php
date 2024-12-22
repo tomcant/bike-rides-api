@@ -6,10 +6,10 @@ namespace App\BikeRides\Bikes\Infrastructure;
 
 use App\BikeRides\Bikes\Domain\Model\TrackingEvent\TrackingEvent;
 use App\BikeRides\Bikes\Domain\Model\TrackingEvent\TrackingEventRepository;
-use App\BikeRides\Shared\Domain\Model\BikeId;
-use App\Foundation\Location;
 use BikeRides\Foundation\Json;
 use BikeRides\Foundation\Timestamp;
+use BikeRides\SharedKernel\Domain\Model\BikeId;
+use BikeRides\SharedKernel\Domain\Model\Location;
 use Doctrine\DBAL\Connection;
 
 final readonly class PostgresTrackingEventRepository implements TrackingEventRepository

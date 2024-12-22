@@ -8,10 +8,10 @@ use App\BikeRides\Rides\Application\Query\GetRideSummaryByRideId;
 use App\BikeRides\Rides\Domain\Model\Ride\Route;
 use App\BikeRides\Rides\Domain\Model\Ride\Summary;
 use App\BikeRides\Rides\Domain\Projection\RideSummary\RideSummaryProjector;
-use App\BikeRides\Shared\Domain\Model\RideDuration;
-use App\BikeRides\Shared\Domain\Model\RideId;
-use App\Foundation\Location;
 use App\Tests\BikeRides\Rides\Doubles\InMemoryRideSummaryProjectionRepository;
+use BikeRides\SharedKernel\Domain\Model\Location;
+use BikeRides\SharedKernel\Domain\Model\RideDuration;
+use BikeRides\SharedKernel\Domain\Model\RideId;
 
 final class GetRideSummaryByRideIdTest extends QueryTestCase
 {

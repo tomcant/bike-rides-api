@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\BikeRides\Rides\Domain\Model\Ride;
 
-use App\BikeRides\Shared\Domain\Model\RideDuration;
-use App\Foundation\Location;
+use BikeRides\SharedKernel\Domain\Model\Location;
+use BikeRides\SharedKernel\Domain\Model\RideDuration;
 
 final readonly class Summary
 {

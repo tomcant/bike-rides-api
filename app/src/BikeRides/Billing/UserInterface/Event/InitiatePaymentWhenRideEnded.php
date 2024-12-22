@@ -6,9 +6,9 @@ namespace App\BikeRides\Billing\UserInterface\Event;
 
 use App\BikeRides\Billing\Application\Command\InitiateRidePayment\InitiateRidePaymentCommand;
 use App\BikeRides\Billing\Application\Command\InitiateRidePayment\RidePaymentAlreadyExists;
-use App\BikeRides\Shared\Domain\Event\RideEnded;
 use BikeRides\Foundation\Application\Command\CommandBus;
 use BikeRides\Foundation\Domain\DomainEventSubscriber;
+use BikeRides\SharedKernel\Domain\Event\RideEnded;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Uid\Uuid;
 

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\BikeRides\Rides\Domain\Model\Ride;
 
-use App\BikeRides\Shared\Domain\Model\RideId;
+use BikeRides\SharedKernel\Domain\Model\RideId;
 
 final class RideNotFound extends \DomainException
 {

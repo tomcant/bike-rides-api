@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\BikeRides\Billing\Functional\UserInterface;
 
-use App\BikeRides\Shared\Domain\Event\RideEnded;
 use App\Tests\BikeRides\Shared\Functional\UserInterface\UserInterfaceTestCase;
+use BikeRides\SharedKernel\Domain\Event\RideEnded;
 use Money\Money;
 use Monolog\Handler\TestHandler;
 use Symfony\Component\HttpClient\MockHttpClient;

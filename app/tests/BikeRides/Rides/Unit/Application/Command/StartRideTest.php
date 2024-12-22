@@ -6,10 +6,10 @@ namespace App\Tests\BikeRides\Rides\Unit\Application\Command;
 
 use App\BikeRides\Rides\Application\Command\StartRide\StartRideCommand;
 use App\BikeRides\Rides\Application\Command\StartRide\StartRideHandler;
-use App\BikeRides\Shared\Domain\Model\BikeId;
-use App\BikeRides\Shared\Domain\Model\RideId;
-use App\BikeRides\Shared\Domain\Model\RiderId;
 use App\Tests\BikeRides\Rides\Doubles\BikeAvailabilityCheckerStub;
+use BikeRides\SharedKernel\Domain\Model\BikeId;
+use BikeRides\SharedKernel\Domain\Model\RideId;
+use BikeRides\SharedKernel\Domain\Model\RiderId;
 
 final class StartRideTest extends CommandTestCase
 {

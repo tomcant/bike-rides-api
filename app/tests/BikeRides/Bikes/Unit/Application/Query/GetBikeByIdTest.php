@@ -6,8 +6,8 @@ namespace App\Tests\BikeRides\Bikes\Unit\Application\Query;
 
 use App\BikeRides\Bikes\Application\Query\GetBikeById;
 use App\BikeRides\Bikes\Domain\Model\Bike\Bike;
-use App\BikeRides\Shared\Domain\Model\BikeId;
 use App\Tests\BikeRides\Bikes\Unit\Doubles\InMemoryBikeRepository;
+use BikeRides\SharedKernel\Domain\Model\BikeId;
 use PHPUnit\Framework\TestCase;
 
 final class GetBikeByIdTest extends TestCase

@@ -12,10 +12,10 @@ use App\BikeRides\Billing\Domain\Model\RidePayment\RideId;
 use App\BikeRides\Billing\Domain\Model\RidePayment\RidePaymentId;
 use App\BikeRides\Billing\Domain\Model\RidePayment\RidePriceCalculator;
 use App\BikeRides\Billing\Domain\Projection\RidePayment\RidePaymentProjector;
-use App\BikeRides\Shared\Domain\Model\RideDuration;
 use App\Tests\BikeRides\Billing\Doubles\InMemoryRidePaymentProjectionRepository;
 use BikeRides\Foundation\Domain\AggregateEvents;
 use BikeRides\Foundation\Domain\AggregateVersion;
+use BikeRides\SharedKernel\Domain\Model\RideDuration;
 use PHPUnit\Framework\TestCase;
 
 final class GetRidePaymentByRideIdTest extends TestCase

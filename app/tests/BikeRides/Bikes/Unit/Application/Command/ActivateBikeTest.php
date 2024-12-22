@@ -7,10 +7,10 @@ namespace App\Tests\BikeRides\Bikes\Unit\Application\Command;
 use App\BikeRides\Bikes\Application\Command\ActivateBike\ActivateBikeCommand;
 use App\BikeRides\Bikes\Application\Command\ActivateBike\ActivateBikeHandler;
 use App\BikeRides\Bikes\Domain\Model\Bike\CouldNotActivateBike;
-use App\BikeRides\Shared\Domain\Event\BikeActivated;
-use App\BikeRides\Shared\Domain\Model\BikeId;
-use App\Foundation\Location;
 use App\Tests\BikeRides\Shared\Doubles\DomainEventBusSpy;
+use BikeRides\SharedKernel\Domain\Event\BikeActivated;
+use BikeRides\SharedKernel\Domain\Model\BikeId;
+use BikeRides\SharedKernel\Domain\Model\Location;
 
 final class ActivateBikeTest extends CommandTestCase
 {

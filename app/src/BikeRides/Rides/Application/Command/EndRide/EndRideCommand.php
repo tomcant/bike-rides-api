@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\BikeRides\Rides\Application\Command\EndRide;
 
-use App\BikeRides\Shared\Domain\Model\RideId;
 use BikeRides\Foundation\Application\Command\Command;
 use BikeRides\Foundation\Json;
+use BikeRides\SharedKernel\Domain\Model\RideId;
 
 final readonly class EndRideCommand implements Command
 {

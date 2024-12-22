@@ -7,7 +7,7 @@ namespace App\BikeRides\Billing\Infrastructure;
 use App\BikeRides\Billing\Domain\Model\RidePayment\RideDetails;
 use App\BikeRides\Billing\Domain\Model\RidePayment\RideDetailsFetcher;
 use App\BikeRides\Billing\Domain\Model\RidePayment\RideId;
-use App\BikeRides\Shared\Domain\Model\RideDuration;
+use BikeRides\SharedKernel\Domain\Model\RideDuration;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 final readonly class HttpRideDetailsFetcher implements RideDetailsFetcher

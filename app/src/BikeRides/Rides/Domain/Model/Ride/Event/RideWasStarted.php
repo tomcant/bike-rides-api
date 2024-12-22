@@ -5,14 +5,14 @@ declare(strict_types=1);
 namespace App\BikeRides\Rides\Domain\Model\Ride\Event;
 
 use App\BikeRides\Rides\Domain\Model\Ride\Ride;
-use App\BikeRides\Shared\Domain\Model\BikeId;
-use App\BikeRides\Shared\Domain\Model\RideId;
-use App\BikeRides\Shared\Domain\Model\RiderId;
 use BikeRides\Foundation\Domain\AggregateEvent;
 use BikeRides\Foundation\Domain\AggregateName;
 use BikeRides\Foundation\Domain\AggregateVersion;
 use BikeRides\Foundation\Json;
 use BikeRides\Foundation\Timestamp;
+use BikeRides\SharedKernel\Domain\Model\BikeId;
+use BikeRides\SharedKernel\Domain\Model\RideId;
+use BikeRides\SharedKernel\Domain\Model\RiderId;
 
 final readonly class RideWasStarted implements AggregateEvent
 {

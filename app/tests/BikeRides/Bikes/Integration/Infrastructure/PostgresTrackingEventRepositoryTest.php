@@ -6,9 +6,9 @@ namespace App\Tests\BikeRides\Bikes\Integration\Infrastructure;
 
 use App\BikeRides\Bikes\Domain\Model\TrackingEvent\TrackingEvent;
 use App\BikeRides\Bikes\Infrastructure\PostgresTrackingEventRepository;
-use App\BikeRides\Shared\Domain\Model\BikeId;
-use App\Foundation\Location;
 use App\Tests\BikeRides\Shared\Integration\Infrastructure\PostgresTestCase;
+use BikeRides\SharedKernel\Domain\Model\BikeId;
+use BikeRides\SharedKernel\Domain\Model\Location;
 
 final class PostgresTrackingEventRepositoryTest extends PostgresTestCase
 {

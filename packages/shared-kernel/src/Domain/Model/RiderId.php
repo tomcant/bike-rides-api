@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\BikeRides\Shared\Domain\Model;
+namespace BikeRides\SharedKernel\Domain\Model;
 
 final readonly class RiderId
 {

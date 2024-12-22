@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Tests\BikeRides\Rides\Doubles;
 
 use App\BikeRides\Rides\Application\Command\RefreshBikeLocation\BikeLocationFetcher;
-use App\BikeRides\Shared\Domain\Model\BikeId;
-use App\Foundation\Location;
+use BikeRides\SharedKernel\Domain\Model\BikeId;
+use BikeRides\SharedKernel\Domain\Model\Location;
 
 final class BikeLocationFetcherStub implements BikeLocationFetcher
 {

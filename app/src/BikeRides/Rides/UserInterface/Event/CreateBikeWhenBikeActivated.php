@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\BikeRides\Rides\UserInterface\Event;
 
 use App\BikeRides\Rides\Application\Command\CreateBike\CreateBikeCommand;
-use App\BikeRides\Shared\Domain\Event\BikeActivated;
 use BikeRides\Foundation\Application\Command\CommandBus;
 use BikeRides\Foundation\Domain\DomainEventSubscriber;
+use BikeRides\SharedKernel\Domain\Event\BikeActivated;
 
 final readonly class CreateBikeWhenBikeActivated implements DomainEventSubscriber
 {

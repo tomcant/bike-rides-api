@@ -35,16 +35,52 @@ db/%:
 
 can-release: security test lint ## Check the application is releasable
 
-test: db/test ## Run the test suite
+test: test-app test-packages ## Run the test suite
+
+test-app: db/test
+	echo '::group::Test app'
 	$(APP) vendor/bin/phpunit --log-junit /var/reports/phpunit.xml --order-by=random
+	echo '::endgroup::'
 
 test/%:
 	$(APP) vendor/bin/phpunit --filter $*
 
-lint: ## Run the linting tools
+test-packages:
+	@for package in packages/*; do \
+	  echo "::group::Test $${package}"; \
+	  docker run --rm \
+	    -w /app/"$${package}" \
+	    -v $(PWD)/"$${package}":/app/"$${package}" \
+	    -v $(PWD)/packages:/app/packages \
+	    ghcr.io/tomcant/bike-rides:0.0.1 \
+	      sh -c 'composer install --no-progress && composer test'; \
+	  [[ $$? != 0 ]] && { echo "::error::$${package} failed"; failed=1; }; \
+	  echo '::endgroup::'; \
+	done; \
+	exit $${failed:-0};
+
+lint: lint-app lint-packages ## Run the linting tools
+
+lint-app:
+	echo '::group::Lint app'
 	$(APP) composer validate --strict
 	$(APP) sh -c 'PHP_CS_FIXER_IGNORE_ENV=1 vendor/bin/php-cs-fixer fix --dry-run --diff'
 	$(APP) vendor/bin/phpstan analyse --no-interaction
+	echo '::endgroup::'
+
+lint-packages:
+	@for package in packages/*; do \
+	  echo "::group::Lint $${package}"; \
+	  docker run --rm \
+	    -w /app/"$${package}" \
+	    -v $(PWD)/"$${package}":/app/"$${package}" \
+	    -v $(PWD)/packages:/app/packages \
+	    ghcr.io/tomcant/bike-rides:0.0.1 \
+	      sh -c 'composer install --no-progress && composer lint'; \
+	  [[ $$? != 0 ]] && { echo "::error::$${package} failed"; failed=1; }; \
+	  echo '::endgroup::'; \
+	done; \
+	exit $${failed:-0};
 
 security: ## Check dependencies for known vulnerabilities
 	$(APP) composer audit
@@ -56,12 +92,12 @@ format: ## Fix style related code violations
 ##@ Fixtures
 
 fixture/bike: ## Create and activate a bike
-	@$(COMPOSE) exec app bash -c "TERM=xterm-256color bin/console bikes:fixture:bike"
+	@$(COMPOSE) exec app bash -c 'TERM=xterm-256color bin/console bikes:fixture:bike'
 
 ##@ Running Instance
 
 open: ## Open the API in the default browser
-	open "http://localhost:8000/"
+	open 'http://localhost:8080/'
 
 shell: ## Access a shell on the running container
 	$(COMPOSE) exec app bash

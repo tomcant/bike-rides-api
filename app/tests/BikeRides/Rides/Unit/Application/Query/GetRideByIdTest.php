@@ -6,10 +6,10 @@ namespace App\Tests\BikeRides\Rides\Unit\Application\Query;
 
 use App\BikeRides\Rides\Application\Query\GetRideById;
 use App\BikeRides\Rides\Domain\Projection\Ride\RideProjector;
-use App\BikeRides\Shared\Domain\Model\BikeId;
-use App\BikeRides\Shared\Domain\Model\RideId;
-use App\BikeRides\Shared\Domain\Model\RiderId;
 use App\Tests\BikeRides\Rides\Doubles\InMemoryRideProjectionRepository;
+use BikeRides\SharedKernel\Domain\Model\BikeId;
+use BikeRides\SharedKernel\Domain\Model\RideId;
+use BikeRides\SharedKernel\Domain\Model\RiderId;
 
 final class GetRideByIdTest extends QueryTestCase
 {

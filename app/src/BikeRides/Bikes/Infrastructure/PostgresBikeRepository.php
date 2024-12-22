@@ -7,7 +7,7 @@ namespace App\BikeRides\Bikes\Infrastructure;
 use App\BikeRides\Bikes\Domain\Model\Bike\Bike;
 use App\BikeRides\Bikes\Domain\Model\Bike\BikeNotFound;
 use App\BikeRides\Bikes\Domain\Model\Bike\BikeRepository;
-use App\BikeRides\Shared\Domain\Model\BikeId;
+use BikeRides\SharedKernel\Domain\Model\BikeId;
 use Doctrine\DBAL\Connection;
 
 final readonly class PostgresBikeRepository implements BikeRepository

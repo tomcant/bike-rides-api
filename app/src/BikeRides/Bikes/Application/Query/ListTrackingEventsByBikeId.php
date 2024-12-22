@@ -6,7 +6,7 @@ namespace App\BikeRides\Bikes\Application\Query;
 
 use App\BikeRides\Bikes\Domain\Model\TrackingEvent\TrackingEvent;
 use App\BikeRides\Bikes\Domain\Model\TrackingEvent\TrackingEventRepository;
-use App\BikeRides\Shared\Domain\Model\BikeId;
+use BikeRides\SharedKernel\Domain\Model\BikeId;
 
 final readonly class ListTrackingEventsByBikeId
 {

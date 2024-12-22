@@ -6,9 +6,9 @@ namespace App\Tests\BikeRides\Rides\Unit\Application\Query;
 
 use App\BikeRides\Rides\Application\Query\GetBikeById;
 use App\BikeRides\Rides\Domain\Model\Bike\Bike;
-use App\BikeRides\Shared\Domain\Model\BikeId;
-use App\Foundation\Location;
 use App\Tests\BikeRides\Rides\Doubles\InMemoryBikeRepository;
+use BikeRides\SharedKernel\Domain\Model\BikeId;
+use BikeRides\SharedKernel\Domain\Model\Location;
 
 final class GetBikeByIdTest extends QueryTestCase
 {

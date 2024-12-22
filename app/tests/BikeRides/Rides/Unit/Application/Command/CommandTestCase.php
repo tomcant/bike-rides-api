@@ -16,16 +16,16 @@ use App\BikeRides\Rides\Domain\Model\Bike\BikeRepository;
 use App\BikeRides\Rides\Domain\Model\Ride\Event\RideEventFactory;
 use App\BikeRides\Rides\Domain\Model\Ride\RideRepository;
 use App\BikeRides\Rides\Domain\Model\Rider\RiderRepository;
-use App\BikeRides\Shared\Domain\Model\BikeId;
-use App\BikeRides\Shared\Domain\Model\RideId;
-use App\BikeRides\Shared\Domain\Model\RiderId;
-use App\Foundation\Location;
 use App\Tests\BikeRides\Rides\Doubles\BikeAvailabilityCheckerStub;
 use App\Tests\BikeRides\Rides\Doubles\InMemoryBikeRepository;
 use App\Tests\BikeRides\Rides\Doubles\InMemoryRiderRepository;
 use App\Tests\BikeRides\Shared\Doubles\DomainEventBusDummy;
 use App\Tests\BikeRides\Shared\Doubles\InMemoryEventStore;
 use App\Tests\BikeRides\Shared\Unit\Application\Command\CommandTestCase as BaseCommandTestCase;
+use BikeRides\SharedKernel\Domain\Model\BikeId;
+use BikeRides\SharedKernel\Domain\Model\Location;
+use BikeRides\SharedKernel\Domain\Model\RideId;
+use BikeRides\SharedKernel\Domain\Model\RiderId;
 
 abstract class CommandTestCase extends BaseCommandTestCase
 {

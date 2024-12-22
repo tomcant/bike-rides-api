@@ -6,7 +6,7 @@ namespace App\BikeRides\Bikes\Application\Query;
 
 use App\BikeRides\Bikes\Domain\Model\Bike\BikeNotFound;
 use App\BikeRides\Bikes\Domain\Model\Bike\BikeRepository;
-use App\BikeRides\Shared\Domain\Model\BikeId;
+use BikeRides\SharedKernel\Domain\Model\BikeId;
 
 final readonly class GetBikeById
 {

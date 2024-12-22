@@ -6,11 +6,11 @@ namespace App\Tests\BikeRides\Rides\Unit\Application\Command;
 
 use App\BikeRides\Rides\Application\Command\EndRide\EndRideCommand;
 use App\BikeRides\Rides\Application\Command\EndRide\EndRideHandler;
-use App\BikeRides\Shared\Domain\Event\RideEnded;
-use App\BikeRides\Shared\Domain\Model\BikeId;
-use App\BikeRides\Shared\Domain\Model\RideId;
-use App\BikeRides\Shared\Domain\Model\RiderId;
 use App\Tests\BikeRides\Shared\Doubles\DomainEventBusSpy;
+use BikeRides\SharedKernel\Domain\Event\RideEnded;
+use BikeRides\SharedKernel\Domain\Model\BikeId;
+use BikeRides\SharedKernel\Domain\Model\RideId;
+use BikeRides\SharedKernel\Domain\Model\RiderId;
 
 final class EndRideTest extends CommandTestCase
 {

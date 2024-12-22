@@ -7,7 +7,7 @@ namespace App\Tests\BikeRides\Rides\Unit\Application\Command;
 use App\BikeRides\Rides\Application\Command\CreateRider\CreateRiderCommand;
 use App\BikeRides\Rides\Application\Command\CreateRider\CreateRiderHandler;
 use App\BikeRides\Rides\Domain\Model\Rider\Rider;
-use App\BikeRides\Shared\Domain\Model\RiderId;
+use BikeRides\SharedKernel\Domain\Model\RiderId;
 
 final class CreateRiderTest extends CommandTestCase
 {

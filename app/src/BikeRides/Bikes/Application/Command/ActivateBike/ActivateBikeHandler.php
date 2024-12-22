@@ -6,11 +6,11 @@ namespace App\BikeRides\Bikes\Application\Command\ActivateBike;
 
 use App\BikeRides\Bikes\Domain\Model\Bike\BikeRepository;
 use App\BikeRides\Bikes\Domain\Model\TrackingEvent\TrackingEventRepository;
-use App\BikeRides\Shared\Domain\Event\BikeActivated;
-use App\BikeRides\Shared\Domain\Model\BikeId;
-use App\Foundation\Location;
 use BikeRides\Foundation\Application\Command\CommandHandler;
 use BikeRides\Foundation\Domain\DomainEventBus;
+use BikeRides\SharedKernel\Domain\Event\BikeActivated;
+use BikeRides\SharedKernel\Domain\Model\BikeId;
+use BikeRides\SharedKernel\Domain\Model\Location;
 
 final readonly class ActivateBikeHandler implements CommandHandler
 {

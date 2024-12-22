@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\BikeRides\Rides\Domain\Model\Ride;
 
-use App\Foundation\Location;
+use BikeRides\SharedKernel\Domain\Model\Location;
 
 final readonly class Route
 {

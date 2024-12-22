@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\BikeRides\Rides\Application\Command\CreateRider;
 
-use App\BikeRides\Shared\Domain\Model\RiderId;
 use BikeRides\Foundation\Application\Command\Command;
 use BikeRides\Foundation\Json;
+use BikeRides\SharedKernel\Domain\Model\RiderId;
 
 final readonly class CreateRiderCommand implements Command
 {

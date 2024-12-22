@@ -6,13 +6,13 @@ namespace App\Tests\BikeRides\Shared\Integration\Infrastructure;
 
 use App\BikeRides\Rides\Domain\Model\Ride\Event\RideEventFactory;
 use App\BikeRides\Rides\Domain\Model\Ride\Ride;
-use App\BikeRides\Shared\Domain\Model\BikeId;
-use App\BikeRides\Shared\Domain\Model\RideId;
-use App\BikeRides\Shared\Domain\Model\RiderId;
 use App\BikeRides\Shared\Infrastructure\PostgresEventStore;
 use App\Tests\BikeRides\Rides\Doubles\BikeAvailabilityCheckerStub;
 use App\Tests\BikeRides\Shared\Doubles\AggregateEventsBusSpy;
 use BikeRides\Foundation\Domain\AggregateEvents;
+use BikeRides\SharedKernel\Domain\Model\BikeId;
+use BikeRides\SharedKernel\Domain\Model\RideId;
+use BikeRides\SharedKernel\Domain\Model\RiderId;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 
 final class PostgresEventStoreTest extends PostgresTestCase

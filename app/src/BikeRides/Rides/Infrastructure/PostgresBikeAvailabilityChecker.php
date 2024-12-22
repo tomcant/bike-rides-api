@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\BikeRides\Rides\Infrastructure;
 
 use App\BikeRides\Rides\Domain\Model\Ride\BikeAvailabilityChecker;
-use App\BikeRides\Shared\Domain\Model\BikeId;
+use BikeRides\SharedKernel\Domain\Model\BikeId;
 use Doctrine\DBAL\Connection;
 
 final readonly class PostgresBikeAvailabilityChecker implements BikeAvailabilityChecker

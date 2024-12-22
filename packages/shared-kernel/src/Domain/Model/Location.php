@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Foundation;
+namespace BikeRides\SharedKernel\Domain\Model;
 
 final readonly class Location
 {
@@ -12,16 +12,16 @@ final readonly class Location
     ) {
     }
 
-    /** @param array<mixed, mixed> $data */
-    public static function fromArray(array $data): self
+    /** @param array<mixed, mixed> $location */
+    public static function fromArray(array $location): self
     {
-        if (!\is_numeric($data['latitude'] ?? null) || !\is_numeric($data['longitude'] ?? null)) {
+        if (!\is_numeric($location['latitude'] ?? null) || !\is_numeric($location['longitude'] ?? null)) {
             throw new \InvalidArgumentException('Numeric values required for "latitude" and "longitude"');
         }
 
         return new self(
-            (float) $data['latitude'],
-            (float) $data['longitude'],
+            (float) $location['latitude'],
+            (float) $location['longitude'],
         );
     }
 

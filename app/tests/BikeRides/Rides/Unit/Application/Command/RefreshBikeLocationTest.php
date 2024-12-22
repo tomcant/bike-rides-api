@@ -6,11 +6,11 @@ namespace App\Tests\BikeRides\Rides\Unit\Application\Command;
 
 use App\BikeRides\Rides\Application\Command\RefreshBikeLocation\RefreshBikeLocationCommand;
 use App\BikeRides\Rides\Application\Command\RefreshBikeLocation\RefreshBikeLocationHandler;
-use App\BikeRides\Shared\Domain\Model\BikeId;
-use App\BikeRides\Shared\Domain\Model\RideId;
-use App\BikeRides\Shared\Domain\Model\RiderId;
-use App\Foundation\Location;
 use App\Tests\BikeRides\Rides\Doubles\BikeLocationFetcherStub;
+use BikeRides\SharedKernel\Domain\Model\BikeId;
+use BikeRides\SharedKernel\Domain\Model\Location;
+use BikeRides\SharedKernel\Domain\Model\RideId;
+use BikeRides\SharedKernel\Domain\Model\RiderId;
 
 final class RefreshBikeLocationTest extends CommandTestCase
 {

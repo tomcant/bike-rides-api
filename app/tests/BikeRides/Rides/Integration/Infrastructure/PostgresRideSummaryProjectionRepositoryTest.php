@@ -7,9 +7,9 @@ namespace App\Tests\BikeRides\Rides\Integration\Infrastructure;
 use App\BikeRides\Rides\Domain\Projection\RideSummary\RideSummary;
 use App\BikeRides\Rides\Domain\Projection\RideSummary\RideSummaryNotFound;
 use App\BikeRides\Rides\Infrastructure\PostgresRideSummaryProjectionRepository;
-use App\BikeRides\Shared\Domain\Model\RideDuration;
-use App\BikeRides\Shared\Domain\Model\RideId;
 use App\Tests\BikeRides\Shared\Integration\Infrastructure\PostgresTestCase;
+use BikeRides\SharedKernel\Domain\Model\RideDuration;
+use BikeRides\SharedKernel\Domain\Model\RideId;
 
 final class PostgresRideSummaryProjectionRepositoryTest extends PostgresTestCase
 {
