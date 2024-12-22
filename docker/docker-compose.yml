@@ -9,6 +9,7 @@ services:
     volumes:
       - ../app:/var/task:rw,cached
       - ../app/var/log:/tmp/log
+      - ../packages:/var/packages:rw,cached
       - ~/.ssh:/root/.ssh:ro,delegated
       - ../reports:/var/reports:rw,delegated
     env_file: .env.dev
@@ -23,6 +24,7 @@ services:
     volumes:
       - ../app:/var/task:rw,cached
       - ../app/var/log:/tmp/log
+      - ../packages:/var/packages:rw,cached
       - ~/.ssh:/root/.ssh:ro,delegated
       - ../reports:/var/reports:rw,delegated
     env_file: .env.dev

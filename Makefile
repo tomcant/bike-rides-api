@@ -33,7 +33,7 @@ db/%:
 
 ##@ Testing/Linting
 
-can-release: security lint test ## Check the application is releasable
+can-release: security test lint ## Check the application is releasable
 
 test: db/test ## Run the test suite
 	$(APP) vendor/bin/phpunit --log-junit /var/reports/phpunit.xml --order-by=random

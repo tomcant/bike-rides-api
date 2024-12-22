@@ -11,6 +11,7 @@
         "ext-iconv": "*",
         "ext-intl": "*",
         "ext-pdo": "*",
+        "bike-rides/foundation": "dev-main",
         "bref/bref": "^2.3.11",
         "bref/secrets-loader": "^1.1",
         "bref/symfony-bridge": "^1.0.3",
@@ -37,6 +38,12 @@
         "symfony/browser-kit": "7.2.*",
         "symfony/css-selector": "7.2.*"
     },
+    "repositories": [
+        {
+            "type": "path",
+            "url": "../packages/foundation"
+        }
+    ],
     "config": {
         "allow-plugins": {
             "php-http/discovery": true,
@@ -47,15 +54,12 @@
     },
     "autoload": {
         "psr-4": {
-            "App\\": "src/"
-        },
-        "files": [
-            "src/Foundation/money.php"
-        ]
+            "App\\": "src"
+        }
     },
     "autoload-dev": {
         "psr-4": {
-            "App\\Tests\\": "tests/"
+            "App\\Tests\\": "tests"
         }
     },
     "replace": {

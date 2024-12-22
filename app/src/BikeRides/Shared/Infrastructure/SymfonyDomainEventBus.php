@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\BikeRides\Shared\Infrastructure;
 
-use App\BikeRides\Shared\Domain\Helpers\DomainEvent;
-use App\BikeRides\Shared\Domain\Helpers\DomainEventBus;
-use App\Foundation\Timestamp;
+use BikeRides\Foundation\Domain\DomainEvent;
+use BikeRides\Foundation\Domain\DomainEventBus;
+use BikeRides\Foundation\Timestamp;
 use Doctrine\DBAL\Connection;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\Messenger\MessageBusInterface;

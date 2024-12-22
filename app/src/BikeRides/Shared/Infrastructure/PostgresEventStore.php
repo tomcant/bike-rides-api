@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\BikeRides\Shared\Infrastructure;
 
-use App\BikeRides\Shared\Domain\Helpers\AggregateEvent;
-use App\BikeRides\Shared\Domain\Helpers\AggregateEventFactory;
-use App\BikeRides\Shared\Domain\Helpers\AggregateEvents;
-use App\BikeRides\Shared\Domain\Helpers\AggregateEventsBus;
-use App\BikeRides\Shared\Domain\Helpers\AggregateName;
-use App\BikeRides\Shared\Domain\Helpers\EntityId;
-use App\BikeRides\Shared\Domain\Helpers\EventStore;
+use BikeRides\Foundation\Domain\AggregateEvent;
+use BikeRides\Foundation\Domain\AggregateEventFactory;
+use BikeRides\Foundation\Domain\AggregateEvents;
+use BikeRides\Foundation\Domain\AggregateEventsBus;
+use BikeRides\Foundation\Domain\AggregateName;
+use BikeRides\Foundation\Domain\EntityId;
+use BikeRides\Foundation\Domain\EventStore;
 use Doctrine\DBAL\Connection;
 
 final readonly class PostgresEventStore implements EventStore

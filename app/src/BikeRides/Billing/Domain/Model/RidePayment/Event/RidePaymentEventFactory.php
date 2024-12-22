@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\BikeRides\Billing\Domain\Model\RidePayment\Event;
 
-use App\BikeRides\Shared\Domain\Helpers\AggregateEvent;
-use App\BikeRides\Shared\Domain\Helpers\AggregateEventFactory;
+use BikeRides\Foundation\Domain\AggregateEvent;
+use BikeRides\Foundation\Domain\AggregateEventFactory;
 
 final class RidePaymentEventFactory implements AggregateEventFactory
 {

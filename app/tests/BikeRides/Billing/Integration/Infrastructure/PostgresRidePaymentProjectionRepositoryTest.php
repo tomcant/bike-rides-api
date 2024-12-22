@@ -8,8 +8,8 @@ use App\BikeRides\Billing\Domain\Model\RidePayment\RidePaymentId;
 use App\BikeRides\Billing\Domain\Projection\RidePayment\RidePayment;
 use App\BikeRides\Billing\Domain\Projection\RidePayment\RidePaymentNotFound;
 use App\BikeRides\Billing\Infrastructure\PostgresRidePaymentProjectionRepository;
-use App\Foundation\Clock\Clock;
 use App\Tests\BikeRides\Shared\Integration\Infrastructure\PostgresTestCase;
+use BikeRides\Foundation\Clock\Clock;
 use Money\Money;
 
 final class PostgresRidePaymentProjectionRepositoryTest extends PostgresTestCase

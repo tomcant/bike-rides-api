@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\BikeRides\Rides\Application\Command\StartRide;
 
-use App\BikeRides\Shared\Application\Command\Command;
 use App\BikeRides\Shared\Domain\Model\BikeId;
 use App\BikeRides\Shared\Domain\Model\RideId;
 use App\BikeRides\Shared\Domain\Model\RiderId;
-use App\Foundation\Json;
+use BikeRides\Foundation\Application\Command\Command;
+use BikeRides\Foundation\Json;
 
 final readonly class StartRideCommand implements Command
 {

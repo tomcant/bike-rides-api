@@ -7,7 +7,7 @@ namespace App\BikeRides\Billing\Application\Command\CaptureRidePayment;
 use App\BikeRides\Billing\Domain\Model\RidePayment\RidePaymentAlreadyCaptured as RidePaymentAlreadyCapturedDomainException;
 use App\BikeRides\Billing\Domain\Model\RidePayment\RidePaymentGateway;
 use App\BikeRides\Billing\Domain\Model\RidePayment\RidePaymentRepository;
-use App\BikeRides\Shared\Application\Command\CommandHandler;
+use BikeRides\Foundation\Application\Command\CommandHandler;
 
 final readonly class CaptureRidePaymentHandler implements CommandHandler
 {

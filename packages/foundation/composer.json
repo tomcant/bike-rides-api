@@ -1,0 +1,12 @@
+{
+    "name": "bike-rides/foundation",
+    "type": "library",
+    "autoload": {
+        "psr-4": {
+            "BikeRides\\Foundation\\": "src"
+        },
+        "files": [
+            "src/money.php"
+        ]
+    }
+}

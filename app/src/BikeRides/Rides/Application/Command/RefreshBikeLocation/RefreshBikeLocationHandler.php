@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\BikeRides\Rides\Application\Command\RefreshBikeLocation;
 
 use App\BikeRides\Rides\Domain\Model\Bike\BikeRepository;
-use App\BikeRides\Shared\Application\Command\CommandHandler;
+use BikeRides\Foundation\Application\Command\CommandHandler;
 
 final readonly class RefreshBikeLocationHandler implements CommandHandler
 {

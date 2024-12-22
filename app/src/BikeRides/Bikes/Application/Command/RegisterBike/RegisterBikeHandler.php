@@ -6,7 +6,7 @@ namespace App\BikeRides\Bikes\Application\Command\RegisterBike;
 
 use App\BikeRides\Bikes\Domain\Model\Bike\Bike;
 use App\BikeRides\Bikes\Domain\Model\Bike\BikeRepository;
-use App\BikeRides\Shared\Application\Command\CommandHandler;
+use BikeRides\Foundation\Application\Command\CommandHandler;
 
 final readonly class RegisterBikeHandler implements CommandHandler
 {

@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Tests\BikeRides\Shared\Functional\UserInterface;
 
-use App\BikeRides\Shared\Domain\Helpers\DomainEvent;
-use App\BikeRides\Shared\Domain\Helpers\DomainEventBus;
-use App\Foundation\Clock\Clock;
-use App\Foundation\Json;
 use App\Tests\BikeRides\Shared\Doubles\ClockStub;
 use App\Tests\BikeRides\Shared\Doubles\DomainEventSubscribersLocatorProxy;
+use BikeRides\Foundation\Clock\Clock;
+use BikeRides\Foundation\Domain\DomainEvent;
+use BikeRides\Foundation\Domain\DomainEventBus;
+use BikeRides\Foundation\Json;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 

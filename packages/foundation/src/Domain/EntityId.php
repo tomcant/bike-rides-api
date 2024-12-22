@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\BikeRides\Shared\Domain\Helpers;
+namespace BikeRides\Foundation\Domain;
 
 use Symfony\Component\Uid\Uuid;
 

@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\BikeRides\Billing\Domain\Model\RidePayment;
 
-use App\BikeRides\Shared\Domain\Helpers\Aggregate;
-use App\BikeRides\Shared\Domain\Helpers\AggregateName;
-use App\Foundation\Clock\Clock;
+use BikeRides\Foundation\Clock\Clock;
+use BikeRides\Foundation\Domain\Aggregate;
+use BikeRides\Foundation\Domain\AggregateName;
 
 final class RidePayment extends Aggregate
 {

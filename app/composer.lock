@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e91129238e06e43d9d4fe165108f88f5",
+    "content-hash": "629be5a3085bd86743c7b2b1b807e7ba",
     "packages": [
         {
             "name": "async-aws/core",
@@ -308,17 +308,38 @@
             "time": "2023-06-20T19:17:40+00:00"
         },
         {
+            "name": "bike-rides/foundation",
+            "version": "dev-main",
+            "dist": {
+                "type": "path",
+                "url": "../packages/foundation",
+                "reference": "9e8f7935c1152145ac2af14eb2fc0b616ab51706"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "BikeRides\\Foundation\\": "src"
+                },
+                "files": [
+                    "src/money.php"
+                ]
+            },
+            "transport-options": {
+                "relative": true
+            }
+        },
+        {
             "name": "bref/bref",
-            "version": "2.3.11",
+            "version": "2.3.12",
             "source": {
                 "type": "git",
                 "url": "https://github.com/brefphp/bref.git",
-                "reference": "d36fde4264f614a5db902127411d0d4637ec0e8d"
+                "reference": "5a92388dfb654b4ca7ccda884353a00a1b8b0bc3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/brefphp/bref/zipball/d36fde4264f614a5db902127411d0d4637ec0e8d",
-                "reference": "d36fde4264f614a5db902127411d0d4637ec0e8d",
+                "url": "https://api.github.com/repos/brefphp/bref/zipball/5a92388dfb654b4ca7ccda884353a00a1b8b0bc3",
+                "reference": "5a92388dfb654b4ca7ccda884353a00a1b8b0bc3",
                 "shasum": ""
             },
             "require": {
@@ -372,7 +393,7 @@
             ],
             "support": {
                 "issues": "https://github.com/brefphp/bref/issues",
-                "source": "https://github.com/brefphp/bref/tree/2.3.11"
+                "source": "https://github.com/brefphp/bref/tree/2.3.12"
             },
             "funding": [
                 {
@@ -384,7 +405,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-11-21T17:40:28+00:00"
+            "time": "2024-12-20T13:00:03+00:00"
         },
         {
             "name": "bref/secrets-loader",
@@ -5809,13 +5830,13 @@
             },
             "type": "library",
             "extra": {
-                "branch-alias": {
-                    "dev-main": "3.x-dev"
-                },
                 "phpstan": {
                     "includes": [
                         "extension.neon"
                     ]
+                },
+                "branch-alias": {
+                    "dev-main": "3.x-dev"
                 }
             },
             "autoload": {
@@ -7088,16 +7109,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "11.5.1",
+            "version": "11.5.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "2b94d4f2450b9869fa64a46fd8a6a41997aef56a"
+                "reference": "153d0531b9f7e883c5053160cad6dd5ac28140b3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/2b94d4f2450b9869fa64a46fd8a6a41997aef56a",
-                "reference": "2b94d4f2450b9869fa64a46fd8a6a41997aef56a",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/153d0531b9f7e883c5053160cad6dd5ac28140b3",
+                "reference": "153d0531b9f7e883c5053160cad6dd5ac28140b3",
                 "shasum": ""
             },
             "require": {
@@ -7111,13 +7132,13 @@
                 "phar-io/manifest": "^2.0.4",
                 "phar-io/version": "^3.2.1",
                 "php": ">=8.2",
-                "phpunit/php-code-coverage": "^11.0.7",
+                "phpunit/php-code-coverage": "^11.0.8",
                 "phpunit/php-file-iterator": "^5.1.0",
                 "phpunit/php-invoker": "^5.0.1",
                 "phpunit/php-text-template": "^4.0.1",
                 "phpunit/php-timer": "^7.0.1",
                 "sebastian/cli-parser": "^3.0.2",
-                "sebastian/code-unit": "^3.0.1",
+                "sebastian/code-unit": "^3.0.2",
                 "sebastian/comparator": "^6.2.1",
                 "sebastian/diff": "^6.0.2",
                 "sebastian/environment": "^7.2.0",
@@ -7169,7 +7190,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
                 "security": "https://github.com/sebastianbergmann/phpunit/security/policy",
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/11.5.1"
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/11.5.2"
             },
             "funding": [
                 {
@@ -7185,7 +7206,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-12-11T10:52:48+00:00"
+            "time": "2024-12-21T05:51:08+00:00"
         },
         {
             "name": "react/cache",
@@ -9012,7 +9033,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {},
+    "stability-flags": {
+        "bike-rides/foundation": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {

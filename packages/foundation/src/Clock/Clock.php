@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Foundation\Clock;
+namespace BikeRides\Foundation\Clock;
 
 abstract class Clock
 {

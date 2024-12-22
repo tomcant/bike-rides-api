@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Foundation;
+namespace BikeRides\Foundation;
 
 final class Timestamp
 {

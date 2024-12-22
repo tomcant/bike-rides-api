@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\BikeRides\Shared\Infrastructure;
 
-use App\BikeRides\Shared\Application\Command\Command;
-use App\BikeRides\Shared\Application\Command\CommandBus;
-use App\BikeRides\Shared\Application\Command\CommandNotRegistered;
+use BikeRides\Foundation\Application\Command\Command;
+use BikeRides\Foundation\Application\Command\CommandBus;
+use BikeRides\Foundation\Application\Command\CommandNotRegistered;
 use Doctrine\DBAL\Connection;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\Messenger\Exception\HandlerFailedException;

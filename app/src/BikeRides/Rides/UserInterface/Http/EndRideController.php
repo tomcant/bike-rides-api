@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\BikeRides\Rides\UserInterface\Http;
 
 use App\BikeRides\Rides\Application\Command\EndRide\EndRideCommand;
-use App\BikeRides\Shared\Application\Command\CommandBus;
+use BikeRides\Foundation\Application\Command\CommandBus;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 

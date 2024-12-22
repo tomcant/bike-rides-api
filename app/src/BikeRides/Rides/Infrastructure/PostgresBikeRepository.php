@@ -8,8 +8,8 @@ use App\BikeRides\Rides\Domain\Model\Bike\Bike;
 use App\BikeRides\Rides\Domain\Model\Bike\BikeNotFound;
 use App\BikeRides\Rides\Domain\Model\Bike\BikeRepository;
 use App\BikeRides\Shared\Domain\Model\BikeId;
-use App\Foundation\Json;
 use App\Foundation\Location;
+use BikeRides\Foundation\Json;
 use Doctrine\DBAL\Connection;
 
 final readonly class PostgresBikeRepository implements BikeRepository

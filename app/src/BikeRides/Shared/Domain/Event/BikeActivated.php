@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\BikeRides\Shared\Domain\Event;
 
-use App\BikeRides\Shared\Domain\Helpers\DomainEvent;
-use App\Foundation\Json;
 use App\Foundation\Location;
+use BikeRides\Foundation\Domain\DomainEvent;
+use BikeRides\Foundation\Json;
 
 final readonly class BikeActivated extends DomainEvent
 {

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\BikeRides\Shared\Doubles;
 
-use App\Foundation\Clock\Clock;
+use BikeRides\Foundation\Clock\Clock;
 
 final class ClockStub extends Clock
 {

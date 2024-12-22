@@ -6,7 +6,7 @@ namespace App\BikeRides\Rides\Application\Command\SummariseRide;
 
 use App\BikeRides\Rides\Domain\Model\Ride\RideRepository;
 use App\BikeRides\Rides\Domain\Model\Ride\RouteFetcher;
-use App\BikeRides\Shared\Application\Command\CommandHandler;
+use BikeRides\Foundation\Application\Command\CommandHandler;
 
 final readonly class SummariseRideHandler implements CommandHandler
 {

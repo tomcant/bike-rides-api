@@ -18,17 +18,21 @@ services:
             - '../src/Framework/Kernel.php'
 
     _instanceof:
-        App\BikeRides\Shared\Application\Command\CommandHandler:
+        BikeRides\Foundation\Application\Command\CommandHandler:
             tags:
                 - { name: messenger.message_handler, bus: command.bus }
 
-        App\BikeRides\Shared\Domain\Helpers\AggregateEventsSubscriber:
+        BikeRides\Foundation\Domain\AggregateEventsSubscriber:
             tags:
                 - { name: messenger.message_handler, bus: aggregate_events.bus }
 
-        App\BikeRides\Shared\Domain\Helpers\DomainEventSubscriber:
+        BikeRides\Foundation\Domain\DomainEventSubscriber:
             tags:
                 - { name: messenger.message_handler, bus: domain_event.bus }
+
+    BikeRides\Foundation\Application\Command\CommandBus: '@App\BikeRides\Shared\Infrastructure\SymfonyCommandBus'
+    BikeRides\Foundation\Domain\AggregateEventsBus: '@App\BikeRides\Shared\Infrastructure\SymfonyAggregateEventsBus'
+    BikeRides\Foundation\Domain\DomainEventBus: '@App\BikeRides\Shared\Infrastructure\SymfonyDomainEventBus'
 
     #
     # Bikes

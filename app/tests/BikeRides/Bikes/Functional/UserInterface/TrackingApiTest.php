@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\BikeRides\Bikes\Functional\UserInterface;
 
-use App\Foundation\Clock\Clock;
 use App\Foundation\Location;
+use BikeRides\Foundation\Clock\Clock;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Component\Uid\Uuid;
 

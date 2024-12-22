@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\BikeRides\Shared\Application\Command;
+namespace BikeRides\Foundation\Application\Command;
 
 interface CommandBus
 {

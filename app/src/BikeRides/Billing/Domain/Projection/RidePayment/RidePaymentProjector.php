@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\BikeRides\Billing\Domain\Projection\RidePayment;
 
 use App\BikeRides\Billing\Domain\Model\RidePayment\Event;
-use App\BikeRides\Shared\Domain\Helpers\AggregateEventsSubscriber;
+use BikeRides\Foundation\Domain\AggregateEventsSubscriber;
 
 final class RidePaymentProjector extends AggregateEventsSubscriber
 {

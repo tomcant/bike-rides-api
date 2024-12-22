@@ -6,7 +6,7 @@ namespace App\BikeRides\Rides\Application\Command\CreateRider;
 
 use App\BikeRides\Rides\Domain\Model\Rider\Rider;
 use App\BikeRides\Rides\Domain\Model\Rider\RiderRepository;
-use App\BikeRides\Shared\Application\Command\CommandHandler;
+use BikeRides\Foundation\Application\Command\CommandHandler;
 
 final readonly class CreateRiderHandler implements CommandHandler
 {

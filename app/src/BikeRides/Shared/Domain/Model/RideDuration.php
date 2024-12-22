@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\BikeRides\Shared\Domain\Model;
 
-use App\Foundation\Timestamp;
+use BikeRides\Foundation\Timestamp;
 
 final readonly class RideDuration
 {

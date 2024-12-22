@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Tests\BikeRides\Shared\Unit\Application\Command;
 
-use App\BikeRides\Shared\Domain\Helpers\DomainEvent;
-use App\Foundation\Clock\Clock;
 use App\Tests\BikeRides\Shared\Doubles\ClockStub;
+use BikeRides\Foundation\Clock\Clock;
+use BikeRides\Foundation\Domain\DomainEvent;
 use PHPUnit\Framework\TestCase;
 
 abstract class CommandTestCase extends TestCase

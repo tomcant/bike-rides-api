@@ -7,8 +7,8 @@ namespace App\BikeRides\Billing\Infrastructure;
 use App\BikeRides\Billing\Domain\Projection\RidePayment\RidePayment;
 use App\BikeRides\Billing\Domain\Projection\RidePayment\RidePaymentNotFound;
 use App\BikeRides\Billing\Domain\Projection\RidePayment\RidePaymentProjectionRepository;
-use App\Foundation\Json;
-use App\Foundation\Timestamp;
+use BikeRides\Foundation\Json;
+use BikeRides\Foundation\Timestamp;
 use Doctrine\DBAL\Connection;
 
 final readonly class PostgresRidePaymentProjectionRepository implements RidePaymentProjectionRepository

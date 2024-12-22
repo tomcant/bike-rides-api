@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Foundation;
 
-final class Location
+final readonly class Location
 {
     public function __construct(
         public float $latitude,

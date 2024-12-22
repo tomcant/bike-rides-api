@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\BikeRides\Rides\Domain\Model\Ride;
 
-use App\BikeRides\Shared\Domain\Helpers\Aggregate;
-use App\BikeRides\Shared\Domain\Helpers\AggregateName;
 use App\BikeRides\Shared\Domain\Model\BikeId;
 use App\BikeRides\Shared\Domain\Model\RideDuration;
 use App\BikeRides\Shared\Domain\Model\RideId;
 use App\BikeRides\Shared\Domain\Model\RiderId;
-use App\Foundation\Clock\Clock;
+use BikeRides\Foundation\Clock\Clock;
+use BikeRides\Foundation\Domain\Aggregate;
+use BikeRides\Foundation\Domain\AggregateName;
 
 final class Ride extends Aggregate
 {

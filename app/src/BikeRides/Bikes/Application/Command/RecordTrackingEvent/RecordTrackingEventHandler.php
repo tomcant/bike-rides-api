@@ -6,7 +6,7 @@ namespace App\BikeRides\Bikes\Application\Command\RecordTrackingEvent;
 
 use App\BikeRides\Bikes\Domain\Model\TrackingEvent\TrackingEvent;
 use App\BikeRides\Bikes\Domain\Model\TrackingEvent\TrackingEventRepository;
-use App\BikeRides\Shared\Application\Command\CommandHandler;
+use BikeRides\Foundation\Application\Command\CommandHandler;
 
 final readonly class RecordTrackingEventHandler implements CommandHandler
 {

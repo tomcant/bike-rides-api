@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\BikeRides\Shared\Infrastructure;
 
-use App\BikeRides\Shared\Domain\Helpers\AggregateEvents;
-use App\BikeRides\Shared\Domain\Helpers\AggregateEventsBus;
+use BikeRides\Foundation\Domain\AggregateEvents;
+use BikeRides\Foundation\Domain\AggregateEventsBus;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\Messenger\MessageBusInterface;
 

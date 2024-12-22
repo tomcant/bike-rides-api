@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\BikeRides\Bikes\Application\Command\RecordTrackingEvent;
 
-use App\BikeRides\Shared\Application\Command\Command;
 use App\BikeRides\Shared\Domain\Model\BikeId;
-use App\Foundation\Json;
 use App\Foundation\Location;
-use App\Foundation\Timestamp;
+use BikeRides\Foundation\Application\Command\Command;
+use BikeRides\Foundation\Json;
+use BikeRides\Foundation\Timestamp;
 
 final readonly class RecordTrackingEventCommand implements Command
 {

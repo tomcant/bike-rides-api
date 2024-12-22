@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\BikeRides\Billing\UserInterface\Event;
 
 use App\BikeRides\Billing\Application\Command\CaptureRidePayment\CaptureRidePaymentCommand;
-use App\BikeRides\Shared\Application\Command\CommandBus;
 use App\BikeRides\Shared\Domain\Event\RidePaymentInitiated;
-use App\BikeRides\Shared\Domain\Helpers\DomainEventSubscriber;
+use BikeRides\Foundation\Application\Command\CommandBus;
+use BikeRides\Foundation\Domain\DomainEventSubscriber;
 
 final readonly class AttemptCaptureWhenPaymentInitiated implements DomainEventSubscriber
 {

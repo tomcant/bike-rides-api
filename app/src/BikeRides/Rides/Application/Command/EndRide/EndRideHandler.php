@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\BikeRides\Rides\Application\Command\EndRide;
 
 use App\BikeRides\Rides\Domain\Model\Ride\RideRepository;
-use App\BikeRides\Shared\Application\Command\CommandHandler;
 use App\BikeRides\Shared\Domain\Event\RideEnded;
-use App\BikeRides\Shared\Domain\Helpers\DomainEventBus;
+use BikeRides\Foundation\Application\Command\CommandHandler;
+use BikeRides\Foundation\Domain\DomainEventBus;
 
 final readonly class EndRideHandler implements CommandHandler
 {

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\BikeRides\Shared\Doubles;
 
-use App\BikeRides\Shared\Domain\Helpers\DomainEvent;
-use App\BikeRides\Shared\Domain\Helpers\DomainEventBus;
+use BikeRides\Foundation\Domain\DomainEvent;
+use BikeRides\Foundation\Domain\DomainEventBus;
 
 final readonly class DomainEventBusDummy implements DomainEventBus
 {

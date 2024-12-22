@@ -7,7 +7,7 @@ namespace App\BikeRides\Rides\Infrastructure;
 use App\BikeRides\Rides\Domain\Projection\Ride\Ride;
 use App\BikeRides\Rides\Domain\Projection\Ride\RideNotFound;
 use App\BikeRides\Rides\Domain\Projection\Ride\RideProjectionRepository;
-use App\Foundation\Timestamp;
+use BikeRides\Foundation\Timestamp;
 use Doctrine\DBAL\Connection;
 
 final readonly class PostgresRideProjectionRepository implements RideProjectionRepository

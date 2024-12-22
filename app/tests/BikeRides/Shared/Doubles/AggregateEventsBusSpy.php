@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\BikeRides\Shared\Doubles;
 
-use App\BikeRides\Shared\Domain\Helpers\AggregateEvents;
-use App\BikeRides\Shared\Domain\Helpers\AggregateEventsBus;
+use BikeRides\Foundation\Domain\AggregateEvents;
+use BikeRides\Foundation\Domain\AggregateEventsBus;
 
 final class AggregateEventsBusSpy implements AggregateEventsBus
 {

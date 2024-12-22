@@ -9,8 +9,8 @@ use App\BikeRides\Rides\Domain\Projection\Ride\RideNotFound;
 use App\BikeRides\Rides\Infrastructure\PostgresRideProjectionRepository;
 use App\BikeRides\Shared\Domain\Model\BikeId;
 use App\BikeRides\Shared\Domain\Model\RideId;
-use App\Foundation\Clock\Clock;
 use App\Tests\BikeRides\Shared\Integration\Infrastructure\PostgresTestCase;
+use BikeRides\Foundation\Clock\Clock;
 
 final class PostgresRideProjectionRepositoryTest extends PostgresTestCase
 {

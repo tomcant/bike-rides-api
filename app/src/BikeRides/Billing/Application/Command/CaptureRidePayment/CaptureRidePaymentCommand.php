@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\BikeRides\Billing\Application\Command\CaptureRidePayment;
 
 use App\BikeRides\Billing\Domain\Model\RidePayment\RidePaymentId;
-use App\BikeRides\Shared\Application\Command\Command;
-use App\Foundation\Json;
+use BikeRides\Foundation\Application\Command\Command;
+use BikeRides\Foundation\Json;
 
 final readonly class CaptureRidePaymentCommand implements Command
 {

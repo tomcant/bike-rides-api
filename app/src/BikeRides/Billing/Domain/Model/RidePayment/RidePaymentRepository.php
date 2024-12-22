@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\BikeRides\Billing\Domain\Model\RidePayment;
 
-use App\BikeRides\Shared\Domain\Helpers\AggregateName;
-use App\BikeRides\Shared\Domain\Helpers\EventStore;
+use BikeRides\Foundation\Domain\AggregateName;
+use BikeRides\Foundation\Domain\EventStore;
 
 final readonly class RidePaymentRepository
 {

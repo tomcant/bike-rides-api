@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Tests\BikeRides\Shared\Doubles;
 
-use App\BikeRides\Shared\Domain\Helpers\AggregateEvent;
-use App\BikeRides\Shared\Domain\Helpers\AggregateEventFactory;
-use App\BikeRides\Shared\Domain\Helpers\AggregateEvents;
-use App\BikeRides\Shared\Domain\Helpers\AggregateName;
-use App\BikeRides\Shared\Domain\Helpers\EntityId;
-use App\BikeRides\Shared\Domain\Helpers\EventStore;
+use BikeRides\Foundation\Domain\AggregateEvent;
+use BikeRides\Foundation\Domain\AggregateEventFactory;
+use BikeRides\Foundation\Domain\AggregateEvents;
+use BikeRides\Foundation\Domain\AggregateName;
+use BikeRides\Foundation\Domain\EntityId;
+use BikeRides\Foundation\Domain\EventStore;
 
 final class InMemoryEventStore implements EventStore
 {

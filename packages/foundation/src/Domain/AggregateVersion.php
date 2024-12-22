@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\BikeRides\Shared\Domain\Helpers;
+namespace BikeRides\Foundation\Domain;
 
 final readonly class AggregateVersion
 {

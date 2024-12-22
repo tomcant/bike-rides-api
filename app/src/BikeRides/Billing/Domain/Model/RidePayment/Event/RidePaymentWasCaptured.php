@@ -7,11 +7,11 @@ namespace App\BikeRides\Billing\Domain\Model\RidePayment\Event;
 use App\BikeRides\Billing\Domain\Model\RidePayment\ExternalPaymentRef;
 use App\BikeRides\Billing\Domain\Model\RidePayment\RidePayment;
 use App\BikeRides\Billing\Domain\Model\RidePayment\RidePaymentId;
-use App\BikeRides\Shared\Domain\Helpers\AggregateEvent;
-use App\BikeRides\Shared\Domain\Helpers\AggregateName;
-use App\BikeRides\Shared\Domain\Helpers\AggregateVersion;
-use App\Foundation\Json;
-use App\Foundation\Timestamp;
+use BikeRides\Foundation\Domain\AggregateEvent;
+use BikeRides\Foundation\Domain\AggregateName;
+use BikeRides\Foundation\Domain\AggregateVersion;
+use BikeRides\Foundation\Json;
+use BikeRides\Foundation\Timestamp;
 
 final readonly class RidePaymentWasCaptured implements AggregateEvent
 {

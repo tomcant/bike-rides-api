@@ -2,9 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\BikeRides\Shared\Domain\Helpers;
-
-use App\Foundation\Clock\Clock;
+namespace BikeRides\Foundation\Domain;
 
 abstract readonly class DomainEvent
 {
@@ -12,7 +10,7 @@ abstract readonly class DomainEvent
 
     public function __construct()
     {
-        $this->occurredAt = Clock::now();
+        $this->occurredAt = new \DateTimeImmutable('now'); // Clock::now();
     }
 
     abstract public function serialize(): string;
