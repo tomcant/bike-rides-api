@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+
+readonly SCRIPT_PATH="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+readonly DOCKER_IMAGE=${SERVERLESS_IMAGE:-"ghcr.io/tomcant/bike-rides:0.0.1"}
+
+usage() {
+  cat <<-EOM
+Run the Symfony console on AWS Lambda.
+
+Usage: $(highlight "./$(basename "${BASH_SOURCE[0]}") STAGE COMMAND")
+
+Arguments:
+  $(highlight STAGE)    staging or prod
+  $(highlight COMMAND)  the command to pass to the Symfony console
+
+EOM
+}
+
+highlight() { echo -e "\033[36m$*\033[0m"; }
+fail() { echo -e "\033[31mERROR: $*\033[0m" >&2; exit 1; }
+
+STAGE=$1
+[[ -z "${STAGE}" ]] && usage && fail "Required argument STAGE is missing."
+[[ ! ":staging:prod:" =~ ":${STAGE}:" ]] && usage && fail "Unknown stage \"${STAGE}\"."
+
+COMMAND="${*:2}"
+[[ -z "${COMMAND}" ]] && COMMAND="list"
+
+docker run --rm \
+  -w /app \
+  -v "${SCRIPT_PATH}"/..:/app \
+  -e AWS_ACCESS_KEY_ID \
+  -e AWS_SECRET_ACCESS_KEY \
+  -e AWS_SESSION_TOKEN \
+  "${DOCKER_IMAGE}" \
+    serverless bref:cli \
+      --args "${COMMAND}" \
+      --stage "${STAGE}" \
+      --region "${AWS_REGION:-eu-west-1}"

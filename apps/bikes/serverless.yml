@@ -1,0 +1,64 @@
+service: bikes-api
+
+frameworkVersion: '3'
+
+custom:
+  tags:
+    App: Bikes API
+    Env: ${opt:stage}
+  vpc:
+    securityGroupIds:
+      - ${ssm:/${opt:stage}/network/default-security-group-id}
+    subnetIds: ${ssm:/${opt:stage}/network/private-subnet-ids}
+
+provider:
+  name: aws
+  stage: ${opt:stage}
+  region: ${opt:region}
+  runtime: provided.al2
+  memorySize: 512
+  tags: ${self:custom.tags}
+  stackTags: ${self:custom.tags}
+  deploymentBucket:
+    tags: ${self:custom.tags}
+    blockPublicAccess: true
+  iam:
+    role:
+      managedPolicies:
+        - '${ssm:/${opt:stage}/apps/bikes-api/lambda-policy-arn}'
+  environment:
+    HTTPS: true
+    APP_ENV: prod
+    APP_SECRET: 'bref-ssm:/${opt:stage}/apps/bikes-api/secret'
+    BIKES_API_URL: 'bref-ssm:/${opt:stage}/apps/bikes-api/url'
+    DATABASE_URL: 'bref-ssm:/${opt:stage}/apps/bikes-api/db-url'
+
+plugins:
+  - ./vendor/bref/bref
+
+functions:
+  api:
+    handler: public/index.php
+    runtime: php-84-fpm
+    vpc: ${self:custom.vpc}
+    timeout: 10
+    url: true
+
+  console:
+    handler: bin/console
+    runtime: php-84-console
+    vpc: ${self:custom.vpc}
+    timeout: 120
+
+resources:
+  Resources:
+    BikesApiUrlSsmParameter:
+      Type: AWS::SSM::Parameter
+      Properties:
+        Name: /${opt:stage}/apps/bikes-api/url
+        Type: String
+        Value:
+          Fn::GetAtt:
+            - ApiLambdaFunctionUrl
+            - FunctionUrl
+        Tags: ${self:custom.tags}

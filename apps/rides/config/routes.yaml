@@ -1,0 +1,5 @@
+rides:
+    resource:
+        path: ../src/BikeRides/Rides/UserInterface/Http/
+        namespace: App\BikeRides\Rides\UserInterface\Http
+    type: attribute

@@ -1,0 +1,27 @@
+parameters:
+    env(BIKES_API_URL): ''
+
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        bind:
+            $bikesApiUrl: '%env(trim-trailing-slash:BIKES_API_URL)%'
+
+    App\:
+        resource: '../src/'
+        exclude:
+            - '../src/Framework/Kernel.php'
+
+    App\BikeRides\Bikes\UserInterface\Http\:
+        resource: '../src/BikeRides/Bikes/UserInterface/Http/'
+        tags:
+            - 'controller.service_arguments'
+
+    BikeRides\Foundation\Application\Command\CommandBus: '@App\Framework\Messenger\Bus\SymfonyCommandBus'
+    BikeRides\Foundation\Domain\DomainEventBus: '@App\Framework\Messenger\Bus\SymfonyDomainEventBus'
+
+    _instanceof:
+        BikeRides\Foundation\Application\Command\CommandHandler:
+            tags:
+                - { name: messenger.message_handler, bus: command.bus }

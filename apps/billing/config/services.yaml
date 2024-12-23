@@ -1,0 +1,46 @@
+parameters:
+    env(RIDES_API_URL): ''
+
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        bind:
+            $rideDetailsApiUrlTemplate: '%env(trim-trailing-slash:RIDES_API_URL)%/rides/ride/{rideId}'
+
+    App\:
+        resource: '../src/'
+        exclude:
+            - '../src/Framework/Kernel.php'
+
+    App\BikeRides\Billing\UserInterface\Http\:
+        resource: '../src/BikeRides/Billing/UserInterface/Http/'
+        tags:
+            - 'controller.service_arguments'
+
+    App\BikeRides\Billing\Domain\Model\RidePayment\RidePaymentRepository:
+        arguments:
+            $eventStore: '@billing_event_store'
+
+    billing_event_store:
+        class: 'App\BikeRides\Shared\Infrastructure\PostgresEventStore'
+        arguments:
+            $aggregateEventFactory: '@App\BikeRides\Billing\Domain\Model\RidePayment\Event\RidePaymentEventFactory'
+            $dbTableName: 'billing.event_store'
+
+    BikeRides\Foundation\Application\Command\CommandBus: '@App\Framework\Messenger\Bus\SymfonyCommandBus'
+    BikeRides\Foundation\Domain\AggregateEventsBus: '@App\Framework\Messenger\Bus\SymfonyAggregateEventsBus'
+    BikeRides\Foundation\Domain\DomainEventBus: '@App\Framework\Messenger\Bus\SymfonyDomainEventBus'
+
+    _instanceof:
+        BikeRides\Foundation\Application\Command\CommandHandler:
+            tags:
+                - { name: messenger.message_handler, bus: command.bus }
+
+        BikeRides\Foundation\Domain\AggregateEventsSubscriber:
+            tags:
+                - { name: messenger.message_handler, bus: aggregate_events.bus }
+
+        BikeRides\Foundation\Domain\DomainEventSubscriber:
+            tags:
+                - { name: messenger.message_handler, bus: domain_event.bus }

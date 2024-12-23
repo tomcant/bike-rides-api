@@ -1,0 +1,56 @@
+parameters:
+    env(BIKES_API_URL): ''
+    env(RIDES_API_URL): ''
+
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        bind:
+            $ridesApiUrl: '%env(trim-trailing-slash:RIDES_API_URL)%'
+            $trackingApiUrlTemplate: '%env(trim-trailing-slash:BIKES_API_URL)%/bikes/tracking?bike_id={bikeId}&from={from}&to={to}'
+
+    App\:
+        resource: '../src/'
+        exclude:
+            - '../src/Framework/Kernel.php'
+
+    App\BikeRides\Rides\UserInterface\Http\:
+        resource: '../src/BikeRides/Rides/UserInterface/Http/'
+        tags:
+            - 'controller.service_arguments'
+
+    App\BikeRides\Rides\Domain\Model\Ride\RideRepository:
+        arguments:
+            $eventStore: '@rides_event_store'
+
+    rides_event_store:
+        class: 'App\BikeRides\Shared\Infrastructure\PostgresEventStore'
+        arguments:
+            $aggregateEventFactory: '@App\BikeRides\Rides\Domain\Model\Ride\Event\RideEventFactory'
+            $dbTableName: 'rides.event_store'
+
+    BikeRides\Foundation\Application\Command\CommandBus: '@App\Framework\Messenger\Bus\SymfonyCommandBus'
+    BikeRides\Foundation\Domain\AggregateEventsBus: '@App\Framework\Messenger\Bus\SymfonyAggregateEventsBus'
+    BikeRides\Foundation\Domain\DomainEventBus: '@App\Framework\Messenger\Bus\SymfonyDomainEventBus'
+
+    _instanceof:
+        BikeRides\Foundation\Application\Command\CommandHandler:
+            tags:
+                - { name: messenger.message_handler, bus: command.bus }
+
+        BikeRides\Foundation\Domain\AggregateEventsSubscriber:
+            tags:
+                - { name: messenger.message_handler, bus: aggregate_events.bus }
+
+        BikeRides\Foundation\Domain\DomainEventSubscriber:
+            tags:
+                - { name: messenger.message_handler, bus: domain_event.bus }
+
+when@test:
+    services:
+        App\Tests\BikeRides\Rides\Doubles\RouteFetcherStub: ~
+        App\Tests\BikeRides\Rides\Doubles\BikeLocationFetcherStub: ~
+
+        App\BikeRides\Rides\Domain\Model\Ride\RouteFetcher: '@App\Tests\BikeRides\Rides\Doubles\RouteFetcherStub'
+        App\BikeRides\Rides\Application\Command\RefreshBikeLocation\BikeLocationFetcher: '@App\Tests\BikeRides\Rides\Doubles\BikeLocationFetcherStub'

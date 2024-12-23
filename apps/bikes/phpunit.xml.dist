@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
+         displayDetailsOnTestsThatTriggerDeprecations="true"
+         displayDetailsOnTestsThatTriggerErrors="true"
+         displayDetailsOnTestsThatTriggerNotices="true"
+         displayDetailsOnTestsThatTriggerWarnings="true"
+>
+    <php>
+        <ini name="display_errors" value="1" />
+        <ini name="error_reporting" value="-1" />
+        <env name="KERNEL_CLASS" value="App\Framework\Kernel" />
+        <env name="APP_ENV" value="test" force="true" />
+        <env name="SHELL_VERBOSITY" value="-1" />
+    </php>
+
+    <testsuites>
+        <testsuite name="Unit">
+            <directory>./tests/BikeRides/Bikes/Unit</directory>
+            <directory>./tests/BikeRides/Shared/Unit</directory>
+        </testsuite>
+        <testsuite name="Integration">
+            <directory>./tests/BikeRides/Bikes/Integration</directory>
+        </testsuite>
+        <testsuite name="Functional">
+            <directory>./tests/BikeRides/Bikes/Functional</directory>
+            <directory>./tests/BikeRides/Shared/Functional</directory>
+        </testsuite>
+    </testsuites>
+</phpunit>

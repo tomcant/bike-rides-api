@@ -1,0 +1,5 @@
+billing:
+    resource:
+        path: ../src/BikeRides/Billing/UserInterface/Http/
+        namespace: App\BikeRides\Billing\UserInterface\Http
+    type: attribute

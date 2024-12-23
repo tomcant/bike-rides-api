@@ -3,7 +3,6 @@
 
 SHELL := /bin/bash
 COMPOSE := docker compose -f docker/docker-compose.yml -p bike-rides-api
-APP := $(COMPOSE) exec -T app
 
 ##@ Setup
 
@@ -23,34 +22,53 @@ up-ext: ghcr-login
 	$(COMPOSE) -f docker/docker-compose.ext.yml up -d --build --force-recreate
 
 composer: ## Install the latest Composer dependencies
-	$(APP) composer install --no-interaction
+	@for app in bikes rides billing; do \
+	  echo "::group::Install $${app} dependencies"; \
+	  $(COMPOSE) exec -T "$${app}-app" composer install --no-interaction; \
+	  echo '::endgroup::'; \
+	done
 
 db: db/dev db/test ## (Re)create the development and test databases
 db/%:
-	@$(APP) bin/console doctrine:database:drop --force --if-exists --env $*
-	@$(APP) bin/console doctrine:database:create --no-interaction --env $*
-	@$(APP) bin/console doctrine:migrations:migrate --allow-no-migration --no-interaction --env $*
+	@for app in bikes rides billing; do \
+	  echo "::group::Setup $${app} $* database"; \
+	  $(COMPOSE) exec -T "$${app}-app" bin/console doctrine:database:drop --force --if-exists --env $*; \
+	  $(COMPOSE) exec -T "$${app}-app" bin/console doctrine:database:create --no-interaction --env $*; \
+	  $(COMPOSE) exec -T "$${app}-app" bin/console doctrine:migrations:migrate --allow-no-migration --no-interaction --env $*; \
+	  echo '::endgroup::'; \
+	done
 
 ##@ Testing/Linting
 
 can-release: security test lint ## Check the application is releasable
 
-test: test-app test-packages ## Run the test suite
+security: ## Check dependencies for known vulnerabilities
+	@for app in bikes rides billing; do \
+	  echo "::group::Audit dependencies for $${app}"; \
+	  $(COMPOSE) exec -T "$${app}-app" composer audit; \
+	  [[ $$? != 0 ]] && { echo "::error::$${app} failed"; failed=1; }; \
+	  echo '::endgroup::'; \
+	done; \
+	exit $${failed:-0};
 
-test-app: db/test
-	echo '::group::Test app'
-	$(APP) vendor/bin/phpunit --log-junit /var/reports/phpunit.xml --order-by=random
-	echo '::endgroup::'
+test: test-apps test-packages ## Run the test suite
 
-test/%:
-	$(APP) vendor/bin/phpunit --filter $*
+lint: lint-apps lint-packages ## Run the linting tools
+
+test-apps: db/test
+	@for app in bikes rides billing; do \
+	  echo "::group::Test $${app}"; \
+	  $(COMPOSE) exec -T "$${app}-app" composer test; \
+	  [[ $$? != 0 ]] && { echo "::error::$${app} failed"; failed=1; }; \
+	  echo '::endgroup::'; \
+	done; \
+	exit $${failed:-0};
 
 test-packages:
 	@for package in packages/*; do \
 	  echo "::group::Test $${package}"; \
 	  docker run --rm \
 	    -w /app/"$${package}" \
-	    -v $(PWD)/"$${package}":/app/"$${package}" \
 	    -v $(PWD)/packages:/app/packages \
 	    ghcr.io/tomcant/bike-rides:0.0.1 \
 	      sh -c 'composer install --no-progress && composer test'; \
@@ -59,21 +77,20 @@ test-packages:
 	done; \
 	exit $${failed:-0};
 
-lint: lint-app lint-packages ## Run the linting tools
-
-lint-app:
-	echo '::group::Lint app'
-	$(APP) composer validate --strict
-	$(APP) sh -c 'PHP_CS_FIXER_IGNORE_ENV=1 vendor/bin/php-cs-fixer fix --dry-run --diff'
-	$(APP) vendor/bin/phpstan analyse --no-interaction
-	echo '::endgroup::'
+lint-apps:
+	@for app in bikes rides billing; do \
+	  echo "::group::Lint $${app}"; \
+	  $(COMPOSE) exec -T "$${app}-app" composer lint; \
+	  [[ $$? != 0 ]] && { echo "::error::$${app} failed"; failed=1; }; \
+	  echo '::endgroup::'; \
+	done; \
+	exit $${failed:-0};
 
 lint-packages:
 	@for package in packages/*; do \
 	  echo "::group::Lint $${package}"; \
 	  docker run --rm \
 	    -w /app/"$${package}" \
-	    -v $(PWD)/"$${package}":/app/"$${package}" \
 	    -v $(PWD)/packages:/app/packages \
 	    ghcr.io/tomcant/bike-rides:0.0.1 \
 	      sh -c 'composer install --no-progress && composer lint'; \
@@ -82,25 +99,21 @@ lint-packages:
 	done; \
 	exit $${failed:-0};
 
-security: ## Check dependencies for known vulnerabilities
-	$(APP) composer audit
-
 fmt: format
 format: ## Fix style related code violations
-	$(APP) sh -c 'PHP_CS_FIXER_IGNORE_ENV=1 vendor/bin/php-cs-fixer fix'
+	@for app in bikes rides billing; do \
+	  $(COMPOSE) exec -T "$${app}-app" composer format; \
+	done
 
 ##@ Fixtures
 
 fixture/bike: ## Create and activate a bike
-	@$(COMPOSE) exec app bash -c 'TERM=xterm-256color bin/console bikes:fixture:bike'
+	@$(COMPOSE) exec bikes-app bash -c 'TERM=xterm-256color bin/console bikes:fixture:bike'
 
 ##@ Running Instance
 
-open: ## Open the API in the default browser
-	open 'http://localhost:8080/'
-
-shell: ## Access a shell on the running container
-	$(COMPOSE) exec app bash
+shell/%: ## Access a shell on the running container
+	$(COMPOSE) exec $*-app bash
 
 logs: ## Tail the container logs
 	$(COMPOSE) logs -f
