@@ -1,0 +1,7 @@
+FROM bref/arm-php-84-console:2.3.14
+
+COPY . $LAMBDA_TASK_ROOT
+
+ENV LOAD_BREF_SSM_SECRETS=1
+
+ENTRYPOINT ["bin/console"]

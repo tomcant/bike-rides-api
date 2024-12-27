@@ -15,7 +15,7 @@ services:
     env_file: .env.dev.bikes
 
   bikes-db:
-    image: docker.io/postgres:15.2-alpine
+    image: postgres:15.2-alpine
     ports:
       - '54320:5432'
     volumes:
@@ -39,7 +39,7 @@ services:
     env_file: .env.dev.rides
 
   rides-db:
-    image: docker.io/postgres:15.2-alpine
+    image: postgres:15.2-alpine
     ports:
       - '54321:5432'
     volumes:
@@ -63,7 +63,7 @@ services:
     env_file: .env.dev.billing
 
   billing-db:
-    image: docker.io/postgres:15.2-alpine
+    image: postgres:15.2-alpine
     ports:
       - '54322:5432'
     volumes:
