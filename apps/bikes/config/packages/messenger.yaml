@@ -6,7 +6,43 @@ framework:
             aggregate_events.bus:
                 default_middleware: allow_no_handlers
             domain_event.bus:
-              default_middleware: allow_no_handlers
+                default_middleware: allow_no_handlers
         transports:
             sync: 'sync://'
-        routing:
+
+when@prod:
+    parameters:
+        env(MESSENGER_DOMAIN_EVENT_PUBLISHER_TRANSPORT_DSN): ''
+
+    framework:
+        messenger:
+            buses:
+                domain_event_publisher.bus:
+                    default_middleware: false
+                    middleware: ['send_domain_event_to_transport_middleware']
+
+            failure_transport: failed
+
+            transports:
+                failed: 'doctrine://default?queue_name=failed&auto_setup=false'
+
+                domain_event_outbox: 'doctrine://default?queue_name=domain_event_outbox&check_delayed_interval=1000&auto_setup=false'
+
+                domain_event_publisher:
+                    dsn: '%env(MESSENGER_DOMAIN_EVENT_PUBLISHER_TRANSPORT_DSN)%'
+                    options:
+                        auto_setup: false
+                    retry_strategy:
+                        max_retries: 3
+                        delay: 5000
+                        multiplier: 2
+                        max_delay: 0
+
+            routing:
+                BikeRides\Foundation\Domain\DomainEvent: domain_event_outbox
+
+    services:
+        send_domain_event_to_transport_middleware:
+            class: App\Framework\Messenger\Middleware\SendToTransportMiddleware
+            arguments:
+                $transport: '@messenger.transport.domain_event_publisher'

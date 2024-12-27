@@ -32,6 +32,7 @@ provider:
     APP_SECRET: 'bref-ssm:/${opt:stage}/apps/bikes-api/secret'
     BIKES_API_URL: '${ssm:/${opt:stage}/apps/bikes-api/url}'
     DATABASE_URL: 'bref-ssm:/${opt:stage}/apps/bikes-api/db-url'
+    MESSENGER_DOMAIN_EVENT_PUBLISHER_TRANSPORT_DSN: 'eventbridge://${self:service}?event_bus_name=${ssm:/${opt:stage}/event-bridge/event-bus-arn}'
 
 plugins:
   - ./vendor/bref/bref
