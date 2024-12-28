@@ -30,13 +30,9 @@ when@prod:
 
                 domain_event_publisher:
                     dsn: '%env(MESSENGER_DOMAIN_EVENT_PUBLISHER_TRANSPORT_DSN)%'
+                    serializer: App\Framework\Messenger\Serializer\CloudEventsJsonSerializer
                     options:
                         auto_setup: false
-                    retry_strategy:
-                        max_retries: 3
-                        delay: 5000
-                        multiplier: 2
-                        max_delay: 0
 
             routing:
                 BikeRides\Foundation\Domain\DomainEvent: domain_event_outbox

@@ -31,23 +31,20 @@ when@prod:
 
                 domain_event_publisher:
                     dsn: '%env(MESSENGER_DOMAIN_EVENT_PUBLISHER_TRANSPORT_DSN)%'
+                    serializer: App\Framework\Messenger\Serializer\CloudEventsJsonSerializer
                     options:
                         auto_setup: false
-                    retry_strategy:
-                        max_retries: 3
-                        delay: 5000
-                        multiplier: 2
-                        max_delay: 0
 
                 domain_event_consumer:
                     dsn: '%env(MESSENGER_DOMAIN_EVENT_CONSUMER_TRANSPORT_DSN)%'
-                    options:
-                        auto_setup: false
+                    serializer: App\Framework\Messenger\Serializer\CloudEventsJsonSerializer
                     retry_strategy:
                         max_retries: 3
                         delay: 5000
                         multiplier: 2
                         max_delay: 0
+                    options:
+                        auto_setup: false
 
             routing:
                 BikeRides\Foundation\Domain\DomainEvent: domain_event_outbox
@@ -64,4 +61,5 @@ when@prod:
             arguments:
                 $busDriver: '@App\Framework\Messenger\Bus\Driver\SymfonyBusDriver'
                 $bus: '@messenger.routable_message_bus'
+                $serializer: '@App\Framework\Messenger\Serializer\CloudEventsJsonSerializer'
                 $transportName: domain_event_consumer

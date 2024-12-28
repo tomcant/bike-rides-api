@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5d90a2eb50d02ea289a37a985aa53e79",
+    "content-hash": "4770fe567f9d9c7942773da32a362698",
     "packages": [
         {
             "name": "async-aws/core",
@@ -354,10 +354,11 @@
             "dist": {
                 "type": "path",
                 "url": "../packages/shared-kernel",
-                "reference": "ad2e4d06e8eef6dfb263141a1aafe616c186a204"
+                "reference": "c1d4c09ad61c4d48a8c10da51f489096cd219b02"
             },
             "require": {
-                "bike-rides/foundation": "dev-main"
+                "bike-rides/foundation": "dev-main",
+                "cloudevents/sdk-php": "^1.1"
             },
             "require-dev": {
                 "phpstan/phpstan": "^2.0",
@@ -654,6 +655,64 @@
                 }
             ],
             "time": "2024-08-16T21:15:33+00:00"
+        },
+        {
+            "name": "cloudevents/sdk-php",
+            "version": "v1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/cloudevents/sdk-php.git",
+                "reference": "45c5e1b5c4734bbba2e23ae41d06e7902d35087b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/cloudevents/sdk-php/zipball/45c5e1b5c4734bbba2e23ae41d06e7902d35087b",
+                "reference": "45c5e1b5c4734bbba2e23ae41d06e7902d35087b",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "ext-pcre": "*",
+                "php": "^7.4.15 || ^8.0.2",
+                "symfony/polyfill-php80": "^1.26"
+            },
+            "require-dev": {
+                "guzzlehttp/psr7": "^2.4.3",
+                "php-http/discovery": "^1.15.2",
+                "phpunit/phpunit": "^9.6.3 || ^10.0.12",
+                "psalm/phar": "5.7.6",
+                "psr/http-factory": "^1.0.1",
+                "psr/http-message": "^1.0.1",
+                "squizlabs/php_codesniffer": "3.7.2"
+            },
+            "suggest": {
+                "php-http/discovery": "Required for automatic discovery of HTTP message factories in the HTTP Marshaller.",
+                "psr/http-factory": "Required for use of the HTTP Marshaller.",
+                "psr/http-factory-implementation": "Required for use of the HTTP Marshaller.",
+                "psr/http-message": "Required for use of the HTTP Marshaller and Unmarshaller.",
+                "psr/http-message-implementation": "Required for use of the HTTP Marshaller and Unmarshaller."
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-main": "1.1-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "CloudEvents\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "description": "CloudEvents SDK",
+            "support": {
+                "issues": "https://github.com/cloudevents/sdk-php/issues",
+                "source": "https://github.com/cloudevents/sdk-php"
+            },
+            "time": "2023-12-18T02:56:02+00:00"
         },
         {
             "name": "crwlr/query-string",

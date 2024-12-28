@@ -17,6 +17,16 @@ final readonly class BikeActivated extends DomainEvent
         parent::__construct();
     }
 
+    public function type(): string
+    {
+        return 'bike-activated';
+    }
+
+    public function version(): int
+    {
+        return 1;
+    }
+
     public function serialize(): string
     {
         return Json::encode([

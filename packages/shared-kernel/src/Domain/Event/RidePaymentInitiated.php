@@ -16,6 +16,16 @@ final readonly class RidePaymentInitiated extends DomainEvent
         parent::__construct();
     }
 
+    public function type(): string
+    {
+        return 'ride-payment-initiated';
+    }
+
+    public function version(): int
+    {
+        return 1;
+    }
+
     public function serialize(): string
     {
         return Json::encode([

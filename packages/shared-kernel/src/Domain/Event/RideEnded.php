@@ -16,6 +16,16 @@ final readonly class RideEnded extends DomainEvent
         parent::__construct();
     }
 
+    public function type(): string
+    {
+        return 'ride-ended';
+    }
+
+    public function version(): int
+    {
+        return 1;
+    }
+
     public function serialize(): string
     {
         return Json::encode([
