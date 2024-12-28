@@ -10,16 +10,12 @@ use BikeRides\SharedKernel\Domain\Event\DomainEventFactory;
 use CloudEvents\Serializers\Normalizers\V1\Denormalizer;
 use CloudEvents\Serializers\Normalizers\V1\Normalizer;
 use CloudEvents\V1\CloudEventImmutable;
-use Psr\Log\LoggerInterface;
 use Symfony\Component\Messenger\Envelope;
+use Symfony\Component\Messenger\Stamp\BusNameStamp;
 use Symfony\Component\Messenger\Transport\Serialization\SerializerInterface;
 
 final readonly class CloudEventsJsonSerializer implements SerializerInterface
 {
-    public function __construct(private LoggerInterface $logger)
-    {
-    }
-
     /** @return array<string, mixed> */
     public function encode(Envelope $envelope): array
     {
@@ -36,18 +32,19 @@ final readonly class CloudEventsJsonSerializer implements SerializerInterface
         );
 
         return [
-            'body' => (new Normalizer())->normalize($cloudEvent, rawData: false),
+            'body' => Json::encode((new Normalizer())->normalize($cloudEvent, rawData: false)),
         ];
     }
 
     /** @param array<mixed, mixed> $encodedEnvelope */
     public function decode(array $encodedEnvelope): Envelope
     {
-        $this->logger->info(self::class, ['encodedEnvelope' => $encodedEnvelope]);
-
         $decodedBody = Json::decode($encodedEnvelope['body']);
-        $cloudEvent = (new Denormalizer())->denormalize($decodedBody['detail']);
+        $cloudEvent = (new Denormalizer())->denormalize(Json::decode($decodedBody['detail']['body']));
 
-        return new Envelope(DomainEventFactory::fromCloudEvent($cloudEvent));
+        return new Envelope(
+            message: DomainEventFactory::fromCloudEvent($cloudEvent),
+            stamps: [new BusNameStamp('domain_event.bus')],
+        );
     }
 }

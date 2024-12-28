@@ -1,12 +1,9 @@
-monolog:
-    channels: [deprecation]
-
 when@dev:
     monolog:
         handlers:
             main:
                 type: stream
-                path: "%kernel.logs_dir%/%kernel.environment%.log"
+                path: "%kernel.logs_dir%/dev.log"
                 level: debug
                 channels: ["!event"]
             console:
@@ -25,23 +22,19 @@ when@test:
                 channels: ["!event"]
             nested:
                 type: stream
-                path: "%kernel.logs_dir%/%kernel.environment%.log"
+                path: "%kernel.logs_dir%/test.log"
                 level: debug
+            test:
+                type: test
+                level: info
 
 when@prod:
     monolog:
+        channels: [deprecation]
         handlers:
-            main:
-                type: fingers_crossed
-                action_level: error
-                handler: nested
-                excluded_http_codes: [404, 405]
-                buffer_size: 50
-            nested:
-                type: stream
-                path: php://stderr
-                level: debug
-                formatter: monolog.formatter.json
+            app:
+                type: service
+                id: App\Framework\Monolog\StdErrStreamHandler
             console:
                 type: console
                 process_psr_3_messages: false
@@ -50,3 +43,4 @@ when@prod:
                 type: stream
                 channels: [deprecation]
                 path: php://stderr
+                formatter: monolog.formatter.json
