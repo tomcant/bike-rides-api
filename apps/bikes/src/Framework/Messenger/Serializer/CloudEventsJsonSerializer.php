@@ -11,7 +11,6 @@ use CloudEvents\Serializers\Normalizers\V1\Denormalizer;
 use CloudEvents\Serializers\Normalizers\V1\Normalizer;
 use CloudEvents\V1\CloudEventImmutable;
 use Symfony\Component\Messenger\Envelope;
-use Symfony\Component\Messenger\Stamp\BusNameStamp;
 use Symfony\Component\Messenger\Transport\Serialization\SerializerInterface;
 
 final readonly class CloudEventsJsonSerializer implements SerializerInterface
@@ -43,9 +42,6 @@ final readonly class CloudEventsJsonSerializer implements SerializerInterface
         $decodedBody = Json::decode($encodedEnvelope['body']);
         $cloudEvent = (new Denormalizer())->denormalize(Json::decode($decodedBody['detail']['body']));
 
-        return new Envelope(
-            message: DomainEventFactory::fromCloudEvent($cloudEvent),
-            stamps: [new BusNameStamp('domain_event.bus')],
-        );
+        return new Envelope(DomainEventFactory::fromCloudEvent($cloudEvent));
     }
 }

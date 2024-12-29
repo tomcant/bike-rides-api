@@ -59,7 +59,7 @@ when@prod:
             public: true
             autowire: true
             arguments:
+                $bus: '@domain_event.bus'
                 $busDriver: '@App\Framework\Messenger\Bus\Driver\SymfonyBusDriver'
-                $bus: '@messenger.routable_message_bus'
                 $serializer: '@App\Framework\Messenger\Serializer\CloudEventsJsonSerializer'
                 $transportName: domain_event_consumer
