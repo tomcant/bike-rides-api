@@ -16,9 +16,9 @@ final readonly class DomainEventFactory
         $data = $cloudEvent->getData();
 
         return match ($cloudEvent->getType()) {
-            'bikes.bike-activated.v1' => new BikeActivated($data['bikeId'], Location::fromArray($data['location'])),
-            'rides.ride-ended.v1' => new RideEnded($data['rideId'], $data['bikeId']),
-            'billing.ride-payment-initiated.v1' => new RidePaymentInitiated($data['ridePaymentId'], $data['rideId']),
+            'bike-rides.bike-activated.v1' => new BikeActivated($data['bikeId'], Location::fromArray($data['location'])),
+            'bike-rides.ride-ended.v1' => new RideEnded($data['rideId'], $data['bikeId']),
+            'bike-rides.ride-payment-initiated.v1' => new RidePaymentInitiated($data['ridePaymentId'], $data['rideId']),
             default => throw new UnknownDomainEventType($cloudEvent->getType()),
         };
     }
