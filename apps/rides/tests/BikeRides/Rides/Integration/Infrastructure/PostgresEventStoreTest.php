@@ -6,7 +6,7 @@ namespace App\Tests\BikeRides\Rides\Integration\Infrastructure;
 
 use App\BikeRides\Rides\Domain\Model\Ride\Event\RideEventFactory;
 use App\BikeRides\Rides\Domain\Model\Ride\Ride;
-use App\BikeRides\Shared\Infrastructure\PostgresEventStore;
+use App\BikeRides\Rides\Infrastructure\PostgresEventStore;
 use App\Tests\BikeRides\Rides\Doubles\BikeAvailabilityCheckerStub;
 use App\Tests\BikeRides\Shared\Doubles\AggregateEventsBusSpy;
 use BikeRides\Foundation\Domain\AggregateEvents;

@@ -20,19 +20,18 @@ services:
         tags:
             - 'controller.service_arguments'
 
-    App\BikeRides\Rides\Domain\Model\Ride\RideRepository:
-        arguments:
-            $eventStore: '@rides_event_store'
-
-    rides_event_store:
-        class: 'App\BikeRides\Shared\Infrastructure\PostgresEventStore'
-        arguments:
-            $aggregateEventFactory: '@App\BikeRides\Rides\Domain\Model\Ride\Event\RideEventFactory'
-            $dbTableName: 'rides.event_store'
-
     BikeRides\Foundation\Application\Command\CommandBus: '@App\Framework\Messenger\Bus\SymfonyCommandBus'
     BikeRides\Foundation\Domain\AggregateEventsBus: '@App\Framework\Messenger\Bus\SymfonyAggregateEventsBus'
     BikeRides\Foundation\Domain\DomainEventBus: '@App\Framework\Messenger\Bus\SymfonyDomainEventBus'
+
+    App\BikeRides\Rides\Domain\Model\Ride\RideRepository:
+        arguments:
+            $eventStore: '@App\BikeRides\Rides\Infrastructure\PostgresEventStore'
+
+    App\BikeRides\Rides\Infrastructure\PostgresEventStore:
+        arguments:
+            $aggregateEventFactory: '@App\BikeRides\Rides\Domain\Model\Ride\Event\RideEventFactory'
+            $dbTableName: 'rides.event_store'
 
     _instanceof:
         BikeRides\Foundation\Application\Command\CommandHandler:
