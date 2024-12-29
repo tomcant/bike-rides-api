@@ -84,5 +84,5 @@ resources:
           source:
             - 'bikes-api'
         Targets:
-          - Id: 'bike-activated'
+          - Id: 'worker-queue'
             Arn: '${ssm:/${opt:stage}/apps/rides-api/worker-queue-arn}'

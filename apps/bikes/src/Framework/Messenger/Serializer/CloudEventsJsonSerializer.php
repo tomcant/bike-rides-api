@@ -33,6 +33,7 @@ final readonly class CloudEventsJsonSerializer implements SerializerInterface
 
         return [
             'body' => Json::encode((new Normalizer())->normalize($cloudEvent, rawData: false)),
+            'headers' => ['type' => $type],
         ];
     }
 
