@@ -28,13 +28,14 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: aws-actions/configure-aws-credentials@v4
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: ${{ vars.APP_DEPLOYER_ROLE_ARN }}
           role-session-name: GitHubActions
           aws-region: eu-west-1
 
-      - name: Build Docker image
+      - name: Build tooling Docker image
         run: docker build -f docker/Dockerfile -t bike-rides-api:latest docker/
 
       - name: Install dependencies
@@ -59,8 +60,6 @@ jobs:
         run: |
           docker run \
             -v $(pwd)/apps/${{ matrix.app }}:/var/task \
-            -v $(pwd)/docker/Dockerfile.console:/Dockerfile.console \
-            -v /var/run/docker.sock:/var/run/docker.sock \
             -e AWS_ACCESS_KEY_ID \
             -e AWS_SECRET_ACCESS_KEY \
             -e AWS_SESSION_TOKEN \
@@ -71,3 +70,15 @@ jobs:
         env:
           SERVERLESS_IMAGE: bike-rides-api:latest
         run: apps/${{ matrix.app }}/bin/lambda-console staging "doctrine:migrations:migrate --no-interaction"
+
+      - name: Login to AWS ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Build Symfony console Docker image and push to AWS ECR
+        env:
+          REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          REPOSITORY: ${{ matrix.app }}-api-console-staging
+        run: |
+          docker build -f docker/Dockerfile.console -t $REGISTRY/$REPOSITORY:latest $(pwd)/apps/${{ matrix.app }}
+          docker push $REGISTRY/$REPOSITORY:latest

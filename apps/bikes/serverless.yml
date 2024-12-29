@@ -26,11 +26,6 @@ provider:
     role:
       managedPolicies:
         - '${ssm:/${opt:stage}/apps/bikes-api/lambda-policy-arn}'
-  ecr:
-    images:
-      console:
-        path: ./
-        file: /Dockerfile.console
   environment:
     HTTPS: true
     APP_ENV: prod
@@ -50,10 +45,8 @@ functions:
     url: true
 
   console:
-    image: console
-    # Using arm64 because this Docker image is also being used by the
-    # domain event outbox worker running on an AL2023 ARM CPU in EC2.
-    architecture: arm64
+    handler: bin/console
+    runtime: php-84-console
     vpc: ${self:custom.vpc}
     timeout: 120
 
