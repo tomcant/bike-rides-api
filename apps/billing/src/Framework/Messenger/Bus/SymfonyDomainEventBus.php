@@ -8,6 +8,7 @@ use BikeRides\Foundation\Domain\DomainEvent;
 use BikeRides\Foundation\Domain\DomainEventBus;
 use BikeRides\Foundation\Timestamp;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ParameterType;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\Messenger\MessageBusInterface;
 
@@ -29,12 +30,14 @@ final readonly class SymfonyDomainEventBus implements DomainEventBus
     private function log(DomainEvent $event): void
     {
         $statement = $this->connection->prepare('
-            INSERT INTO public.domain_event_log (event_name, event_data, occurred_at)
-            VALUES (:event_name, :event_data, :occurred_at)
+            INSERT INTO public.domain_event_log (id, type, version, data, occurred_at)
+            VALUES (:id, :type, :version, :data, :occurred_at)
         ');
 
-        $statement->bindValue('event_name', $event::class);
-        $statement->bindValue('event_data', $event->serialize());
+        $statement->bindValue('id', $event->id);
+        $statement->bindValue('type', $event->type());
+        $statement->bindValue('version', $event->version(), ParameterType::INTEGER);
+        $statement->bindValue('data', $event->serialize());
         $statement->bindValue('occurred_at', Timestamp::format($event->occurredAt));
 
         $statement->executeStatement();

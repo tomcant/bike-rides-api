@@ -23,10 +23,13 @@ final class Version20230813163918 extends AbstractMigration
         $this->addSql('
             CREATE TABLE public.domain_event_log (
                 serial SERIAL PRIMARY KEY,
-                event_name VARCHAR NOT NULL,
-                event_data JSONB NOT NULL,
-                occurred_at TIMESTAMPTZ NOT NULL
-            );
+                id UUID NOT NULL,
+                type VARCHAR NOT NULL,
+                version INT NOT NULL,
+                data JSONB NOT NULL,
+                occurred_at TIMESTAMPTZ NOT NULL,
+                UNIQUE (id)
+            )
         ');
     }
 }
