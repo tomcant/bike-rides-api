@@ -29,7 +29,7 @@ final class Version20230813163918 extends AbstractMigration
                 data JSONB NOT NULL,
                 occurred_at TIMESTAMPTZ NOT NULL,
                 UNIQUE (id)
-            )
+            );
         ');
     }
 }

@@ -21,7 +21,7 @@ final readonly class CloudEventsJsonSerializer implements SerializerInterface
     {
         /** @var DomainEvent $event */
         $event = $envelope->getMessage();
-        $type = "rides.{$event->type()}.v{$event->version()}";
+        $type = "bike-rides.{$event->type()}.v{$event->version()}";
 
         $cloudEvent = new CloudEventImmutable(
             id: $event->id,

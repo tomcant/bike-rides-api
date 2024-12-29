@@ -81,8 +81,10 @@ resources:
       Properties:
         EventBusName: '${ssm:/${opt:stage}/event-bridge/event-bus-arn}'
         EventPattern:
-          source:
-            - 'bikes-api'
+          detail:
+            headers:
+              type:
+                - 'bike-rides.bike-activated.v1'
         Targets:
           - Id: 'worker-queue'
             Arn: '${ssm:/${opt:stage}/apps/rides-api/worker-queue-arn}'
