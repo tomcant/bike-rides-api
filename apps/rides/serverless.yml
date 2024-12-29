@@ -30,8 +30,7 @@ provider:
     HTTPS: true
     APP_ENV: prod
     APP_SECRET: 'bref-ssm:/${opt:stage}/apps/rides-api/secret'
-    BIKES_API_URL: 'temporary-value-to-avoid-circular-dependency' # ${ssm:/${opt:stage}/apps/bikes-api/url}
-    RIDES_API_URL: 'temporary-value-to-avoid-circular-dependency' # ${ssm:/${opt:stage}/apps/rides-api/url}
+    BIKES_API_URL: '${ssm:/${opt:stage}/apps/bikes-api/url}'
     DATABASE_URL: 'bref-ssm:/${opt:stage}/apps/rides-api/db-url'
     MESSENGER_DOMAIN_EVENT_PUBLISHER_TRANSPORT_DSN: 'eventbridge://${self:service}?event_bus_name=${ssm:/${opt:stage}/event-bridge/event-bus-arn}'
     MESSENGER_DOMAIN_EVENT_CONSUMER_TRANSPORT_DSN: '${ssm:/${opt:stage}/apps/rides-api/worker-queue-url}'

@@ -1,12 +1,7 @@
-parameters:
-    env(BIKES_API_URL): ''
-
 services:
     _defaults:
         autowire: true
         autoconfigure: true
-        bind:
-            $bikesApiUrl: '%env(trim-trailing-slash:BIKES_API_URL)%'
 
     App\:
         resource: '../src/'

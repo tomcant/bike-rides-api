@@ -13,17 +13,16 @@ use Symfony\Contracts\HttpClient\ResponseInterface;
 
 abstract class FixtureCommand extends Command
 {
+    private const string API_URL = 'http://rides-api:8000';
     private readonly HttpClientInterface $client;
     private ResponseInterface $lastResponse;
     private OutputInterface $output;
 
-    public function __construct(
-        private readonly string $ridesApiUrl,
-        HttpClientInterface $client,
-    ) {
+    public function __construct(HttpClientInterface $client)
+    {
         parent::__construct();
 
-        $this->client = $client->withOptions(['base_uri' => $ridesApiUrl]);
+        $this->client = $client->withOptions(['base_uri' => self::API_URL]);
     }
 
     final public function execute(InputInterface $input, OutputInterface $output): int
@@ -76,8 +75,8 @@ abstract class FixtureCommand extends Command
 
     private function getPathFromUrl(string $url): string
     {
-        if (\str_starts_with($url, $this->ridesApiUrl)) {
-            return \mb_substr($url, \mb_strlen($this->ridesApiUrl));
+        if (\str_starts_with($url, self::API_URL)) {
+            return \mb_substr($url, \mb_strlen(self::API_URL));
         }
 
         return $url;

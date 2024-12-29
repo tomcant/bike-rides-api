@@ -1,13 +1,11 @@
 parameters:
     env(BIKES_API_URL): ''
-    env(RIDES_API_URL): ''
 
 services:
     _defaults:
         autowire: true
         autoconfigure: true
         bind:
-            $ridesApiUrl: '%env(trim-trailing-slash:RIDES_API_URL)%'
             $trackingApiUrlTemplate: '%env(trim-trailing-slash:BIKES_API_URL)%/bikes/tracking?bike_id={bikeId}&from={from}&to={to}'
 
     App\:

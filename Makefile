@@ -24,7 +24,7 @@ up-ext: ghcr-login
 composer: ## Install the latest Composer dependencies
 	@for app in bikes rides billing; do \
 	  echo "::group::Install $${app} dependencies"; \
-	  $(COMPOSE) exec -T "$${app}-app" composer install --no-interaction; \
+	  $(COMPOSE) exec -T "$${app}-api" composer install --no-interaction; \
 	  echo '::endgroup::'; \
 	done
 
@@ -32,9 +32,9 @@ db: db/dev db/test ## (Re)create the development and test databases
 db/%:
 	@for app in bikes rides billing; do \
 	  echo "::group::Setup $${app} $* database"; \
-	  $(COMPOSE) exec -T "$${app}-app" bin/console doctrine:database:drop --force --if-exists --env $*; \
-	  $(COMPOSE) exec -T "$${app}-app" bin/console doctrine:database:create --no-interaction --env $*; \
-	  $(COMPOSE) exec -T "$${app}-app" bin/console doctrine:migrations:migrate --allow-no-migration --no-interaction --env $*; \
+	  $(COMPOSE) exec -T "$${app}-api" bin/console doctrine:database:drop --force --if-exists --env $*; \
+	  $(COMPOSE) exec -T "$${app}-api" bin/console doctrine:database:create --no-interaction --env $*; \
+	  $(COMPOSE) exec -T "$${app}-api" bin/console doctrine:migrations:migrate --allow-no-migration --no-interaction --env $*; \
 	  echo '::endgroup::'; \
 	done
 
@@ -45,7 +45,7 @@ can-release: security test lint ## Check the application is releasable
 security: ## Check dependencies for known vulnerabilities
 	@for app in bikes rides billing; do \
 	  echo "::group::Audit dependencies for $${app}"; \
-	  $(COMPOSE) exec -T "$${app}-app" composer audit; \
+	  $(COMPOSE) exec -T "$${app}-api" composer audit; \
 	  [[ $$? != 0 ]] && { echo "::error::$${app} failed"; failed=1; }; \
 	  echo '::endgroup::'; \
 	done; \
@@ -58,7 +58,7 @@ lint: lint-apps lint-packages ## Run the linting tools
 test-apps: db/test
 	@for app in bikes rides billing; do \
 	  echo "::group::Test $${app}"; \
-	  $(COMPOSE) exec -T "$${app}-app" composer test; \
+	  $(COMPOSE) exec -T "$${app}-api" composer test; \
 	  [[ $$? != 0 ]] && { echo "::error::$${app} failed"; failed=1; }; \
 	  echo '::endgroup::'; \
 	done; \
@@ -80,7 +80,7 @@ test-packages:
 lint-apps:
 	@for app in bikes rides billing; do \
 	  echo "::group::Lint $${app}"; \
-	  $(COMPOSE) exec -T "$${app}-app" composer lint; \
+	  $(COMPOSE) exec -T "$${app}-api" composer lint; \
 	  [[ $$? != 0 ]] && { echo "::error::$${app} failed"; failed=1; }; \
 	  echo '::endgroup::'; \
 	done; \
@@ -102,18 +102,18 @@ lint-packages:
 fmt: format
 format: ## Fix style related code violations
 	@for app in bikes rides billing; do \
-	  $(COMPOSE) exec -T "$${app}-app" composer format; \
+	  $(COMPOSE) exec -T "$${app}-api" composer format; \
 	done
 
 ##@ Fixtures
 
 fixture/bike: ## Create and activate a bike
-	@$(COMPOSE) exec bikes-app bash -c 'TERM=xterm-256color bin/console bikes:fixture:bike'
+	@$(COMPOSE) exec bikes-api bash -c 'TERM=xterm-256color bin/console bikes:fixture:bike'
 
 ##@ Running Instance
 
 shell/%: ## Access a shell on the running container
-	$(COMPOSE) exec $*-app bash
+	$(COMPOSE) exec $*-api bash
 
 logs: ## Tail the container logs
 	$(COMPOSE) logs -f
