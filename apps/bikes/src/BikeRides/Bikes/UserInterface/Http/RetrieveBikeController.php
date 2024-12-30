@@ -23,7 +23,7 @@ final class RetrieveBikeController
         $bike = $query->query($bikeId);
 
         if (null === $bike) {
-            throw new NotFoundHttpException();
+            throw new NotFoundHttpException("Could not find bike with ID {$bikeId}");
         }
 
         return new JsonResponse([

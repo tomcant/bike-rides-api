@@ -23,7 +23,7 @@ final class RetrieveRideSummaryController
         $summary = $query->query($rideId);
 
         if (null === $summary) {
-            throw new NotFoundHttpException();
+            throw new NotFoundHttpException("Could not find ride summary for ride with ID {$rideId}");
         }
 
         return new JsonResponse([

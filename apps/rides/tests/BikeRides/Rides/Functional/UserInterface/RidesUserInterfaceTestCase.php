@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Tests\BikeRides\Rides\Functional\UserInterface;
 
-use App\Tests\BikeRides\Shared\Functional\UserInterface\UserInterfaceTestCase;
 use BikeRides\SharedKernel\Domain\Event\BikeActivated;
 use BikeRides\SharedKernel\Domain\Model\BikeId;
 use BikeRides\SharedKernel\Domain\Model\Location;
@@ -39,7 +38,7 @@ abstract class RidesUserInterfaceTestCase extends UserInterfaceTestCase
     {
         $bikeId = BikeId::generate()->toString();
 
-        $this->publishEvent(new BikeActivated($bikeId, new Location(0, 0)));
+        $this->handleDomainEvent(new BikeActivated($bikeId, new Location(0, 0)));
 
         return $this->retrieveBike($bikeId);
     }

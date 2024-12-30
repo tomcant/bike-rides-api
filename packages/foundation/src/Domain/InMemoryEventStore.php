@@ -2,14 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\BikeRides\Shared\Doubles;
-
-use BikeRides\Foundation\Domain\AggregateEvent;
-use BikeRides\Foundation\Domain\AggregateEventFactory;
-use BikeRides\Foundation\Domain\AggregateEvents;
-use BikeRides\Foundation\Domain\AggregateName;
-use BikeRides\Foundation\Domain\EntityId;
-use BikeRides\Foundation\Domain\EventStore;
+namespace BikeRides\Foundation\Domain;
 
 final class InMemoryEventStore implements EventStore
 {
@@ -23,7 +16,7 @@ final class InMemoryEventStore implements EventStore
     public function store(AggregateEvents $events): void
     {
         $this->events = $events->reduce(
-            fn (AggregateEvents $events, AggregateEvent $event) => $events->add($this->toSerializedAndBack($event)),
+            fn (AggregateEvents $events, AggregateEvent $event) => $events->add($this->exerciseSerialization($event)),
             $this->events,
         );
     }
@@ -32,17 +25,17 @@ final class InMemoryEventStore implements EventStore
     {
         return $this->events->reduce(
             fn (AggregateEvents $events, AggregateEvent $event) => $event->getAggregateName()->equals($name) && $event->getAggregateId()->equals($id)
-                    ? $events->add($this->toSerializedAndBack($event))
+                    ? $events->add($this->exerciseSerialization($event))
                     : $events,
             AggregateEvents::make(),
         );
     }
 
-    /**
-     * This exercises the (de)serialisation logic which would otherwise only be
-     * executed during persistence/integration layer tests.
+    /*
+     * This exercises (de)serialization of events, which probably wouldn't
+     * otherwise happen in contexts where an in-memory repository is required.
      */
-    private function toSerializedAndBack(AggregateEvent $event): AggregateEvent
+    private function exerciseSerialization(AggregateEvent $event): AggregateEvent
     {
         return $this->aggregateEventFactory->fromSerialized($event->getEventName(), $event->serialize());
     }

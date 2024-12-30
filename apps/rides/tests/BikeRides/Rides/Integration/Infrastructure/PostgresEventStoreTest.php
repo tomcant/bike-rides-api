@@ -17,7 +17,6 @@ use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 
 final class PostgresEventStoreTest extends PostgresTestCase
 {
-    private const string EVENT_STORE_TABLE_NAME = 'rides.event_store';
     private PostgresEventStore $eventStore;
     private AggregateEventsBusSpy $aggregateEventsBus;
 
@@ -29,15 +28,13 @@ final class PostgresEventStoreTest extends PostgresTestCase
             $this->connection,
             new RideEventFactory(),
             $this->aggregateEventsBus = new AggregateEventsBusSpy(),
-            self::EVENT_STORE_TABLE_NAME,
+            dbTableName: 'rides.event_store',
         );
-
-        $this->connection->executeQuery('TRUNCATE TABLE ' . self::EVENT_STORE_TABLE_NAME);
     }
 
     public function test_it_persists_and_hydrates_aggregate(): void
     {
-        [$ride] = $this->startRide();
+        [$ride] = $this->buildRide();
 
         $hydratedAggregate = Ride::buildFrom(
             $this->eventStore->get($ride->getAggregateName(), $ride->getAggregateId()),
@@ -48,14 +45,14 @@ final class PostgresEventStoreTest extends PostgresTestCase
 
     public function test_it_publishes_stored_events_to_the_bus(): void
     {
-        [, $events] = $this->startRide();
+        [, $events] = $this->buildRide();
 
         self::assertEquals($events, $this->aggregateEventsBus->getLastEvents());
     }
 
     public function test_it_throws_unique_constraint_violation_if_aggregate_with_duplicate_version_attempted_to_be_persisted(): void
     {
-        [, $events] = $this->startRide();
+        [, $events] = $this->buildRide();
 
         $this->expectException(UniqueConstraintViolationException::class);
 
@@ -63,7 +60,7 @@ final class PostgresEventStoreTest extends PostgresTestCase
     }
 
     /** @return array{Ride, AggregateEvents} */
-    private function startRide(): array
+    private function buildRide(): array
     {
         $ride = Ride::start(
             RideId::generate(),
@@ -71,6 +68,7 @@ final class PostgresEventStoreTest extends PostgresTestCase
             BikeId::generate(),
             BikeAvailabilityCheckerStub::available(),
         );
+        $ride->end();
 
         $events = $ride->flushEvents();
 

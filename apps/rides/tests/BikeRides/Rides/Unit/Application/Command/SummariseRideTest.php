@@ -41,7 +41,6 @@ final class SummariseRideTest extends CommandTestCase
         ($this->handler)(new SummariseRideCommand($rideId->toString()));
 
         $ride = $this->rideRepository->getById($rideId);
-
         self::assertTrue($ride->hasBeenSummarised());
         self::assertEquals($route, $ride->getRoute());
     }

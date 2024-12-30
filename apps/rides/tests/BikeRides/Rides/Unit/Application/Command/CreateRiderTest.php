@@ -11,21 +11,14 @@ use BikeRides\SharedKernel\Domain\Model\RiderId;
 
 final class CreateRiderTest extends CommandTestCase
 {
-    private CreateRiderHandler $handler;
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->handler = new CreateRiderHandler($this->riderRepository);
-    }
-
     public function test_it_creates_a_rider(): void
     {
         $riderId = RiderId::fromString('rider_id');
 
-        ($this->handler)(new CreateRiderCommand($riderId->toString()));
+        $handler = new CreateRiderHandler($this->riderRepository);
+        $handler(new CreateRiderCommand($riderId->toString()));
 
-        self::assertEquals(new Rider($riderId), $this->riderRepository->getById($riderId));
+        $rider = $this->riderRepository->getById($riderId);
+        self::assertEquals(new Rider($riderId), $rider);
     }
 }

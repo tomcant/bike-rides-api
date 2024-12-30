@@ -20,14 +20,17 @@ use App\Tests\BikeRides\Rides\Doubles\BikeAvailabilityCheckerStub;
 use App\Tests\BikeRides\Rides\Doubles\InMemoryBikeRepository;
 use App\Tests\BikeRides\Rides\Doubles\InMemoryRiderRepository;
 use App\Tests\BikeRides\Shared\Doubles\DomainEventBusDummy;
-use App\Tests\BikeRides\Shared\Doubles\InMemoryEventStore;
-use App\Tests\BikeRides\Shared\Unit\Application\Command\CommandTestCase as BaseCommandTestCase;
+use BikeRides\Foundation\Clock\Clock;
+use BikeRides\Foundation\Clock\ClockStub;
+use BikeRides\Foundation\Domain\DomainEvent;
+use BikeRides\Foundation\Domain\InMemoryEventStore;
 use BikeRides\SharedKernel\Domain\Model\BikeId;
 use BikeRides\SharedKernel\Domain\Model\Location;
 use BikeRides\SharedKernel\Domain\Model\RideId;
 use BikeRides\SharedKernel\Domain\Model\RiderId;
+use PHPUnit\Framework\TestCase;
 
-abstract class CommandTestCase extends BaseCommandTestCase
+abstract class CommandTestCase extends TestCase
 {
     protected RideRepository $rideRepository;
     protected RiderRepository $riderRepository;
@@ -42,6 +45,8 @@ abstract class CommandTestCase extends BaseCommandTestCase
         );
         $this->riderRepository = new InMemoryRiderRepository();
         $this->bikeRepository = new InMemoryBikeRepository();
+
+        Clock::useClock(new ClockStub());
     }
 
     protected function createRider(RiderId $riderId): void
@@ -66,5 +71,10 @@ abstract class CommandTestCase extends BaseCommandTestCase
     {
         $handler = new EndRideHandler($this->rideRepository, new DomainEventBusDummy());
         $handler(new EndRideCommand($rideId->toString()));
+    }
+
+    protected static function assertDomainEventEquals(DomainEvent $expected, DomainEvent $actual): void
+    {
+        self::assertEquals($expected->serialize(), $actual->serialize());
     }
 }

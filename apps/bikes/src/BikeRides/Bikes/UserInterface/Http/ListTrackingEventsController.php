@@ -38,7 +38,7 @@ final class ListTrackingEventsController
         $bike = $getBike->query($bikeId);
 
         if (null === $bike) {
-            throw new NotFoundHttpException();
+            throw new NotFoundHttpException("Could not find bike with ID {$bikeId}");
         }
 
         $from = (new \DateTimeImmutable())->setTimestamp($from);

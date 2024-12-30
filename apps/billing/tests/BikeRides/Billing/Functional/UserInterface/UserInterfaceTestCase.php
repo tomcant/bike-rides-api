@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\BikeRides\Shared\Functional\UserInterface;
+namespace App\Tests\BikeRides\Billing\Functional\UserInterface;
 
-use App\Tests\BikeRides\Shared\Doubles\ClockStub;
 use BikeRides\Foundation\Clock\Clock;
+use BikeRides\Foundation\Clock\ClockStub;
 use BikeRides\Foundation\Domain\DomainEvent;
 use BikeRides\Foundation\Domain\DomainEventBus;
 use BikeRides\Foundation\Json;
@@ -38,7 +38,7 @@ abstract class UserInterfaceTestCase extends WebTestCase
         parent::tearDown();
     }
 
-    protected function publishEvent(DomainEvent $event): void
+    protected function handleDomainEvent(DomainEvent $event): void
     {
         static::getContainer()->get(DomainEventBus::class)->publish($event);
     }

@@ -15,12 +15,12 @@ final class BikeAvailabilityCheckerStub implements BikeAvailabilityChecker
 
     public static function available(): self
     {
-        return new self(true);
+        return new self(isAvailable: true);
     }
 
     public static function notAvailable(): self
     {
-        return new self(false);
+        return new self(isAvailable: false);
     }
 
     public function isAvailable(BikeId $bikeId): bool

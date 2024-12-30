@@ -28,6 +28,7 @@ final class RefreshBikeLocationTest extends CommandTestCase
         );
         $handler(new RefreshBikeLocationCommand($bikeId->toString()));
 
-        self::assertEquals($location, $this->bikeRepository->getById($bikeId)->location);
+        $bike = $this->bikeRepository->getById($bikeId);
+        self::assertEquals($location, $bike->location);
     }
 }

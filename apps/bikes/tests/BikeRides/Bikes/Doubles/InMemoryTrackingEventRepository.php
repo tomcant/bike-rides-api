@@ -27,9 +27,11 @@ final class InMemoryTrackingEventRepository implements TrackingEventRepository
 
     public function getBetweenForBikeId(BikeId $bikeId, \DateTimeInterface $from, \DateTimeInterface $to): array
     {
-        return \array_filter(
-            $this->events[$bikeId->toString()] ?? [],
-            static fn ($event) => $from <= $event->trackedAt && $event->trackedAt <= $to,
+        return \array_values(
+            \array_filter(
+                $this->events[$bikeId->toString()] ?? [],
+                static fn ($event) => $from <= $event->trackedAt && $event->trackedAt <= $to,
+            ),
         );
     }
 }

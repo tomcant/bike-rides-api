@@ -6,7 +6,7 @@ namespace App\Tests\BikeRides\Bikes\Unit\Application\Query;
 
 use App\BikeRides\Bikes\Application\Query\GetBikeById;
 use App\BikeRides\Bikes\Domain\Model\Bike\Bike;
-use App\Tests\BikeRides\Bikes\Unit\Doubles\InMemoryBikeRepository;
+use App\Tests\BikeRides\Bikes\Doubles\InMemoryBikeRepository;
 use BikeRides\SharedKernel\Domain\Model\BikeId;
 use PHPUnit\Framework\TestCase;
 

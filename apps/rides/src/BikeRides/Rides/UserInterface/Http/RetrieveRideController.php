@@ -23,7 +23,7 @@ final class RetrieveRideController
         $ride = $query->query($rideId);
 
         if (null === $ride) {
-            throw new NotFoundHttpException();
+            throw new NotFoundHttpException("Could not find ride with ID {$rideId}");
         }
 
         return new JsonResponse([

@@ -46,7 +46,7 @@ final class BikeApiTest extends BikesUserInterfaceTestCase
         self::assertTrue($bike['is_active']);
     }
 
-    public function test_it_cannot_activate_a_bike_before_recording_a_track_event(): void
+    public function test_it_cannot_activate_a_bike_before_recording_a_tracking_event(): void
     {
         self::markTestSkipped();
     }

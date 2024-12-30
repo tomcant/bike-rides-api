@@ -93,7 +93,7 @@ final class TrackingApiTest extends BikesUserInterfaceTestCase
         $bike = $this->registerBike();
         $queryString = \http_build_query(['bike_id' => $bike['bike_id'], ...$timeRange]);
 
-        $this->client->request('GET', "/bikes/tracking?{$queryString}");
+        $this->getJson("/bikes/tracking?{$queryString}", assertResponseIsSuccessful: false);
 
         self::assertResponseStatusCodeSame(400);
     }
@@ -113,7 +113,7 @@ final class TrackingApiTest extends BikesUserInterfaceTestCase
     {
         $bikeId = Uuid::v4()->toRfc4122();
 
-        $this->client->request('GET', "/bikes/tracking?bike_id={$bikeId}&from=0&to=1");
+        $this->getJson("/bikes/tracking?bike_id={$bikeId}&from=0&to=1", assertResponseIsSuccessful: false);
 
         self::assertResponseStatusCodeSame(404);
     }

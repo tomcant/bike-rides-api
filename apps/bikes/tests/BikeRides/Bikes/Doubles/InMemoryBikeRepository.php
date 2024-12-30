@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\BikeRides\Bikes\Unit\Doubles;
+namespace App\Tests\BikeRides\Bikes\Doubles;
 
 use App\BikeRides\Bikes\Domain\Model\Bike\Bike;
 use App\BikeRides\Bikes\Domain\Model\Bike\BikeNotFound;

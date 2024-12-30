@@ -17,14 +17,12 @@
     <testsuites>
         <testsuite name="Unit">
             <directory>./tests/BikeRides/Bikes/Unit</directory>
-            <directory>./tests/BikeRides/Shared/Unit</directory>
         </testsuite>
         <testsuite name="Integration">
             <directory>./tests/BikeRides/Bikes/Integration</directory>
         </testsuite>
         <testsuite name="Functional">
             <directory>./tests/BikeRides/Bikes/Functional</directory>
-            <directory>./tests/BikeRides/Shared/Functional</directory>
         </testsuite>
     </testsuites>
 </phpunit>

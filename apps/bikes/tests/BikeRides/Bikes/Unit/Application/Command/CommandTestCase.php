@@ -12,15 +12,17 @@ use App\BikeRides\Bikes\Application\Command\RegisterBike\RegisterBikeCommand;
 use App\BikeRides\Bikes\Application\Command\RegisterBike\RegisterBikeHandler;
 use App\BikeRides\Bikes\Domain\Model\Bike\BikeRepository;
 use App\BikeRides\Bikes\Domain\Model\TrackingEvent\TrackingEventRepository;
+use App\Tests\BikeRides\Bikes\Doubles\InMemoryBikeRepository;
 use App\Tests\BikeRides\Bikes\Doubles\InMemoryTrackingEventRepository;
-use App\Tests\BikeRides\Bikes\Unit\Doubles\InMemoryBikeRepository;
 use App\Tests\BikeRides\Shared\Doubles\DomainEventBusDummy;
-use App\Tests\BikeRides\Shared\Unit\Application\Command\CommandTestCase as BaseCommandTestCase;
 use BikeRides\Foundation\Clock\Clock;
+use BikeRides\Foundation\Clock\ClockStub;
+use BikeRides\Foundation\Domain\DomainEvent;
 use BikeRides\SharedKernel\Domain\Model\BikeId;
 use BikeRides\SharedKernel\Domain\Model\Location;
+use PHPUnit\Framework\TestCase;
 
-abstract class CommandTestCase extends BaseCommandTestCase
+abstract class CommandTestCase extends TestCase
 {
     protected BikeRepository $bikeRepository;
     protected TrackingEventRepository $trackingEventRepository;
@@ -31,6 +33,8 @@ abstract class CommandTestCase extends BaseCommandTestCase
 
         $this->bikeRepository = new InMemoryBikeRepository();
         $this->trackingEventRepository = new InMemoryTrackingEventRepository();
+
+        Clock::useClock(new ClockStub());
     }
 
     protected function registerBike(BikeId $bikeId): void
@@ -53,5 +57,10 @@ abstract class CommandTestCase extends BaseCommandTestCase
             new DomainEventBusDummy(),
         );
         $handler(new ActivateBikeCommand($bikeId->toString()));
+    }
+
+    protected static function assertDomainEventEquals(DomainEvent $expected, DomainEvent $actual): void
+    {
+        self::assertEquals($expected->serialize(), $actual->serialize());
     }
 }

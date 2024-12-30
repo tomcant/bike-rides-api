@@ -18,8 +18,7 @@ use App\Tests\BikeRides\Billing\Doubles\RideDetailsFetcherStub;
 use App\Tests\BikeRides\Billing\Doubles\RidePaymentDuplicateCheckerStub;
 use App\Tests\BikeRides\Billing\Doubles\RidePaymentGatewayStub;
 use App\Tests\BikeRides\Shared\Doubles\DomainEventBusDummy;
-use App\Tests\BikeRides\Shared\Doubles\InMemoryEventStore;
-use App\Tests\BikeRides\Shared\Unit\Application\Command\CommandTestCase;
+use BikeRides\Foundation\Domain\InMemoryEventStore;
 use BikeRides\SharedKernel\Domain\Model\RideDuration;
 
 final class CaptureRidePaymentTest extends CommandTestCase

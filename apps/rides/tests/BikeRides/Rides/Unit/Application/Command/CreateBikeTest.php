@@ -20,9 +20,7 @@ final class CreateBikeTest extends CommandTestCase
         $handler = new CreateBikeHandler($this->bikeRepository);
         $handler(new CreateBikeCommand($bikeId->toString(), $location));
 
-        self::assertEquals(
-            new Bike($bikeId, $location),
-            $this->bikeRepository->getById($bikeId),
-        );
+        $bike = $this->bikeRepository->getById($bikeId);
+        self::assertEquals(new Bike($bikeId, $location), $bike);
     }
 }
