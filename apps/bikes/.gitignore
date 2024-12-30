@@ -13,6 +13,10 @@
 /.php-cs-fixer.cache
 ###< friendsofphp/php-cs-fixer ###
 
+###> qossmic/deptrac-shim ###
+/.deptrac.cache
+###< qossmic/deptrac-shim ###
+
 ###> phpstan/phpstan ###
 /phpstan.neon
 ###< phpstan/phpstan ###

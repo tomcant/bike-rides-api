@@ -36,6 +36,7 @@
         "ergebnis/php-cs-fixer-config": "^6.39",
         "phpstan/phpstan": "^2.0.4",
         "phpunit/phpunit": "^11.5.1",
+        "qossmic/deptrac": "^2.0",
         "symfony/browser-kit": "7.2.*",
         "symfony/css-selector": "7.2.*"
     },
@@ -86,6 +87,7 @@
         "lint": [
             "@composer validate --strict",
             "PHP_CS_FIXER_IGNORE_ENV=1 php-cs-fixer fix --dry-run --diff",
+            "deptrac",
             "phpstan"
         ],
         "format": "PHP_CS_FIXER_IGNORE_ENV=1 php-cs-fixer fix",
