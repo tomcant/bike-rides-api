@@ -9,7 +9,7 @@ use BikeRides\Foundation\Application\Command\CommandBus;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/rides/ride/{rideId}/end', name: 'rides:ride:end', methods: ['POST'])]
+#[Route('/ride/{rideId}/end', name: 'ride:end', methods: ['POST'])]
 final class EndRideController
 {
     public function __invoke(CommandBus $bus, string $rideId): Response

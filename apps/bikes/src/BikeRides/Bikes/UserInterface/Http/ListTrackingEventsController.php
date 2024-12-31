@@ -14,7 +14,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-#[Route('/bikes/tracking', name: 'bikes:tracking:list', methods: ['GET'])]
+#[Route('/tracking', name: 'tracking:list', methods: ['GET'])]
 final class ListTrackingEventsController
 {
     public function __invoke(
@@ -57,7 +57,7 @@ final class ListTrackingEventsController
                 '_links' => [
                     'self' => [
                         'href' => $urlGenerator->generate(
-                            'bikes:tracking:list',
+                            'tracking:list',
                             ['bikeId' => $bike['bike_id']],
                             UrlGeneratorInterface::ABSOLUTE_URL,
                         ),
@@ -65,7 +65,7 @@ final class ListTrackingEventsController
                     ],
                     'bike' => [
                         'href' => $urlGenerator->generate(
-                            'bikes:bike:retrieve',
+                            'bike:retrieve',
                             ['bikeId' => $bike['bike_id']],
                             UrlGeneratorInterface::ABSOLUTE_URL,
                         ),

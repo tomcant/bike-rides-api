@@ -11,7 +11,7 @@ use Symfony\Component\HttpKernel\Attribute\MapQueryParameter;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-#[Route('/billing/ride-payment', name: 'billing:ride-payment:list', methods: ['GET'])]
+#[Route('/ride-payment', name: 'ride-payment:list', methods: ['GET'])]
 final class ListRidePaymentsController
 {
     public function __invoke(
@@ -39,7 +39,7 @@ final class ListRidePaymentsController
             [
                 '_links' => [
                     'self' => [
-                        'href' => $urlGenerator->generate('billing:ride-payment:list'),
+                        'href' => $urlGenerator->generate('ride-payment:list'),
                         'method' => 'GET',
                     ],
                 ],

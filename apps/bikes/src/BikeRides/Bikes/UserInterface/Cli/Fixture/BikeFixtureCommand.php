@@ -18,12 +18,12 @@ final class BikeFixtureCommand extends FixtureCommand
 
     public function doExecute(InputInterface $input, OutputInterface $output): int
     {
-        ['bike_id' => $bikeId] = $this->postJson('/bikes/bike');
+        ['bike_id' => $bikeId] = $this->postJson('/bike');
 
         $bike = $this->getJson($this->parseResponseLinkUrl());
 
         $this->postJson(
-            '/bikes/tracking',
+            '/tracking',
             [
                 'bike_id' => $bikeId,
                 'location' => [

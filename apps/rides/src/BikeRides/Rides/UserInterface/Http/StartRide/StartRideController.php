@@ -12,7 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Uid\Uuid;
 
-#[Route('/rides/bike/{bikeId}/start-ride', name: 'rides:bike:start-ride', methods: ['POST'])]
+#[Route('/bike/{bikeId}/start-ride', name: 'bike:start-ride', methods: ['POST'])]
 final class StartRideController
 {
     public function __invoke(
@@ -39,7 +39,7 @@ final class StartRideController
                 'Link' => \sprintf(
                     '<%s>; rel="ride"',
                     $urlGenerator->generate(
-                        'rides:ride:retrieve',
+                        'ride:retrieve',
                         ['rideId' => $rideId],
                         UrlGeneratorInterface::ABSOLUTE_URL,
                     ),

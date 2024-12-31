@@ -10,7 +10,7 @@ final class BikeApiTest extends BikesUserInterfaceTestCase
 {
     public function test_registering_a_bike(): void
     {
-        ['bike_id' => $bikeId] = $this->postJson('/bikes/bike');
+        ['bike_id' => $bikeId] = $this->postJson('/bike');
 
         self::assertNotNull($bikeId);
         self::assertResponseStatusCodeSame(201);
@@ -27,7 +27,7 @@ final class BikeApiTest extends BikesUserInterfaceTestCase
     {
         $bike = $this->registerBike();
 
-        $response = $this->getJson("/bikes/bike/{$bike['bike_id']}");
+        $response = $this->getJson("/bike/{$bike['bike_id']}");
 
         self::assertArrayHasKeys($response, ['_links', 'bike_id', 'is_active']);
         self::assertArrayHasKeys($response['_links'], ['self', 'activate']);

@@ -19,7 +19,7 @@ final class RiderFixtureCommand extends FixtureCommand
     {
         $riderId = (string) $input->getOption('rider-id');
 
-        $this->postJson('/rides/rider', ['rider_id' => $riderId]);
+        $this->postJson('/rider', ['rider_id' => $riderId]);
 
         $output->writeln(\sprintf("\nRider ID: <info>%s</info>\n", $riderId));
 

@@ -13,7 +13,7 @@ final class BikeRetrievalTest extends RidesUserInterfaceTestCase
     {
         ['bike_id' => $bikeId] = $this->createBike();
 
-        $bike = $this->getJson("/rides/bike/{$bikeId}");
+        $bike = $this->getJson("/bike/{$bikeId}");
 
         self::assertArrayHasKeys($bike, ['_links', 'bike_id', 'location']);
         self::assertArrayHasKeys($bike['_links'], ['self', 'start-ride']);
@@ -24,7 +24,7 @@ final class BikeRetrievalTest extends RidesUserInterfaceTestCase
     {
         $bikeId = Uuid::v4()->toRfc4122();
 
-        $this->getJson("/rides/bike/{$bikeId}", assertResponseIsSuccessful: false);
+        $this->getJson("/bike/{$bikeId}", assertResponseIsSuccessful: false);
 
         self::assertResponseStatusCodeSame(404);
     }

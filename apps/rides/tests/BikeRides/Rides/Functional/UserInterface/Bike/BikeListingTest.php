@@ -13,7 +13,7 @@ final class BikeListingTest extends RidesUserInterfaceTestCase
         $bike1 = $this->createBike();
         $bike2 = $this->createBike();
 
-        $list = $this->getJson('/rides/bike');
+        $list = $this->getJson('/bike');
 
         self::assertCount(2, $list['_links']['bike']);
         self::assertCount(2, $list['_embedded']['bike']);

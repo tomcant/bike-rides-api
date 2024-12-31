@@ -13,7 +13,7 @@ final class RiderApiTest extends RidesUserInterfaceTestCase
     {
         $riderId = 'rider_id';
 
-        $this->postJson('/rides/rider', ['rider_id' => $riderId]);
+        $this->postJson('/rider', ['rider_id' => $riderId]);
 
         $rider = self::getContainer()->get(RiderRepository::class)->getById(RiderId::fromString($riderId));
         self::assertEquals($riderId, $rider->riderId->toString());

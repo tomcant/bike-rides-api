@@ -68,6 +68,6 @@ final class RidePaymentTest extends UserInterfaceTestCase
     /** @return array<mixed, mixed> */
     private function fetchRidePayments(string $rideId): array
     {
-        return $this->getJson("/billing/ride-payment?ride_id={$rideId}");
+        return $this->getJson("/ride-payment?ride_id={$rideId}");
     }
 }

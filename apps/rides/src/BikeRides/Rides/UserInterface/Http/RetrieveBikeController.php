@@ -11,7 +11,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-#[Route('/rides/bike/{bikeId}', name: 'rides:bike:retrieve', methods: ['GET'])]
+#[Route('/bike/{bikeId}', name: 'bike:retrieve', methods: ['GET'])]
 final class RetrieveBikeController
 {
     public function __invoke(
@@ -30,7 +30,7 @@ final class RetrieveBikeController
             '_links' => [
                 'self' => [
                     'href' => $urlGenerator->generate(
-                        'rides:bike:retrieve',
+                        'bike:retrieve',
                         ['bikeId' => $bike['bike_id']],
                         UrlGeneratorInterface::ABSOLUTE_URL,
                     ),
@@ -38,7 +38,7 @@ final class RetrieveBikeController
                 ],
                 'start-ride' => [
                     'href' => $urlGenerator->generate(
-                        'rides:bike:start-ride',
+                        'bike:start-ride',
                         ['bikeId' => $bike['bike_id']],
                         UrlGeneratorInterface::ABSOLUTE_URL,
                     ),

@@ -11,7 +11,7 @@ abstract class BikesUserInterfaceTestCase extends UserInterfaceTestCase
     /** @return array<mixed, mixed> */
     protected function registerBike(): array
     {
-        $response = $this->postJson('/bikes/bike');
+        $response = $this->postJson('/bike');
 
         return $this->retrieveBike($response['bike_id']);
     }
@@ -19,18 +19,18 @@ abstract class BikesUserInterfaceTestCase extends UserInterfaceTestCase
     /** @return array<mixed, mixed> */
     protected function retrieveBike(string $bikeId): array
     {
-        return $this->getJson("/bikes/bike/{$bikeId}");
+        return $this->getJson("/bike/{$bikeId}");
     }
 
     protected function activateBike(string $bikeId): void
     {
-        $this->postJson("/bikes/bike/{$bikeId}/activate");
+        $this->postJson("/bike/{$bikeId}/activate");
     }
 
     protected function recordTrackingEvent(string $bikeId, Location $location): void
     {
         $this->postJson(
-            '/bikes/tracking',
+            '/tracking',
             [
                 'bike_id' => $bikeId,
                 'location' => $location->toArray(),
@@ -41,6 +41,6 @@ abstract class BikesUserInterfaceTestCase extends UserInterfaceTestCase
     /** @return array<mixed, mixed> */
     protected function listTrackingEvents(string $bikeId, \DateTimeImmutable $from, \DateTimeImmutable $to): array
     {
-        return $this->getJson("/bikes/tracking?bike_id={$bikeId}&from={$from->getTimestamp()}&to={$to->getTimestamp()}");
+        return $this->getJson("/tracking?bike_id={$bikeId}&from={$from->getTimestamp()}&to={$to->getTimestamp()}");
     }
 }

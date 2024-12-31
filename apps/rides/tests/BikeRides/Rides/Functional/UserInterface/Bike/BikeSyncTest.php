@@ -16,12 +16,12 @@ final class BikeSyncTest extends RidesUserInterfaceTestCase
         $bikeId = BikeId::generate()->toString();
         $location = new Location(0, 0);
 
-        $this->getJson("/rides/bike/{$bikeId}", assertResponseIsSuccessful: false);
+        $this->getJson("/bike/{$bikeId}", assertResponseIsSuccessful: false);
         self::assertResponseStatusCodeSame(404);
 
         $this->handleDomainEvent(new BikeActivated($bikeId, $location));
 
-        $bike = $this->getJson("/rides/bike/{$bikeId}");
+        $bike = $this->getJson("/bike/{$bikeId}");
         self::assertSame($bikeId, $bike['bike_id']);
         self::assertEquals($location->toArray(), $bike['location']);
     }

@@ -12,7 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Uid\Uuid;
 
-#[Route('/bikes/bike', name: 'bikes:bike:register', methods: ['POST'])]
+#[Route('/bike', name: 'bike:register', methods: ['POST'])]
 final class RegisterBikeController
 {
     public function __invoke(CommandBus $bus, UrlGeneratorInterface $urlGenerator): JsonResponse
@@ -27,7 +27,7 @@ final class RegisterBikeController
                 'Link' => \sprintf(
                     '<%s>; rel="bike"',
                     $urlGenerator->generate(
-                        'bikes:bike:retrieve',
+                        'bike:retrieve',
                         ['bikeId' => $bikeId],
                         UrlGeneratorInterface::ABSOLUTE_URL,
                     ),

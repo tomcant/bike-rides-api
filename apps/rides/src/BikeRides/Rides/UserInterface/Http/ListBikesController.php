@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-#[Route('/rides/bike', name: 'rides:bike:list', methods: ['GET'])]
+#[Route('/bike', name: 'bike:list', methods: ['GET'])]
 final class ListBikesController
 {
     public function __invoke(
@@ -23,7 +23,7 @@ final class ListBikesController
                 '_links' => [
                     'self' => [
                         'href' => $urlGenerator->generate(
-                            'rides:bike:retrieve',
+                            'bike:retrieve',
                             ['bikeId' => $bike['bike_id']],
                             UrlGeneratorInterface::ABSOLUTE_URL,
                         ),
@@ -31,7 +31,7 @@ final class ListBikesController
                     ],
                     'start-ride' => [
                         'href' => $urlGenerator->generate(
-                            'rides:bike:start-ride',
+                            'bike:start-ride',
                             ['bikeId' => $bike['bike_id']],
                             UrlGeneratorInterface::ABSOLUTE_URL,
                         ),
@@ -48,7 +48,7 @@ final class ListBikesController
             [
                 '_links' => [
                     'self' => [
-                        'href' => $urlGenerator->generate('rides:bike:list'),
+                        'href' => $urlGenerator->generate('bike:list'),
                         'method' => 'GET',
                     ],
                     'bike' => \array_map(

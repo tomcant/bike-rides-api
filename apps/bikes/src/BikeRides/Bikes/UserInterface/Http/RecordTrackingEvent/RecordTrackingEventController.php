@@ -10,7 +10,7 @@ use BikeRides\Foundation\Clock\Clock;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/bikes/tracking', name: 'bikes:tracking:record', methods: ['POST'])]
+#[Route('/tracking', name: 'tracking:record', methods: ['POST'])]
 final class RecordTrackingEventController
 {
     public function __invoke(CommandBus $bus, RecordTrackingEventInput $input): Response

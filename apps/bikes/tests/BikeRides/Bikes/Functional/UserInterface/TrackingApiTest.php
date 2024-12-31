@@ -17,7 +17,7 @@ final class TrackingApiTest extends BikesUserInterfaceTestCase
         $fromTimestamp = Clock::now();
 
         $this->postJson(
-            '/bikes/tracking',
+            '/tracking',
             [
                 'bike_id' => $bike['bike_id'],
                 'location' => $location = [
@@ -44,7 +44,7 @@ final class TrackingApiTest extends BikesUserInterfaceTestCase
         $bike = $this->registerBike();
 
         $this->postJson(
-            '/bikes/tracking',
+            '/tracking',
             ['bike_id' => $bike['bike_id'], ...$location],
             assertResponseIsSuccessful: false,
         );
@@ -71,7 +71,7 @@ final class TrackingApiTest extends BikesUserInterfaceTestCase
         $this->recordTrackingEvent($bike['bike_id'], $locationThree = new Location(2, 2));
         $toTimestamp = Clock::now()->getTimestamp();
 
-        $list = $this->getJson("/bikes/tracking?bike_id={$bike['bike_id']}&from={$fromTimestamp}&to={$toTimestamp}");
+        $list = $this->getJson("/tracking?bike_id={$bike['bike_id']}&from={$fromTimestamp}&to={$toTimestamp}");
 
         self::assertCount(3, $list['_embedded']['tracking_event']);
         self::assertSame(3, $list['total']);
@@ -93,7 +93,7 @@ final class TrackingApiTest extends BikesUserInterfaceTestCase
         $bike = $this->registerBike();
         $queryString = \http_build_query(['bike_id' => $bike['bike_id'], ...$timeRange]);
 
-        $this->getJson("/bikes/tracking?{$queryString}", assertResponseIsSuccessful: false);
+        $this->getJson("/tracking?{$queryString}", assertResponseIsSuccessful: false);
 
         self::assertResponseStatusCodeSame(400);
     }
@@ -113,7 +113,7 @@ final class TrackingApiTest extends BikesUserInterfaceTestCase
     {
         $bikeId = Uuid::v4()->toRfc4122();
 
-        $this->getJson("/bikes/tracking?bike_id={$bikeId}&from=0&to=1", assertResponseIsSuccessful: false);
+        $this->getJson("/tracking?bike_id={$bikeId}&from=0&to=1", assertResponseIsSuccessful: false);
 
         self::assertResponseStatusCodeSame(404);
     }
