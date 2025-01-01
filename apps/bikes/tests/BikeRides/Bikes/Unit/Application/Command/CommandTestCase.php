@@ -18,6 +18,7 @@ use App\Tests\BikeRides\Shared\Doubles\DomainEventBusDummy;
 use BikeRides\Foundation\Clock\Clock;
 use BikeRides\Foundation\Clock\ClockStub;
 use BikeRides\Foundation\Domain\DomainEvent;
+use BikeRides\Foundation\Domain\TransactionBoundaryDummy;
 use BikeRides\SharedKernel\Domain\Model\BikeId;
 use BikeRides\SharedKernel\Domain\Model\Location;
 use PHPUnit\Framework\TestCase;
@@ -54,6 +55,7 @@ abstract class CommandTestCase extends TestCase
         $handler = new ActivateBikeHandler(
             $this->bikeRepository,
             $this->trackingEventRepository,
+            new TransactionBoundaryDummy(),
             new DomainEventBusDummy(),
         );
         $handler(new ActivateBikeCommand($bikeId->toString()));

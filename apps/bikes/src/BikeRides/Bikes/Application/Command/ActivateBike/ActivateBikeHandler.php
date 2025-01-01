@@ -8,6 +8,7 @@ use App\BikeRides\Bikes\Domain\Model\Bike\BikeRepository;
 use App\BikeRides\Bikes\Domain\Model\TrackingEvent\TrackingEventRepository;
 use BikeRides\Foundation\Application\Command\CommandHandler;
 use BikeRides\Foundation\Domain\DomainEventBus;
+use BikeRides\Foundation\Domain\TransactionBoundary;
 use BikeRides\SharedKernel\Domain\Event\BikeActivated;
 use BikeRides\SharedKernel\Domain\Model\BikeId;
 use BikeRides\SharedKernel\Domain\Model\Location;
@@ -17,6 +18,7 @@ final readonly class ActivateBikeHandler implements CommandHandler
     public function __construct(
         private BikeRepository $bikeRepository,
         private TrackingEventRepository $trackingEventRepository,
+        private TransactionBoundary $transaction,
         private DomainEventBus $eventBus,
     ) {
     }
@@ -29,14 +31,24 @@ final readonly class ActivateBikeHandler implements CommandHandler
 
         $bike->activate($lastBikeLocation);
 
-        $this->bikeRepository->store($bike);
+        $this->transaction->begin();
 
-        $this->eventBus->publish(
-            new BikeActivated(
-                $command->bikeId->toString(),
-                $lastBikeLocation,
-            ),
-        );
+        try {
+            $this->bikeRepository->store($bike);
+
+            $this->eventBus->publish(
+                new BikeActivated(
+                    $command->bikeId->toString(),
+                    $lastBikeLocation,
+                ),
+            );
+        } catch (\Throwable $exception) {
+            $this->transaction->abort();
+
+            throw $exception;
+        }
+
+        $this->transaction->end();
     }
 
     private function getLastBikeLocation(BikeId $bikeId): ?Location

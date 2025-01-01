@@ -8,6 +8,7 @@ use App\BikeRides\Bikes\Application\Command\ActivateBike\ActivateBikeCommand;
 use App\BikeRides\Bikes\Application\Command\ActivateBike\ActivateBikeHandler;
 use App\BikeRides\Bikes\Domain\Model\Bike\CouldNotActivateBike;
 use App\Tests\BikeRides\Shared\Doubles\DomainEventBusSpy;
+use BikeRides\Foundation\Domain\TransactionBoundaryDummy;
 use BikeRides\SharedKernel\Domain\Event\BikeActivated;
 use BikeRides\SharedKernel\Domain\Model\BikeId;
 use BikeRides\SharedKernel\Domain\Model\Location;
@@ -24,6 +25,7 @@ final class ActivateBikeTest extends CommandTestCase
         $this->handler = new ActivateBikeHandler(
             $this->bikeRepository,
             $this->trackingEventRepository,
+            new TransactionBoundaryDummy(),
             $this->eventBus = new DomainEventBusSpy(),
         );
     }

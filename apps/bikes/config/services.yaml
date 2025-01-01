@@ -15,6 +15,7 @@ services:
 
     BikeRides\Foundation\Application\Command\CommandBus: '@App\Framework\Messenger\Bus\SymfonyCommandBus'
     BikeRides\Foundation\Domain\DomainEventBus: '@App\Framework\Messenger\Bus\SymfonyDomainEventBus'
+    BikeRides\Foundation\Domain\TransactionBoundary: '@App\Framework\Doctrine\DbalTransactionBoundary'
 
     _instanceof:
         BikeRides\Foundation\Application\Command\CommandHandler:
