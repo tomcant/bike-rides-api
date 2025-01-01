@@ -23,24 +23,26 @@ final readonly class ActivateBikeHandler implements CommandHandler
 
     public function __invoke(ActivateBikeCommand $command): void
     {
+        $lastBikeLocation = $this->getLastBikeLocation($command->bikeId);
+
         $bike = $this->bikeRepository->getById($command->bikeId);
 
-        $bike->activate();
+        $bike->activate($lastBikeLocation);
 
         $this->bikeRepository->store($bike);
 
         $this->eventBus->publish(
             new BikeActivated(
                 $command->bikeId->toString(),
-                $this->getLastBikeLocation($command->bikeId),
+                $lastBikeLocation,
             ),
         );
     }
 
-    private function getLastBikeLocation(BikeId $bikeId): Location
+    private function getLastBikeLocation(BikeId $bikeId): ?Location
     {
         $lastTrackingEvent = $this->trackingEventRepository->getLastEventForBikeId($bikeId);
 
-        return $lastTrackingEvent->location;
+        return $lastTrackingEvent->location ?? null;
     }
 }

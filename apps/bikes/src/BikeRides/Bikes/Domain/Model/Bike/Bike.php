@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\BikeRides\Bikes\Domain\Model\Bike;
 
 use BikeRides\SharedKernel\Domain\Model\BikeId;
+use BikeRides\SharedKernel\Domain\Model\Location;
 
 final class Bike
 {
@@ -19,10 +20,14 @@ final class Bike
         return new self($bikeId, isActive: false);
     }
 
-    public function activate(): void
+    public function activate(?Location $location): void
     {
         if ($this->isActive) {
             throw CouldNotActivateBike::alreadyActive($this->bikeId);
+        }
+
+        if (null === $location) {
+            throw CouldNotActivateBike::withoutTracking($this->bikeId);
         }
 
         $this->isActive = true;

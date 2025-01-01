@@ -35,7 +35,16 @@ final class ActivateBikeTest extends CommandTestCase
 
         ($this->handler)(new ActivateBikeCommand($bikeId->toString()));
 
-        self::assertTrue($this->bikeRepository->getById($bikeId)->isActive);
+        $bike = $this->bikeRepository->getById($bikeId);
+        self::assertTrue($bike->isActive);
+    }
+
+    public function test_it_publishes_a_bike_activated_domain_event(): void
+    {
+        $this->registerBike($bikeId = BikeId::generate());
+        $this->recordTrackingEvent($bikeId, $location = new Location(0, 0));
+
+        ($this->handler)(new ActivateBikeCommand($bikeId->toString()));
 
         self::assertDomainEventEquals(
             new BikeActivated(
@@ -60,6 +69,11 @@ final class ActivateBikeTest extends CommandTestCase
 
     public function test_it_cannot_activate_a_bike_before_recording_a_tracking_event(): void
     {
-        self::markTestSkipped();
+        $this->registerBike($bikeId = BikeId::generate());
+
+        self::expectException(CouldNotActivateBike::class);
+        self::expectExceptionMessage("Could not activate bike with ID '{$bikeId->toString()}'. Reason: 'Bike has not been tracked'");
+
+        ($this->handler)(new ActivateBikeCommand($bikeId->toString()));
     }
 }

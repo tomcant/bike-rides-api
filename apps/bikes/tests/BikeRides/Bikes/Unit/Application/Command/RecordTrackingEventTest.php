@@ -6,6 +6,7 @@ namespace App\Tests\BikeRides\Bikes\Unit\Application\Command;
 
 use App\BikeRides\Bikes\Application\Command\RecordTrackingEvent\RecordTrackingEventCommand;
 use App\BikeRides\Bikes\Application\Command\RecordTrackingEvent\RecordTrackingEventHandler;
+use BikeRides\Foundation\Clock\Clock;
 use BikeRides\SharedKernel\Domain\Model\BikeId;
 use BikeRides\SharedKernel\Domain\Model\Location;
 
@@ -15,7 +16,7 @@ final class RecordTrackingEventTest extends CommandTestCase
     {
         $this->registerBike($bikeId = BikeId::generate());
         $location = new Location(0, 0);
-        $trackedAt = new \DateTimeImmutable('now');
+        $trackedAt = Clock::now();
 
         $handler = new RecordTrackingEventHandler($this->trackingEventRepository);
         $handler(new RecordTrackingEventCommand($bikeId->toString(), $location, $trackedAt));

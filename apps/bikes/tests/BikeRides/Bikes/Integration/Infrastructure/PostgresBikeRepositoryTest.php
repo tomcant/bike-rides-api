@@ -8,6 +8,7 @@ use App\BikeRides\Bikes\Domain\Model\Bike\Bike;
 use App\BikeRides\Bikes\Domain\Model\Bike\BikeNotFound;
 use App\BikeRides\Bikes\Infrastructure\PostgresBikeRepository;
 use BikeRides\SharedKernel\Domain\Model\BikeId;
+use BikeRides\SharedKernel\Domain\Model\Location;
 
 final class PostgresBikeRepositoryTest extends PostgresTestCase
 {
@@ -35,7 +36,7 @@ final class PostgresBikeRepositoryTest extends PostgresTestCase
 
         $this->repository->store($bike);
 
-        $bike->activate();
+        $bike->activate(new Location(0, 0));
 
         $this->repository->store($bike);
 

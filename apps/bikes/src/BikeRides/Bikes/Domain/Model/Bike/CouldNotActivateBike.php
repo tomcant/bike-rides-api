@@ -17,4 +17,9 @@ final class CouldNotActivateBike extends \DomainException
     {
         return new self($id, 'Bike is already active');
     }
+
+    public static function withoutTracking(BikeId $id): self
+    {
+        return new self($id, 'Bike has not been tracked');
+    }
 }
