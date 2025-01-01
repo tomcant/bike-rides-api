@@ -18,6 +18,7 @@ use App\Tests\BikeRides\Billing\Doubles\RidePaymentDuplicateCheckerStub;
 use App\Tests\BikeRides\Shared\Doubles\DomainEventBusDummy;
 use App\Tests\BikeRides\Shared\Doubles\DomainEventBusSpy;
 use BikeRides\Foundation\Domain\InMemoryEventStore;
+use BikeRides\Foundation\Domain\TransactionBoundaryDummy;
 use BikeRides\SharedKernel\Domain\Event\RidePaymentInitiated;
 use BikeRides\SharedKernel\Domain\Model\RideDuration;
 use Money\Money;
@@ -45,6 +46,7 @@ final class InitiateRidePaymentTest extends CommandTestCase
             ),
             new RidePaymentDuplicateCheckerStub(isDuplicate: false),
             new RideDetailsFetcherStub($rideDetails),
+            new TransactionBoundaryDummy(),
             $eventBus = new DomainEventBusSpy(),
         );
         $handler(new InitiateRidePaymentCommand($ridePaymentId->toString(), $rideId->toString()));
@@ -88,6 +90,7 @@ final class InitiateRidePaymentTest extends CommandTestCase
             new RidePaymentRepository(new InMemoryEventStore(new RidePaymentEventFactory())),
             $duplicateChecker = new RidePaymentDuplicateCheckerStub(isDuplicate: false),
             new RideDetailsFetcherStub($rideDetails),
+            new TransactionBoundaryDummy(),
             new DomainEventBusDummy(),
         );
         $handler(new InitiateRidePaymentCommand($ridePaymentId->toString(), $rideId->toString()));

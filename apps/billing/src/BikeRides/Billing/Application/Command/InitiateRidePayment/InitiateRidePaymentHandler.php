@@ -11,6 +11,7 @@ use App\BikeRides\Billing\Domain\Model\RidePayment\RidePaymentDuplicateChecker;
 use App\BikeRides\Billing\Domain\Model\RidePayment\RidePaymentRepository;
 use BikeRides\Foundation\Application\Command\CommandHandler;
 use BikeRides\Foundation\Domain\DomainEventBus;
+use BikeRides\Foundation\Domain\TransactionBoundary;
 use BikeRides\SharedKernel\Domain\Event\RidePaymentInitiated;
 
 final readonly class InitiateRidePaymentHandler implements CommandHandler
@@ -19,6 +20,7 @@ final readonly class InitiateRidePaymentHandler implements CommandHandler
         private RidePaymentRepository $ridePaymentRepository,
         private RidePaymentDuplicateChecker $duplicateChecker,
         private RideDetailsFetcher $rideDetailsFetcher,
+        private TransactionBoundary $transaction,
         private DomainEventBus $eventBus,
     ) {
     }
@@ -36,13 +38,23 @@ final readonly class InitiateRidePaymentHandler implements CommandHandler
             throw RidePaymentAlreadyExists::fromDomainException($exception);
         }
 
-        $this->ridePaymentRepository->store($ridePayment);
+        $this->transaction->begin();
 
-        $this->eventBus->publish(
-            new RidePaymentInitiated(
-                $ridePayment->getAggregateId()->toString(),
-                $ridePayment->getRideId()->toString(),
-            ),
-        );
+        try {
+            $this->ridePaymentRepository->store($ridePayment);
+
+            $this->eventBus->publish(
+                new RidePaymentInitiated(
+                    $ridePayment->getAggregateId()->toString(),
+                    $ridePayment->getRideId()->toString(),
+                ),
+            );
+        } catch (\Throwable $exception) {
+            $this->transaction->abort();
+
+            throw $exception;
+        }
+
+        $this->transaction->end();
     }
 }

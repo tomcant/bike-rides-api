@@ -21,6 +21,7 @@ services:
     BikeRides\Foundation\Application\Command\CommandBus: '@App\Framework\Messenger\Bus\SymfonyCommandBus'
     BikeRides\Foundation\Domain\AggregateEventsBus: '@App\Framework\Messenger\Bus\SymfonyAggregateEventsBus'
     BikeRides\Foundation\Domain\DomainEventBus: '@App\Framework\Messenger\Bus\SymfonyDomainEventBus'
+    BikeRides\Foundation\Domain\TransactionBoundary: '@App\Framework\Doctrine\DbalTransactionBoundary'
 
     App\BikeRides\Billing\Domain\Model\RidePayment\RidePaymentRepository:
         arguments:
