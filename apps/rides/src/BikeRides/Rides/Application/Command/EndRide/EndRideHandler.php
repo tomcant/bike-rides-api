@@ -7,12 +7,14 @@ namespace App\BikeRides\Rides\Application\Command\EndRide;
 use App\BikeRides\Rides\Domain\Model\Ride\RideRepository;
 use BikeRides\Foundation\Application\Command\CommandHandler;
 use BikeRides\Foundation\Domain\DomainEventBus;
+use BikeRides\Foundation\Domain\TransactionBoundary;
 use BikeRides\SharedKernel\Domain\Event\RideEnded;
 
 final readonly class EndRideHandler implements CommandHandler
 {
     public function __construct(
         private RideRepository $rideRepository,
+        private TransactionBoundary $transaction,
         private DomainEventBus $eventBus,
     ) {
     }
@@ -23,13 +25,23 @@ final readonly class EndRideHandler implements CommandHandler
 
         $ride->end();
 
-        $this->rideRepository->store($ride);
+        $this->transaction->begin();
 
-        $this->eventBus->publish(
-            new RideEnded(
-                $command->rideId->toString(),
-                $ride->getBikeId()->toString(),
-            ),
-        );
+        try {
+            $this->rideRepository->store($ride);
+
+            $this->eventBus->publish(
+                new RideEnded(
+                    $command->rideId->toString(),
+                    $ride->getBikeId()->toString(),
+                ),
+            );
+        } catch (\Throwable $exception) {
+            $this->transaction->abort();
+
+            throw $exception;
+        }
+
+        $this->transaction->end();
     }
 }

@@ -7,6 +7,7 @@ namespace App\Tests\BikeRides\Rides\Unit\Application\Command;
 use App\BikeRides\Rides\Application\Command\EndRide\EndRideCommand;
 use App\BikeRides\Rides\Application\Command\EndRide\EndRideHandler;
 use App\Tests\BikeRides\Shared\Doubles\DomainEventBusSpy;
+use BikeRides\Foundation\Domain\TransactionBoundaryDummy;
 use BikeRides\SharedKernel\Domain\Event\RideEnded;
 use BikeRides\SharedKernel\Domain\Model\BikeId;
 use BikeRides\SharedKernel\Domain\Model\RideId;
@@ -23,6 +24,7 @@ final class EndRideTest extends CommandTestCase
 
         $this->handler = new EndRideHandler(
             $this->rideRepository,
+            new TransactionBoundaryDummy(),
             $this->eventBus = new DomainEventBusSpy(),
         );
     }

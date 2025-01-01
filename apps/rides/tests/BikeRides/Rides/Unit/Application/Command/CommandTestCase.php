@@ -24,6 +24,7 @@ use BikeRides\Foundation\Clock\Clock;
 use BikeRides\Foundation\Clock\ClockStub;
 use BikeRides\Foundation\Domain\DomainEvent;
 use BikeRides\Foundation\Domain\InMemoryEventStore;
+use BikeRides\Foundation\Domain\TransactionBoundaryDummy;
 use BikeRides\SharedKernel\Domain\Model\BikeId;
 use BikeRides\SharedKernel\Domain\Model\Location;
 use BikeRides\SharedKernel\Domain\Model\RideId;
@@ -69,7 +70,7 @@ abstract class CommandTestCase extends TestCase
 
     protected function endRide(RideId $rideId): void
     {
-        $handler = new EndRideHandler($this->rideRepository, new DomainEventBusDummy());
+        $handler = new EndRideHandler($this->rideRepository, new TransactionBoundaryDummy(), new DomainEventBusDummy());
         $handler(new EndRideCommand($rideId->toString()));
     }
 
