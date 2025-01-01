@@ -9,7 +9,7 @@ use BikeRides\SharedKernel\Domain\Model\RiderId;
 
 final class RiderApiTest extends RidesUserInterfaceTestCase
 {
-    public function test_create_rider(): void
+    public function test_creating_a_rider(): void
     {
         $riderId = 'rider_id';
 

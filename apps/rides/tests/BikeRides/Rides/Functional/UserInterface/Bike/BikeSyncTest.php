@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace BikeRides\Rides\Functional\UserInterface\Bike;
+namespace App\Tests\BikeRides\Rides\Functional\UserInterface\Bike;
 
 use App\Tests\BikeRides\Rides\Functional\UserInterface\RidesUserInterfaceTestCase;
 use BikeRides\SharedKernel\Domain\Event\BikeActivated;

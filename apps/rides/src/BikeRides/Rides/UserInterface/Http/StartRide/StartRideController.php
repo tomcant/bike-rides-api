@@ -8,6 +8,7 @@ use App\BikeRides\Rides\Application\Command\StartRide\StartRideCommand;
 use BikeRides\Foundation\Application\Command\CommandBus;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Uid\Uuid;
@@ -26,10 +27,7 @@ final class StartRideController
         try {
             $bus->dispatch(new StartRideCommand($rideId, $input->riderId, $bikeId));
         } catch (\DomainException $exception) {
-            return new JsonResponse(
-                ['error' => $exception->getMessage()],
-                status: Response::HTTP_BAD_REQUEST,
-            );
+            throw new BadRequestHttpException($exception->getMessage());
         }
 
         return new JsonResponse(
