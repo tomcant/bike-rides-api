@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\BikeRides\Rides\Application\Command\SummariseRide;
 
 use App\BikeRides\Rides\Domain\Model\Ride\RideRepository;
-use App\BikeRides\Rides\Domain\Model\Ride\RouteFetcher;
 use BikeRides\Foundation\Application\Command\CommandHandler;
 
 final readonly class SummariseRideHandler implements CommandHandler
@@ -20,7 +19,9 @@ final readonly class SummariseRideHandler implements CommandHandler
     {
         $ride = $this->rideRepository->getById($command->rideId);
 
-        $ride->summarise($this->routeFetcher);
+        $route = $this->routeFetcher->fetch($ride);
+
+        $ride->summarise($route);
 
         $this->rideRepository->store($ride);
     }

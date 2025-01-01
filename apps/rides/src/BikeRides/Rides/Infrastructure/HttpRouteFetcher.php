@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\BikeRides\Rides\Infrastructure;
 
+use App\BikeRides\Rides\Application\Command\SummariseRide\RouteFetcher;
 use App\BikeRides\Rides\Domain\Model\Ride\Ride;
 use App\BikeRides\Rides\Domain\Model\Ride\Route;
-use App\BikeRides\Rides\Domain\Model\Ride\RouteFetcher;
 use BikeRides\SharedKernel\Domain\Model\Location;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 

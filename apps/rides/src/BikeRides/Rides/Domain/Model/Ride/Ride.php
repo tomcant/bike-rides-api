@@ -101,7 +101,7 @@ final class Ride extends Aggregate
         );
     }
 
-    public function summarise(RouteFetcher $routeFetcher): void
+    public function summarise(Route $route): void
     {
         if ($this->hasBeenSummarised()) {
             throw new \DomainException('Ride has already been summarised');
@@ -113,7 +113,7 @@ final class Ride extends Aggregate
 
         $summary = new Summary(
             RideDuration::fromStartAndEnd($this->startedAt, $this->endedAt),
-            $routeFetcher->fetch($this),
+            $route,
         );
 
         $this->raise(

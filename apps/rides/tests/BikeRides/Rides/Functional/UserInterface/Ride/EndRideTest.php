@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Tests\BikeRides\Rides\Functional\UserInterface\Ride;
 
 use App\BikeRides\Rides\Application\Command\RefreshBikeLocation\BikeLocationFetcher;
+use App\BikeRides\Rides\Application\Command\SummariseRide\RouteFetcher;
 use App\BikeRides\Rides\Domain\Model\Ride\Route;
-use App\BikeRides\Rides\Domain\Model\Ride\RouteFetcher;
 use App\Tests\BikeRides\Rides\Functional\UserInterface\RidesUserInterfaceTestCase;
 use BikeRides\SharedKernel\Domain\Model\Location;
 
