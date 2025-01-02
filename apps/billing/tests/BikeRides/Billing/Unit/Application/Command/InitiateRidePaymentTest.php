@@ -6,7 +6,7 @@ namespace App\Tests\BikeRides\Billing\Unit\Application\Command;
 
 use App\BikeRides\Billing\Application\Command\InitiateRidePayment\InitiateRidePaymentCommand;
 use App\BikeRides\Billing\Application\Command\InitiateRidePayment\InitiateRidePaymentHandler;
-use App\BikeRides\Billing\Application\Command\InitiateRidePayment\RidePaymentAlreadyExists;
+use App\BikeRides\Billing\Application\Command\InitiateRidePayment\RidePaymentAlreadyInitiated;
 use App\BikeRides\Billing\Domain\Model\RidePayment\Event\RidePaymentEventFactory;
 use App\BikeRides\Billing\Domain\Model\RidePayment\RideDetails;
 use App\BikeRides\Billing\Domain\Model\RidePayment\RideId;
@@ -15,7 +15,6 @@ use App\BikeRides\Billing\Domain\Model\RidePayment\RidePaymentRepository;
 use App\BikeRides\Billing\Domain\Model\RidePayment\RidePrice;
 use App\Tests\BikeRides\Billing\Doubles\RideDetailsFetcherStub;
 use App\Tests\BikeRides\Billing\Doubles\RidePaymentDuplicateCheckerStub;
-use App\Tests\BikeRides\Shared\Doubles\DomainEventBusDummy;
 use App\Tests\BikeRides\Shared\Doubles\DomainEventBusSpy;
 use BikeRides\Foundation\Domain\InMemoryEventStore;
 use BikeRides\Foundation\Domain\TransactionBoundaryDummy;
@@ -25,81 +24,73 @@ use Money\Money;
 
 final class InitiateRidePaymentTest extends CommandTestCase
 {
-    public function test_it_initiates_a_ride_payment(): void
+    private const int PRICE_PER_MINUTE_IN_PENCE = 25;
+    private InitiateRidePaymentHandler $handler;
+    private RidePaymentRepository $repository;
+    private RidePaymentDuplicateCheckerStub $duplicateChecker;
+    private RideDuration $rideDuration;
+    private DomainEventBusSpy $eventBus;
+
+    protected function setUp(): void
     {
-        $rideDurationInMinutes = 10;
-        $pricePerMinuteInPence = 25;
-
-        $ridePaymentId = RidePaymentId::generate();
-        $rideId = RideId::fromString('ride_id');
-
-        $rideDetails = new RideDetails(
-            $rideDuration = RideDuration::fromStartAndEnd(
-                $startedAt = (new \DateTimeImmutable())->setTime(hour: 12, minute: 30),
-                $startedAt->modify('+' . $rideDurationInMinutes . ' minutes'),
-            ),
+        $this->rideDuration = RideDuration::fromStartAndEnd(
+            $startedAt = (new \DateTimeImmutable())->setTime(hour: 12, minute: 30),
+            $startedAt->modify('+10 minutes'),
         );
 
-        $handler = new InitiateRidePaymentHandler(
-            $ridePaymentRepository = new RidePaymentRepository(
-                new InMemoryEventStore(new RidePaymentEventFactory()),
-            ),
-            new RidePaymentDuplicateCheckerStub(isDuplicate: false),
-            new RideDetailsFetcherStub($rideDetails),
+        $this->handler = new InitiateRidePaymentHandler(
+            $this->repository = new RidePaymentRepository(new InMemoryEventStore(new RidePaymentEventFactory())),
+            $this->duplicateChecker = new RidePaymentDuplicateCheckerStub(isDuplicate: false),
+            new RideDetailsFetcherStub(new RideDetails($this->rideDuration)),
             new TransactionBoundaryDummy(),
-            $eventBus = new DomainEventBusSpy(),
-        );
-        $handler(new InitiateRidePaymentCommand($ridePaymentId->toString(), $rideId->toString()));
-
-        $ridePayment = $ridePaymentRepository->getById($ridePaymentId);
-
-        self::assertEquals($ridePaymentId, $ridePayment->getAggregateId());
-        self::assertEquals($rideId, $ridePayment->getRideId());
-
-        self::assertEquals(
-            new RidePrice(
-                Money::GBP($rideDurationInMinutes * $pricePerMinuteInPence),
-                Money::GBP($pricePerMinuteInPence),
-                $rideDuration,
-            ),
-            $ridePayment->getRidePrice(),
-        );
-
-        self::assertDomainEventEquals(
-            new RidePaymentInitiated(
-                ridePaymentId: $ridePaymentId->toString(),
-                rideId: $rideId->toString(),
-            ),
-            $eventBus->lastEvent,
+            $this->eventBus = new DomainEventBusSpy(),
         );
     }
 
-    public function test_it_deduplicates_ride_payments(): void
+    public function test_it_initiates_a_ride_payment(): void
     {
         $ridePaymentId = RidePaymentId::generate();
         $rideId = RideId::fromString('ride_id');
 
-        $rideDetails = new RideDetails(
-            RideDuration::fromStartAndEnd(
-                new \DateTimeImmutable('now'),
-                new \DateTimeImmutable('+10 seconds'),
+        ($this->handler)(new InitiateRidePaymentCommand($ridePaymentId->toString(), $rideId->toString()));
+
+        $ridePayment = $this->repository->getById($ridePaymentId);
+        self::assertEquals($rideId, $ridePayment->getRideId());
+        self::assertEquals(
+            new RidePrice(
+                totalPrice: Money::GBP($this->rideDuration->minutes * self::PRICE_PER_MINUTE_IN_PENCE),
+                pricePerMinute: Money::GBP(self::PRICE_PER_MINUTE_IN_PENCE),
+                rideDuration: $this->rideDuration,
             ),
+            $ridePayment->getRidePrice(),
         );
+    }
 
-        $handler = new InitiateRidePaymentHandler(
-            new RidePaymentRepository(new InMemoryEventStore(new RidePaymentEventFactory())),
-            $duplicateChecker = new RidePaymentDuplicateCheckerStub(isDuplicate: false),
-            new RideDetailsFetcherStub($rideDetails),
-            new TransactionBoundaryDummy(),
-            new DomainEventBusDummy(),
+    public function test_it_publishes_a_ride_payment_initiated_domain_event(): void
+    {
+        $ridePaymentId = RidePaymentId::generate();
+        $rideId = RideId::fromString('ride_id');
+
+        ($this->handler)(new InitiateRidePaymentCommand($ridePaymentId->toString(), $rideId->toString()));
+
+        self::assertDomainEventEquals(
+            new RidePaymentInitiated($ridePaymentId->toString(), $rideId->toString()),
+            $this->eventBus->lastEvent,
         );
-        $handler(new InitiateRidePaymentCommand($ridePaymentId->toString(), $rideId->toString()));
+    }
 
-        $duplicateChecker->setIsDuplicate(true);
+    public function test_it_does_not_initiaite_multiple_ride_payments_for_the_same_ride(): void
+    {
+        $ridePaymentId = RidePaymentId::generate();
+        $rideId = RideId::fromString('ride_id');
 
-        self::expectException(RidePaymentAlreadyExists::class);
+        ($this->handler)(new InitiateRidePaymentCommand($ridePaymentId->toString(), $rideId->toString()));
+
+        $this->duplicateChecker->setIsDuplicate(true);
+
+        self::expectException(RidePaymentAlreadyInitiated::class);
         self::expectExceptionMessage(\sprintf("Duplicate payment for ride ID '%s'", $rideId->toString()));
 
-        $handler(new InitiateRidePaymentCommand($ridePaymentId->toString(), $rideId->toString()));
+        ($this->handler)(new InitiateRidePaymentCommand($ridePaymentId->toString(), $rideId->toString()));
     }
 }

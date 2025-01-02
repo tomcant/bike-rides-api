@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\BikeRides\Billing\UserInterface\Event;
 
 use App\BikeRides\Billing\Application\Command\InitiateRidePayment\InitiateRidePaymentCommand;
-use App\BikeRides\Billing\Application\Command\InitiateRidePayment\RidePaymentAlreadyExists;
+use App\BikeRides\Billing\Application\Command\InitiateRidePayment\RidePaymentAlreadyInitiated;
 use BikeRides\Foundation\Application\Command\CommandBus;
 use BikeRides\Foundation\Domain\DomainEventSubscriber;
 use BikeRides\SharedKernel\Domain\Event\RideEnded;
@@ -23,8 +23,13 @@ final readonly class InitiatePaymentWhenRideEnded implements DomainEventSubscrib
     public function __invoke(RideEnded $event): void
     {
         try {
-            $this->bus->dispatch(new InitiateRidePaymentCommand(Uuid::v4()->toRfc4122(), $event->rideId));
-        } catch (RidePaymentAlreadyExists) {
+            $this->bus->dispatch(
+                new InitiateRidePaymentCommand(
+                    ridePaymentId: Uuid::v4()->toRfc4122(),
+                    rideId: $event->rideId,
+                ),
+            );
+        } catch (RidePaymentAlreadyInitiated) {
             $this->logger->notice('Duplicate ride payment', ['rideId' => $event->rideId]);
         }
     }

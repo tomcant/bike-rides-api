@@ -36,10 +36,9 @@ final class Version20231001151431 extends AbstractMigration
                 initiated_at TIMESTAMPTZ NOT NULL,
                 captured_at TIMESTAMPTZ,
                 external_payment_ref VARCHAR,
-                PRIMARY KEY (ride_payment_id)
+                PRIMARY KEY (ride_payment_id),
+                UNIQUE (ride_id)
             );
         ');
-
-        $this->addSql('CREATE INDEX projection_ride_payment_ride_id ON billing.projection_ride_payment (ride_id);');
     }
 }

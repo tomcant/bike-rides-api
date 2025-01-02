@@ -49,10 +49,7 @@ final class ActivateBikeTest extends CommandTestCase
         ($this->handler)(new ActivateBikeCommand($bikeId->toString()));
 
         self::assertDomainEventEquals(
-            new BikeActivated(
-                $bikeId->toString(),
-                $location,
-            ),
+            new BikeActivated($bikeId->toString(), $location),
             $this->eventBus->lastEvent,
         );
     }

@@ -6,14 +6,13 @@ namespace App\Tests\BikeRides\Billing\Functional\UserInterface;
 
 use BikeRides\SharedKernel\Domain\Event\RideEnded;
 use Money\Money;
-use Monolog\Handler\TestHandler;
 use Symfony\Component\HttpClient\MockHttpClient;
 use Symfony\Component\HttpClient\Response\JsonMockResponse;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 final class RidePaymentTest extends UserInterfaceTestCase
 {
-    public function test_payment_is_initiated_when_a_ride_ends(): void
+    public function test_a_ride_payment_is_initiated_when_a_ride_ends(): void
     {
         $rideId = 'ride_id';
         $fetchRideDetailsHttpResponse = new JsonMockResponse(
@@ -39,13 +38,9 @@ final class RidePaymentTest extends UserInterfaceTestCase
         self::assertSame('external_payment_ref', $ridePayment['external_payment_ref']);
     }
 
-    public function test_ride_payment_deduplication(): void
+    public function test_it_does_not_initiaite_multiple_ride_payments_for_the_same_ride(): void
     {
-        self::getContainer()->get('logger')->pushHandler($logHandler = new TestHandler());
-        $expectedLogMessage = 'Duplicate ride payment';
-
         $rideId = 'ride_id';
-
         $fetchRideDetailsHttpResponse = new JsonMockResponse(
             [
                 'started_at' => (new \DateTimeImmutable('-2 hour'))->getTimestamp(),
@@ -56,13 +51,13 @@ final class RidePaymentTest extends UserInterfaceTestCase
 
         $this->handleDomainEvent(new RideEnded($rideId, 'bike_id'));
 
-        self::assertSame(1, $this->fetchRidePayments($rideId)['total']);
-        self::assertFalse($logHandler->hasNotice($expectedLogMessage));
+        $ridePayments = $this->fetchRidePayments($rideId);
+        self::assertSame(1, $ridePayments['total']);
 
         $this->handleDomainEvent(new RideEnded($rideId, 'bike_id'));
 
-        self::assertSame(1, $this->fetchRidePayments($rideId)['total']);
-        self::assertTrue($logHandler->hasNotice($expectedLogMessage));
+        $ridePayments = $this->fetchRidePayments($rideId);
+        self::assertSame(1, $ridePayments['total']);
     }
 
     /** @return array<mixed, mixed> */

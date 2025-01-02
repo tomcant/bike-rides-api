@@ -2,9 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\BikeRides\Billing\Domain\Model\RidePayment;
+namespace App\BikeRides\Billing\Application\Command\InitiateRidePayment;
 
-final class RidePaymentAlreadyExists extends \DomainException
+use App\BikeRides\Billing\Domain\Model\RidePayment\RideId;
+
+final class RidePaymentAlreadyInitiated extends \RuntimeException
 {
     public function __construct(public readonly RideId $rideId)
     {

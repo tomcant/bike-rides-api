@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\BikeRides\Billing\Doubles;
 
+use App\BikeRides\Billing\Application\Command\InitiateRidePayment\RidePaymentDuplicateChecker;
 use App\BikeRides\Billing\Domain\Model\RidePayment\RideId;
-use App\BikeRides\Billing\Domain\Model\RidePayment\RidePaymentDuplicateChecker;
 
 final class RidePaymentDuplicateCheckerStub implements RidePaymentDuplicateChecker
 {

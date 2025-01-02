@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\BikeRides\Billing\Infrastructure;
 
+use App\BikeRides\Billing\Application\Command\InitiateRidePayment\RideDetailsFetcher;
 use App\BikeRides\Billing\Domain\Model\RidePayment\RideDetails;
-use App\BikeRides\Billing\Domain\Model\RidePayment\RideDetailsFetcher;
 use App\BikeRides\Billing\Domain\Model\RidePayment\RideId;
 use BikeRides\SharedKernel\Domain\Model\RideDuration;
 use Symfony\Contracts\HttpClient\HttpClientInterface;

@@ -46,18 +46,9 @@ final class RidePayment extends Aggregate
         return null !== $this->externalPaymentRef;
     }
 
-    public static function initiate(
-        RidePaymentId $ridePaymentId,
-        RideId $rideId,
-        RideDetailsFetcher $rideDetailsFetcher,
-        RidePaymentDuplicateChecker $duplicateChecker,
-    ): self {
-        if ($duplicateChecker->isDuplicate($rideId)) {
-            throw new RidePaymentAlreadyExists($rideId);
-        }
-
+    public static function initiate(RidePaymentId $ridePaymentId, RideId $rideId, RideDetails $rideDetails): self
+    {
         $ridePayment = new self();
-        $rideDetails = $rideDetailsFetcher->fetch($rideId);
         $ridePrice = (new RidePriceCalculator())->calculatePrice($rideDetails->duration);
 
         $ridePayment->raise(

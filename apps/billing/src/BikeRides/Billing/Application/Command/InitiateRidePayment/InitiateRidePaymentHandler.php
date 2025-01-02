@@ -4,10 +4,7 @@ declare(strict_types=1);
 
 namespace App\BikeRides\Billing\Application\Command\InitiateRidePayment;
 
-use App\BikeRides\Billing\Domain\Model\RidePayment\RideDetailsFetcher;
 use App\BikeRides\Billing\Domain\Model\RidePayment\RidePayment;
-use App\BikeRides\Billing\Domain\Model\RidePayment\RidePaymentAlreadyExists as RidePaymentAlreadyExistsDomainException;
-use App\BikeRides\Billing\Domain\Model\RidePayment\RidePaymentDuplicateChecker;
 use App\BikeRides\Billing\Domain\Model\RidePayment\RidePaymentRepository;
 use BikeRides\Foundation\Application\Command\CommandHandler;
 use BikeRides\Foundation\Domain\DomainEventBus;
@@ -27,16 +24,12 @@ final readonly class InitiateRidePaymentHandler implements CommandHandler
 
     public function __invoke(InitiateRidePaymentCommand $command): void
     {
-        try {
-            $ridePayment = RidePayment::initiate(
-                $command->ridePaymentId,
-                $command->rideId,
-                $this->rideDetailsFetcher,
-                $this->duplicateChecker,
-            );
-        } catch (RidePaymentAlreadyExistsDomainException $exception) {
-            throw RidePaymentAlreadyExists::fromDomainException($exception);
+        if ($this->duplicateChecker->isDuplicate($command->rideId)) {
+            throw new RidePaymentAlreadyInitiated($command->rideId);
         }
+
+        $rideDetails = $this->rideDetailsFetcher->fetch($command->rideId);
+        $ridePayment = RidePayment::initiate($command->ridePaymentId, $command->rideId, $rideDetails);
 
         $this->transaction->begin();
 
