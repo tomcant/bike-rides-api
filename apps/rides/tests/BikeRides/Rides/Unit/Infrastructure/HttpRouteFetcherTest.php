@@ -7,7 +7,6 @@ namespace App\Tests\BikeRides\Rides\Unit\Infrastructure;
 use App\BikeRides\Rides\Domain\Model\Ride\Ride;
 use App\BikeRides\Rides\Domain\Model\Ride\Route;
 use App\BikeRides\Rides\Infrastructure\HttpRouteFetcher;
-use App\Tests\BikeRides\Rides\Doubles\BikeAvailabilityCheckerStub;
 use BikeRides\SharedKernel\Domain\Model\BikeId;
 use BikeRides\SharedKernel\Domain\Model\Location;
 use BikeRides\SharedKernel\Domain\Model\RideId;
@@ -48,7 +47,6 @@ final class HttpRouteFetcherTest extends TestCase
             RideId::generate(),
             RiderId::fromString('rider_id'),
             BikeId::generate(),
-            BikeAvailabilityCheckerStub::available(),
         );
         $ride->end();
         $httpClient = new MockHttpClient($response = new JsonMockResponse(self::BIKE_TRACKING_API_RESPONSE));

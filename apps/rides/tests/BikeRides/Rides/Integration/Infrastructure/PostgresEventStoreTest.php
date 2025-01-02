@@ -7,7 +7,6 @@ namespace App\Tests\BikeRides\Rides\Integration\Infrastructure;
 use App\BikeRides\Rides\Domain\Model\Ride\Event\RideEventFactory;
 use App\BikeRides\Rides\Domain\Model\Ride\Ride;
 use App\BikeRides\Rides\Infrastructure\PostgresEventStore;
-use App\Tests\BikeRides\Rides\Doubles\BikeAvailabilityCheckerStub;
 use App\Tests\BikeRides\Shared\Doubles\AggregateEventsBusSpy;
 use BikeRides\Foundation\Domain\AggregateEvents;
 use BikeRides\SharedKernel\Domain\Model\BikeId;
@@ -66,7 +65,6 @@ final class PostgresEventStoreTest extends PostgresTestCase
             RideId::generate(),
             RiderId::fromString('rider_id'),
             BikeId::generate(),
-            BikeAvailabilityCheckerStub::available(),
         );
         $ride->end();
 

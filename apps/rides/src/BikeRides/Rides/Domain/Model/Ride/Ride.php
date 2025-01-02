@@ -61,16 +61,8 @@ final class Ride extends Aggregate
         return null !== $this->summary;
     }
 
-    public static function start(
-        RideId $rideId,
-        RiderId $riderId,
-        BikeId $bikeId,
-        BikeAvailabilityChecker $bikeAvailabilityChecker,
-    ): self {
-        if (!$bikeAvailabilityChecker->isAvailable($bikeId)) {
-            throw new \DomainException(\sprintf('Bike "%s" is not available', $bikeId->toString()));
-        }
-
+    public static function start(RideId $rideId, RiderId $riderId, BikeId $bikeId): self
+    {
         $ride = new self();
 
         $ride->raise(

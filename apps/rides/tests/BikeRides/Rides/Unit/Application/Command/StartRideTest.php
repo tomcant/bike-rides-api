@@ -31,7 +31,7 @@ final class StartRideTest extends CommandTestCase
         $this->createRider($riderId = RiderId::fromString('rider_id'));
         $this->createBike($bikeId = BikeId::generate());
 
-        self::expectException(\DomainException::class);
+        self::expectException(\RuntimeException::class);
         self::expectExceptionMessage(\sprintf('Bike "%s" is not available', $bikeId->toString()));
 
         $handler = new StartRideHandler($this->rideRepository, BikeAvailabilityCheckerStub::notAvailable());

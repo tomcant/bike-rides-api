@@ -26,7 +26,7 @@ final class StartRideController
 
         try {
             $bus->dispatch(new StartRideCommand($rideId, $input->riderId, $bikeId));
-        } catch (\DomainException $exception) {
+        } catch (\RuntimeException $exception) {
             throw new BadRequestHttpException($exception->getMessage());
         }
 

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\BikeRides\Rides\Domain\Model\Ride;
+namespace App\BikeRides\Rides\Application\Command\StartRide;
 
 use BikeRides\SharedKernel\Domain\Model\BikeId;
 
