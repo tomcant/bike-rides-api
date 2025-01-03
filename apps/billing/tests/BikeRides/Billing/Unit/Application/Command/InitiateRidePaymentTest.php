@@ -9,7 +9,6 @@ use App\BikeRides\Billing\Application\Command\InitiateRidePayment\InitiateRidePa
 use App\BikeRides\Billing\Application\Command\InitiateRidePayment\RidePaymentAlreadyInitiated;
 use App\BikeRides\Billing\Domain\Model\RidePayment\Event\RidePaymentEventFactory;
 use App\BikeRides\Billing\Domain\Model\RidePayment\RideDetails;
-use App\BikeRides\Billing\Domain\Model\RidePayment\RideId;
 use App\BikeRides\Billing\Domain\Model\RidePayment\RidePaymentId;
 use App\BikeRides\Billing\Domain\Model\RidePayment\RidePaymentRepository;
 use App\BikeRides\Billing\Domain\Model\RidePayment\RidePrice;
@@ -20,6 +19,7 @@ use BikeRides\Foundation\Domain\InMemoryEventStore;
 use BikeRides\Foundation\Domain\TransactionBoundaryDummy;
 use BikeRides\SharedKernel\Domain\Event\RidePaymentInitiated;
 use BikeRides\SharedKernel\Domain\Model\RideDuration;
+use BikeRides\SharedKernel\Domain\Model\RideId;
 use Money\Money;
 
 final class InitiateRidePaymentTest extends CommandTestCase
@@ -50,7 +50,7 @@ final class InitiateRidePaymentTest extends CommandTestCase
     public function test_it_initiates_a_ride_payment(): void
     {
         $ridePaymentId = RidePaymentId::generate();
-        $rideId = RideId::fromString('ride_id');
+        $rideId = RideId::generate();
 
         ($this->handler)(new InitiateRidePaymentCommand($ridePaymentId->toString(), $rideId->toString()));
 
@@ -69,7 +69,7 @@ final class InitiateRidePaymentTest extends CommandTestCase
     public function test_it_publishes_a_ride_payment_initiated_domain_event(): void
     {
         $ridePaymentId = RidePaymentId::generate();
-        $rideId = RideId::fromString('ride_id');
+        $rideId = RideId::generate();
 
         ($this->handler)(new InitiateRidePaymentCommand($ridePaymentId->toString(), $rideId->toString()));
 
@@ -82,7 +82,7 @@ final class InitiateRidePaymentTest extends CommandTestCase
     public function test_it_does_not_initiaite_multiple_ride_payments_for_the_same_ride(): void
     {
         $ridePaymentId = RidePaymentId::generate();
-        $rideId = RideId::fromString('ride_id');
+        $rideId = RideId::generate();
 
         ($this->handler)(new InitiateRidePaymentCommand($ridePaymentId->toString(), $rideId->toString()));
 

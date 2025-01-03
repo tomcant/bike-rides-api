@@ -39,7 +39,6 @@ final class HttpBikeLocationFetcherTest extends TestCase
     {
         $bikeId = BikeId::generate();
         $bike = new Bike($bikeId, new Location(0, 0));
-
         $httpClient = new MockHttpClient($response = new JsonMockResponse(self::BIKE_TRACKING_API_RESPONSE));
 
         $fetcher = new HttpBikeLocationFetcher($httpClient, trackingApiUrlTemplate: 'http://bikes-api/{bikeId}/{from}/{to}');

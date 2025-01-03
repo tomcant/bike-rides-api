@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\BikeRides\Billing\Domain\Model\RidePayment\Event;
 
-use App\BikeRides\Billing\Domain\Model\RidePayment\RideId;
 use App\BikeRides\Billing\Domain\Model\RidePayment\RidePayment;
 use App\BikeRides\Billing\Domain\Model\RidePayment\RidePaymentId;
 use App\BikeRides\Billing\Domain\Model\RidePayment\RidePrice;
@@ -13,6 +12,7 @@ use BikeRides\Foundation\Domain\AggregateName;
 use BikeRides\Foundation\Domain\AggregateVersion;
 use BikeRides\Foundation\Json;
 use BikeRides\Foundation\Timestamp;
+use BikeRides\SharedKernel\Domain\Model\RideId;
 
 final readonly class RidePaymentWasInitiated implements AggregateEvent
 {

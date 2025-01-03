@@ -6,7 +6,7 @@ namespace App\Tests\BikeRides\Billing\Doubles;
 
 use App\BikeRides\Billing\Application\Command\InitiateRidePayment\RideDetailsFetcher;
 use App\BikeRides\Billing\Domain\Model\RidePayment\RideDetails;
-use App\BikeRides\Billing\Domain\Model\RidePayment\RideId;
+use BikeRides\SharedKernel\Domain\Model\RideId;
 
 final readonly class RideDetailsFetcherStub implements RideDetailsFetcher
 {

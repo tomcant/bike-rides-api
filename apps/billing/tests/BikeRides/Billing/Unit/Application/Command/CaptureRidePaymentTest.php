@@ -11,7 +11,6 @@ use App\BikeRides\Billing\Application\Command\InitiateRidePayment\InitiateRidePa
 use App\BikeRides\Billing\Application\Command\InitiateRidePayment\InitiateRidePaymentHandler;
 use App\BikeRides\Billing\Domain\Model\RidePayment\Event\RidePaymentEventFactory;
 use App\BikeRides\Billing\Domain\Model\RidePayment\RideDetails;
-use App\BikeRides\Billing\Domain\Model\RidePayment\RideId;
 use App\BikeRides\Billing\Domain\Model\RidePayment\RidePaymentId;
 use App\BikeRides\Billing\Domain\Model\RidePayment\RidePaymentRepository;
 use App\Tests\BikeRides\Billing\Doubles\RideDetailsFetcherStub;
@@ -21,6 +20,7 @@ use App\Tests\BikeRides\Shared\Doubles\DomainEventBusDummy;
 use BikeRides\Foundation\Domain\InMemoryEventStore;
 use BikeRides\Foundation\Domain\TransactionBoundaryDummy;
 use BikeRides\SharedKernel\Domain\Model\RideDuration;
+use BikeRides\SharedKernel\Domain\Model\RideId;
 
 final class CaptureRidePaymentTest extends CommandTestCase
 {
@@ -39,7 +39,7 @@ final class CaptureRidePaymentTest extends CommandTestCase
     {
         $this->initiateRidePayment(
             $ridePaymentId = RidePaymentId::generate(),
-            RideId::fromString('ride_id'),
+            RideId::generate(),
         );
 
         $handler = new CaptureRidePaymentHandler(
@@ -58,7 +58,7 @@ final class CaptureRidePaymentTest extends CommandTestCase
     {
         $this->initiateRidePayment(
             $ridePaymentId = RidePaymentId::generate(),
-            RideId::fromString('ride_id'),
+            RideId::generate(),
         );
 
         $handler = new CaptureRidePaymentHandler(

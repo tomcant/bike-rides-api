@@ -7,6 +7,7 @@ namespace App\BikeRides\Billing\Domain\Model\RidePayment;
 use BikeRides\Foundation\Clock\Clock;
 use BikeRides\Foundation\Domain\Aggregate;
 use BikeRides\Foundation\Domain\AggregateName;
+use BikeRides\SharedKernel\Domain\Model\RideId;
 
 final class RidePayment extends Aggregate
 {

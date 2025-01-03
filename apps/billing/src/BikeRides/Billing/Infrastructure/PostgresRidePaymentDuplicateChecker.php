@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\BikeRides\Billing\Infrastructure;
 
 use App\BikeRides\Billing\Application\Command\InitiateRidePayment\RidePaymentDuplicateChecker;
-use App\BikeRides\Billing\Domain\Model\RidePayment\RideId;
+use BikeRides\SharedKernel\Domain\Model\RideId;
 use Doctrine\DBAL\Connection;
 
 final readonly class PostgresRidePaymentDuplicateChecker implements RidePaymentDuplicateChecker

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\BikeRides\Billing\Functional\UserInterface;
 
 use BikeRides\SharedKernel\Domain\Event\RideEnded;
+use BikeRides\SharedKernel\Domain\Model\RideId;
 use Money\Money;
 use Symfony\Component\HttpClient\MockHttpClient;
 use Symfony\Component\HttpClient\Response\JsonMockResponse;
@@ -14,7 +15,7 @@ final class RidePaymentTest extends UserInterfaceTestCase
 {
     public function test_a_ride_payment_is_initiated_when_a_ride_ends(): void
     {
-        $rideId = 'ride_id';
+        $rideId = RideId::generate()->toString();
         $fetchRideDetailsHttpResponse = new JsonMockResponse(
             [
                 'started_at' => (new \DateTimeImmutable('-2 hour'))->getTimestamp(),
@@ -40,7 +41,7 @@ final class RidePaymentTest extends UserInterfaceTestCase
 
     public function test_it_does_not_initiaite_multiple_ride_payments_for_the_same_ride(): void
     {
-        $rideId = 'ride_id';
+        $rideId = RideId::generate()->toString();
         $fetchRideDetailsHttpResponse = new JsonMockResponse(
             [
                 'started_at' => (new \DateTimeImmutable('-2 hour'))->getTimestamp(),

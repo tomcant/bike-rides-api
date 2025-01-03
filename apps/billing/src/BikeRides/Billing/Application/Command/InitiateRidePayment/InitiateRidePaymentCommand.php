@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\BikeRides\Billing\Application\Command\InitiateRidePayment;
 
-use App\BikeRides\Billing\Domain\Model\RidePayment\RideId;
 use App\BikeRides\Billing\Domain\Model\RidePayment\RidePaymentId;
 use BikeRides\Foundation\Application\Command\Command;
 use BikeRides\Foundation\Json;
+use BikeRides\SharedKernel\Domain\Model\RideId;
 
 final readonly class InitiateRidePaymentCommand implements Command
 {

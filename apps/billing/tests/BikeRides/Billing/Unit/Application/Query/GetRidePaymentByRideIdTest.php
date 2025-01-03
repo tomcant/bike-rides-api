@@ -8,7 +8,6 @@ use App\BikeRides\Billing\Application\Query\GetRidePaymentByRideId;
 use App\BikeRides\Billing\Domain\Model\RidePayment\Event\RidePaymentWasCaptured;
 use App\BikeRides\Billing\Domain\Model\RidePayment\Event\RidePaymentWasInitiated;
 use App\BikeRides\Billing\Domain\Model\RidePayment\ExternalPaymentRef;
-use App\BikeRides\Billing\Domain\Model\RidePayment\RideId;
 use App\BikeRides\Billing\Domain\Model\RidePayment\RidePaymentId;
 use App\BikeRides\Billing\Domain\Model\RidePayment\RidePriceCalculator;
 use App\BikeRides\Billing\Domain\Projection\RidePayment\RidePaymentProjector;
@@ -16,6 +15,7 @@ use App\Tests\BikeRides\Billing\Doubles\InMemoryRidePaymentProjectionRepository;
 use BikeRides\Foundation\Domain\AggregateEvents;
 use BikeRides\Foundation\Domain\AggregateVersion;
 use BikeRides\SharedKernel\Domain\Model\RideDuration;
+use BikeRides\SharedKernel\Domain\Model\RideId;
 use PHPUnit\Framework\TestCase;
 
 final class GetRidePaymentByRideIdTest extends TestCase
@@ -35,7 +35,7 @@ final class GetRidePaymentByRideIdTest extends TestCase
     public function test_it_can_get_a_ride_payment_by_ride_id(): void
     {
         $ridePaymentId = RidePaymentId::generate();
-        $rideId = RideId::fromString('ride_id');
+        $rideId = RideId::generate();
 
         $ridePrice = (new RidePriceCalculator())
             ->calculatePrice(
@@ -81,7 +81,7 @@ final class GetRidePaymentByRideIdTest extends TestCase
 
     public function test_no_ride_payment_is_found_when_given_an_unknown_ride_id(): void
     {
-        $rideId = RideId::fromString('ride_id');
+        $rideId = RideId::generate();
 
         $ridePayment = $this->query->query($rideId->toString());
 
