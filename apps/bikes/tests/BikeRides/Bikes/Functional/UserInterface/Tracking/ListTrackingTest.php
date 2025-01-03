@@ -16,24 +16,24 @@ final class ListTrackingTest extends BikesUserInterfaceTestCase
     {
         $bike = $this->registerBike();
         $fromTimestamp = Clock::now()->getTimestamp();
-        $this->recordTrackingEvent($bike['bike_id'], $locationOne = new Location(0, 0));
-        $this->recordTrackingEvent($bike['bike_id'], $locationTwo = new Location(1, 1));
-        $this->recordTrackingEvent($bike['bike_id'], $locationThree = new Location(2, 2));
+        $this->recordTrackingEvent($bike['bike_id'], $location1 = new Location(0, 0));
+        $this->recordTrackingEvent($bike['bike_id'], $location2 = new Location(1, 1));
+        $this->recordTrackingEvent($bike['bike_id'], $location3 = new Location(2, 2));
         $toTimestamp = Clock::now()->getTimestamp();
 
         $list = $this->getJson("/tracking?bike_id={$bike['bike_id']}&from={$fromTimestamp}&to={$toTimestamp}");
 
-        self::assertCount(3, $list['_embedded']['tracking_event']);
         self::assertSame(3, $list['total']);
+        self::assertCount(3, $list['_embedded']['tracking_event']);
 
         foreach ($list['_embedded']['tracking_event'] as $event) {
             self::assertArrayHasKeys($event, ['location', 'tracked_at']);
             self::assertIsNumeric($event['tracked_at']);
         }
 
-        self::assertEquals($locationOne->toArray(), $list['_embedded']['tracking_event'][0]['location']);
-        self::assertEquals($locationTwo->toArray(), $list['_embedded']['tracking_event'][1]['location']);
-        self::assertEquals($locationThree->toArray(), $list['_embedded']['tracking_event'][2]['location']);
+        self::assertEquals($location1->toArray(), $list['_embedded']['tracking_event'][0]['location']);
+        self::assertEquals($location2->toArray(), $list['_embedded']['tracking_event'][1]['location']);
+        self::assertEquals($location3->toArray(), $list['_embedded']['tracking_event'][2]['location']);
     }
 
     /** @param list<array{from?: mixed, to?: mixed}> $timeRange */

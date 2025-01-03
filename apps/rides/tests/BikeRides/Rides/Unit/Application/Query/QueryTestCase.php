@@ -8,6 +8,7 @@ use App\BikeRides\Rides\Domain\Model\Ride\Event\RideWasEnded;
 use App\BikeRides\Rides\Domain\Model\Ride\Event\RideWasStarted;
 use App\BikeRides\Rides\Domain\Model\Ride\Event\RideWasSummarised;
 use App\BikeRides\Rides\Domain\Model\Ride\Summary;
+use BikeRides\Foundation\Clock\Clock;
 use BikeRides\Foundation\Domain\AggregateEvent;
 use BikeRides\Foundation\Domain\AggregateEvents;
 use BikeRides\Foundation\Domain\AggregateEventsSubscriber;
@@ -19,40 +20,39 @@ use PHPUnit\Framework\TestCase;
 
 abstract class QueryTestCase extends TestCase
 {
-    private AggregateEvents $events;
     private AggregateVersion $version;
+    private AggregateEventsSubscriber $projector;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->events = new AggregateEvents([]);
         $this->version = AggregateVersion::zero();
+    }
+
+    final protected function useProjector(AggregateEventsSubscriber $projector): void
+    {
+        $this->projector = $projector;
     }
 
     protected function startRide(RideId $rideId, RiderId $riderId, BikeId $bikeId, \DateTimeImmutable $startedAt): void
     {
-        $this->addEvent(new RideWasStarted($this->version, $rideId, $riderId, $bikeId, $startedAt));
+        $this->projectEvent(new RideWasStarted($this->version, $rideId, $riderId, $bikeId, $startedAt));
     }
 
     protected function endRide(RideId $rideId, \DateTimeImmutable $endedAt): void
     {
-        $this->addEvent(new RideWasEnded($this->version, $rideId, $endedAt));
+        $this->projectEvent(new RideWasEnded($this->version, $rideId, $endedAt));
     }
 
     protected function summariseRide(RideId $rideId, Summary $summary): void
     {
-        $this->addEvent(new RideWasSummarised($this->version, $rideId, $summary, new \DateTimeImmutable('now')));
+        $this->projectEvent(new RideWasSummarised($this->version, $rideId, $summary, Clock::now()));
     }
 
-    protected function runProjector(AggregateEventsSubscriber $projector): void
+    private function projectEvent(AggregateEvent $event): void
     {
-        $projector($this->events);
-    }
-
-    private function addEvent(AggregateEvent $event): void
-    {
-        $this->events = $this->events->add($event);
+        ($this->projector)(new AggregateEvents([$event]));
         $this->version = $this->version->next();
     }
 }

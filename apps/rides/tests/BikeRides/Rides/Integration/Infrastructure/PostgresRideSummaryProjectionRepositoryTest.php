@@ -7,6 +7,7 @@ namespace App\Tests\BikeRides\Rides\Integration\Infrastructure;
 use App\BikeRides\Rides\Domain\Projection\RideSummary\RideSummary;
 use App\BikeRides\Rides\Domain\Projection\RideSummary\RideSummaryNotFound;
 use App\BikeRides\Rides\Infrastructure\PostgresRideSummaryProjectionRepository;
+use BikeRides\Foundation\Clock\Clock;
 use BikeRides\SharedKernel\Domain\Model\RideDuration;
 use BikeRides\SharedKernel\Domain\Model\RideId;
 
@@ -27,7 +28,7 @@ final class PostgresRideSummaryProjectionRepositoryTest extends PostgresTestCase
             rideId: RideId::generate()->toString(),
             duration: RideDuration::fromStartAndEnd(
                 new \DateTimeImmutable('-1 minute'),
-                new \DateTimeImmutable('now'),
+                Clock::now(),
             ),
             route: [],
         );

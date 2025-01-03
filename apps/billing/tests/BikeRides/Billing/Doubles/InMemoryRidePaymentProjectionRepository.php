@@ -33,4 +33,9 @@ final class InMemoryRidePaymentProjectionRepository implements RidePaymentProjec
 
         throw RidePaymentNotFound::forRideId($rideId);
     }
+
+    public function list(): array
+    {
+        return \array_values($this->ridePayments);
+    }
 }

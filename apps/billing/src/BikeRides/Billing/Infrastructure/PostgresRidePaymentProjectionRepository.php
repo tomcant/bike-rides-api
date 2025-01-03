@@ -65,6 +65,14 @@ final readonly class PostgresRidePaymentProjectionRepository implements RidePaym
         return self::mapRecordToObject($record);
     }
 
+    public function list(): array
+    {
+        return \array_map(
+            self::mapRecordToObject(...),
+            $this->connection->fetchAllAssociative('SELECT * FROM billing.projection_ride_payment'),
+        );
+    }
+
     /**
      * @param array{
      *    ride_payment_id: string,

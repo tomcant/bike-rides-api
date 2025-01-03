@@ -15,10 +15,9 @@ final class BikeListingTest extends RidesUserInterfaceTestCase
 
         $list = $this->getJson('/bike');
 
+        self::assertSame(2, $list['total']);
         self::assertCount(2, $list['_links']['bike']);
         self::assertCount(2, $list['_embedded']['bike']);
-        self::assertSame(2, $list['total']);
-
         self::assertContainsEquals($bike1, $list['_embedded']['bike']);
         self::assertContainsEquals($bike2, $list['_embedded']['bike']);
     }

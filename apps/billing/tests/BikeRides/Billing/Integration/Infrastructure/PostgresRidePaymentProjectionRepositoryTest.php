@@ -49,7 +49,7 @@ final class PostgresRidePaymentProjectionRepositoryTest extends PostgresTestCase
 
         $this->repository->store($ridePayment);
 
-        $ridePayment->capture(new \DateTimeImmutable('now'), 'external_payment_ref');
+        $ridePayment->capture(Clock::now(), 'external_payment_ref');
 
         $this->repository->store($ridePayment);
 
@@ -61,5 +61,33 @@ final class PostgresRidePaymentProjectionRepositoryTest extends PostgresTestCase
         self::expectException(RidePaymentNotFound::class);
 
         $this->repository->getById(RidePaymentId::generate()->toString());
+    }
+
+    public function test_it_lists_ride_payments(): void
+    {
+        $this->repository->store(
+            $ridePayment1 = new RidePayment(
+                ridePaymentId: RidePaymentId::generate()->toString(),
+                rideId: 'ride_id_1',
+                totalPrice: Money::GBP(15_00),
+                pricePerMinute: Money::GBP(25),
+                initiatedAt: Clock::now(),
+            ),
+        );
+        $this->repository->store(
+            $ridePayment2 = new RidePayment(
+                ridePaymentId: RidePaymentId::generate()->toString(),
+                rideId: 'ride_id_2',
+                totalPrice: Money::GBP(15_00),
+                pricePerMinute: Money::GBP(25),
+                initiatedAt: Clock::now(),
+            ),
+        );
+
+        $ridePayments = $this->repository->list();
+
+        self::assertCount(2, $ridePayments);
+        self::assertContainsEquals($ridePayment1, $ridePayments);
+        self::assertContainsEquals($ridePayment2, $ridePayments);
     }
 }

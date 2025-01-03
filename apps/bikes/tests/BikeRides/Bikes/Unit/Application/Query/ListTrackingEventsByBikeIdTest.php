@@ -7,6 +7,7 @@ namespace App\Tests\BikeRides\Bikes\Unit\Application\Query;
 use App\BikeRides\Bikes\Application\Query\ListTrackingEventsByBikeId;
 use App\BikeRides\Bikes\Domain\Model\TrackingEvent\TrackingEvent;
 use App\Tests\BikeRides\Bikes\Doubles\InMemoryTrackingEventRepository;
+use BikeRides\Foundation\Clock\Clock;
 use BikeRides\SharedKernel\Domain\Model\BikeId;
 use BikeRides\SharedKernel\Domain\Model\Location;
 use PHPUnit\Framework\TestCase;
@@ -46,7 +47,7 @@ final class ListTrackingEventsByBikeIdTest extends TestCase
         $events = $this->query->query(
             $bikeId->toString(),
             from: new \DateTimeImmutable('-3 minutes'),
-            to: new \DateTimeImmutable('now'),
+            to: Clock::now(),
         );
 
         self::assertCount(2, $events);
@@ -61,7 +62,7 @@ final class ListTrackingEventsByBikeIdTest extends TestCase
         $events = $this->query->query(
             BikeId::generate()->toString(),
             from: new \DateTimeImmutable('-1 minute'),
-            to: new \DateTimeImmutable('now'),
+            to: Clock::now(),
         );
 
         self::assertSame([], $events);

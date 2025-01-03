@@ -11,7 +11,7 @@ use Symfony\Component\HttpClient\MockHttpClient;
 use Symfony\Component\HttpClient\Response\JsonMockResponse;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
-final class RidePaymentTest extends UserInterfaceTestCase
+final class RidePaymentInitiationTest extends UserInterfaceTestCase
 {
     public function test_a_ride_payment_is_initiated_when_a_ride_ends(): void
     {

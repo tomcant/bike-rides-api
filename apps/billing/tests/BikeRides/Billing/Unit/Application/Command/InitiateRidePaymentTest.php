@@ -15,6 +15,7 @@ use App\BikeRides\Billing\Domain\Model\RidePayment\RidePrice;
 use App\Tests\BikeRides\Billing\Doubles\RideDetailsFetcherStub;
 use App\Tests\BikeRides\Billing\Doubles\RidePaymentDuplicateCheckerStub;
 use App\Tests\BikeRides\Shared\Doubles\DomainEventBusSpy;
+use BikeRides\Foundation\Clock\Clock;
 use BikeRides\Foundation\Domain\InMemoryEventStore;
 use BikeRides\Foundation\Domain\TransactionBoundaryDummy;
 use BikeRides\SharedKernel\Domain\Event\RidePaymentInitiated;
@@ -34,8 +35,8 @@ final class InitiateRidePaymentTest extends CommandTestCase
     protected function setUp(): void
     {
         $this->rideDuration = RideDuration::fromStartAndEnd(
-            $startedAt = (new \DateTimeImmutable())->setTime(hour: 12, minute: 30),
-            $startedAt->modify('+10 minutes'),
+            ($endedAt = Clock::now())->modify('-10 minutes'),
+            $endedAt,
         );
 
         $this->handler = new InitiateRidePaymentHandler(

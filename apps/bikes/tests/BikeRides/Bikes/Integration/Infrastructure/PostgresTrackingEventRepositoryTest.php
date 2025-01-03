@@ -6,6 +6,7 @@ namespace App\Tests\BikeRides\Bikes\Integration\Infrastructure;
 
 use App\BikeRides\Bikes\Domain\Model\TrackingEvent\TrackingEvent;
 use App\BikeRides\Bikes\Infrastructure\PostgresTrackingEventRepository;
+use BikeRides\Foundation\Clock\Clock;
 use BikeRides\SharedKernel\Domain\Model\BikeId;
 use BikeRides\SharedKernel\Domain\Model\Location;
 
@@ -25,7 +26,7 @@ final class PostgresTrackingEventRepositoryTest extends PostgresTestCase
         $event = new TrackingEvent(
             bikeId: BikeId::generate(),
             location: new Location(0, 0),
-            trackedAt: new \DateTimeImmutable('now'),
+            trackedAt: Clock::now(),
         );
 
         $this->repository->store($event);
