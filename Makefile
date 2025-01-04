@@ -8,8 +8,6 @@ COMPOSE := docker compose -f docker/docker-compose.yml -p bike-rides-api
 
 start: up composer db ## Start the application in development mode
 
-start-ext: up-ext composer db ## Start the application in development mode with external access via localtunnel
-
 stop: ## Stop the application and clean up
 	$(COMPOSE) down -v --remove-orphans
 
@@ -17,9 +15,6 @@ restart: stop start ## Restart the application in development mode
 
 up:
 	$(COMPOSE) up -d --build --force-recreate --remove-orphans
-
-up-ext: ghcr-login
-	$(COMPOSE) -f docker/docker-compose.ext.yml up -d --build --force-recreate
 
 composer: ## Install the latest Composer dependencies
 	@for app in bikes rides billing; do \
@@ -70,7 +65,7 @@ test-packages:
 	  docker run --rm \
 	    -w /app/"$${package}" \
 	    -v $(PWD)/packages:/app/packages \
-	    ghcr.io/tomcant/bike-rides:0.0.1 \
+	    bike-rides-api:latest \
 	      sh -c 'composer install --no-progress && composer test'; \
 	  [[ $$? != 0 ]] && { echo "::error::$${package} failed"; failed=1; }; \
 	  echo '::endgroup::'; \
@@ -92,7 +87,7 @@ lint-packages:
 	  docker run --rm \
 	    -w /app/"$${package}" \
 	    -v $(PWD)/packages:/app/packages \
-	    ghcr.io/tomcant/bike-rides:0.0.1 \
+	    bike-rides-api:latest \
 	      sh -c 'composer install --no-progress && composer lint'; \
 	  [[ $$? != 0 ]] && { echo "::error::$${package} failed"; failed=1; }; \
 	  echo '::endgroup::'; \
@@ -120,17 +115,6 @@ logs: ## Tail the container logs
 
 ps: ## List the running containers
 	$(COMPOSE) ps -a
-
-ghcr-login: _require_GHCR_TOKEN
-	@NOW="$$(date +%s)"; \
-	if [[ "$$NOW" -gt $$(cat .GHCR_NEXT_LOGIN_AFTER 2> /dev/null) ]]; then \
-	  echo $$GHCR_TOKEN | docker login ghcr.io -u irrelevant-user --password-stdin 2>&1 >/dev/null; \
-	  EXPIRES=$$(( NOW + 300 )); \
-	  echo "$$EXPIRES" > .GHCR_NEXT_LOGIN_AFTER; \
-	fi;
-
-_require_%:
-	@_=$(or $($*),$(error "`$*` env var required"))
 
 help:
 	@echo "$$HEADER"

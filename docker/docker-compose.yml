@@ -1,6 +1,6 @@
 services:
   bikes-api:
-    image: ghcr.io/tomcant/bike-rides:0.0.1
+    image: bike-rides-api:latest
     build: .
     depends_on:
       - bikes-db
@@ -24,7 +24,7 @@ services:
       POSTGRES_PASSWORD: password
 
   rides-api:
-    image: ghcr.io/tomcant/bike-rides:0.0.1
+    image: bike-rides-api:latest
     build: .
     depends_on:
       - rides-db
@@ -48,7 +48,7 @@ services:
       POSTGRES_PASSWORD: password
 
   billing-api:
-    image: ghcr.io/tomcant/bike-rides:0.0.1
+    image: bike-rides-api:latest
     build: .
     depends_on:
       - billing-db

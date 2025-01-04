@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 readonly SCRIPT_PATH="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-readonly DOCKER_IMAGE=${SERVERLESS_IMAGE:-"ghcr.io/tomcant/bike-rides:0.0.1"}
+readonly DOCKER_IMAGE=${SERVERLESS_IMAGE:-"bike-rides-api:latest"}
 
 usage() {
   cat <<-EOM
