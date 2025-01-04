@@ -28,5 +28,7 @@ final class Version20230817184246 extends AbstractMigration
                 tracked_at TIMESTAMPTZ NOT NULL
             );
         ');
+
+        $this->addSql('CREATE INDEX tracking_bike_id ON bikes.tracking (bike_id);');
     }
 }
