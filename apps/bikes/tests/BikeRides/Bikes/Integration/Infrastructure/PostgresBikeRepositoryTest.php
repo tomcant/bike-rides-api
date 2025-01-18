@@ -49,4 +49,16 @@ final class PostgresBikeRepositoryTest extends PostgresTestCase
 
         $this->repository->getById(BikeId::generate());
     }
+
+    public function test_it_lists_bikes(): void
+    {
+        $this->repository->store($bike1 = new Bike(BikeId::generate(), isActive: false));
+        $this->repository->store($bike2 = new Bike(BikeId::generate(), isActive: true));
+
+        $bikes = $this->repository->list();
+
+        self::assertCount(2, $bikes);
+        self::assertContainsEquals($bike1, $bikes);
+        self::assertContainsEquals($bike2, $bikes);
+    }
 }

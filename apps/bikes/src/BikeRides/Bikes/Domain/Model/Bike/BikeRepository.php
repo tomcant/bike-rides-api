@@ -12,4 +12,7 @@ interface BikeRepository
 
     /** @throws BikeNotFound */
     public function getById(BikeId $bikeId): Bike;
+
+    /** @return list<Bike> */
+    public function list(): array;
 }

@@ -23,4 +23,9 @@ final class InMemoryBikeRepository implements BikeRepository
     {
         return $this->bikes[$bikeId->toString()] ?? throw new BikeNotFound($bikeId);
     }
+
+    public function list(): array
+    {
+        return \array_values($this->bikes);
+    }
 }
