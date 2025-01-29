@@ -40,6 +40,7 @@ final class ListBikesController
                 ]),
                 'bike_id' => $bike['bike_id'],
                 'is_active' => $bike['is_active'],
+                'location' => $bike['location'],
             ],
             $listBikes->query(),
         );
