@@ -45,6 +45,18 @@ final readonly class PostgresBikeRepository implements BikeRepository
         return self::mapRecordToObject($record);
     }
 
+    public function remove(BikeId $bikeId): void
+    {
+        $rowCount = $this->connection->executeStatement(
+            'DELETE FROM rides.bikes WHERE bike_id = :bike_id',
+            ['bike_id' => $bikeId->toString()],
+        );
+
+        if (1 !== $rowCount) {
+            throw new BikeNotFound($bikeId);
+        }
+    }
+
     public function list(): array
     {
         return \array_map(
