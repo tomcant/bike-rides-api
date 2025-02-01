@@ -32,15 +32,22 @@ final class PostgresBikeRepositoryTest extends PostgresTestCase
 
     public function test_it_stores_an_updated_bike(): void
     {
-        $bike = new Bike(BikeId::generate(), new Location(0, 0));
-
-        $this->repository->store($bike);
-
+        $this->repository->store($bike = new Bike(BikeId::generate(), new Location(0, 0)));
         $bike->locate(new Location(1, 1));
 
         $this->repository->store($bike);
 
         self::assertEquals($bike, $this->repository->getById($bike->bikeId));
+    }
+
+    public function test_it_removes_a_bike(): void
+    {
+        $this->repository->store($bike = new Bike(BikeId::generate(), new Location(0, 0)));
+
+        $this->repository->remove($bike->bikeId);
+
+        self::expectException(BikeNotFound::class);
+        $this->repository->getById($bike->bikeId);
     }
 
     public function test_it_cannot_get_a_bike_by_an_unknown_bike_id(): void

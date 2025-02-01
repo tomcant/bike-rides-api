@@ -88,6 +88,19 @@ resources:
           - Id: 'worker-queue'
             Arn: '${ssm:/${opt:stage}/apps/rides-api/worker-queue-arn}'
 
+    BikeDeactivatedEventRule:
+      Type: AWS::Events::Rule
+      Properties:
+        EventBusName: '${ssm:/${opt:stage}/event-bridge/event-bus-arn}'
+        EventPattern:
+          detail:
+            headers:
+              type:
+                - 'bike-rides.bike-deactivated.v1'
+        Targets:
+          - Id: 'worker-queue'
+            Arn: '${ssm:/${opt:stage}/apps/rides-api/worker-queue-arn}'
+
     RideEndedEventRule:
       Type: AWS::Events::Rule
       Properties:
