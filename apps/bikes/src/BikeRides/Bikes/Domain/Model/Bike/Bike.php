@@ -32,4 +32,13 @@ final class Bike
 
         $this->isActive = true;
     }
+
+    public function deactivate(): void
+    {
+        if (!$this->isActive) {
+            throw CouldNotDeactivateBike::alreadyInactive($this->bikeId);
+        }
+
+        $this->isActive = false;
+    }
 }
