@@ -37,6 +37,14 @@ final class ListBikesController
                         ),
                         'method' => 'POST',
                     ],
+                    'deactivate' => !$bike['is_active'] ? null : [
+                        'href' => $urlGenerator->generate(
+                            'bike:deactivate',
+                            ['bikeId' => $bike['bike_id']],
+                            UrlGeneratorInterface::ABSOLUTE_URL,
+                        ),
+                        'method' => 'POST',
+                    ],
                 ]),
                 'bike_id' => $bike['bike_id'],
                 'is_active' => $bike['is_active'],
