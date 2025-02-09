@@ -19,13 +19,6 @@ abstract class RidesUserInterfaceTestCase extends UserInterfaceTestCase
         return $this->retrieveRide($response['ride_id']);
     }
 
-    protected function endRide(string $rideId): void
-    {
-        $ride = $this->getJson("/ride/{$rideId}");
-
-        $this->postJson($ride['_links']['end']['href']);
-    }
-
     /** @return array<mixed, mixed> */
     protected function retrieveRide(string $rideId): array
     {
