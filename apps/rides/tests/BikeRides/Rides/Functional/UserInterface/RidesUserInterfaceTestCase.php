@@ -5,13 +5,12 @@ declare(strict_types=1);
 namespace App\Tests\BikeRides\Rides\Functional\UserInterface;
 
 use BikeRides\SharedKernel\Domain\Event\BikeActivated;
-use BikeRides\SharedKernel\Domain\Model\BikeId;
 use BikeRides\SharedKernel\Domain\Model\Location;
 
 abstract class RidesUserInterfaceTestCase extends UserInterfaceTestCase
 {
     /** @return array<mixed, mixed> */
-    protected function startRide(string $riderId, string $bikeId): array
+    protected function startRide(string $riderId, int $bikeId): array
     {
         $bike = $this->getJson("/bike/{$bikeId}");
 
@@ -36,7 +35,7 @@ abstract class RidesUserInterfaceTestCase extends UserInterfaceTestCase
     /** @return array<mixed, mixed> */
     protected function createBike(): array
     {
-        $bikeId = BikeId::generate()->toString();
+        $bikeId = \random_int(1, 1_000_000);
 
         $this->handleDomainEvent(new BikeActivated($bikeId, new Location(0, 0)));
 
@@ -44,7 +43,7 @@ abstract class RidesUserInterfaceTestCase extends UserInterfaceTestCase
     }
 
     /** @return array<mixed, mixed> */
-    protected function retrieveBike(string $bikeId): array
+    protected function retrieveBike(int $bikeId): array
     {
         return $this->getJson("/bike/{$bikeId}");
     }

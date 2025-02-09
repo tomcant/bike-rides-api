@@ -9,7 +9,7 @@ final class Ride
     public function __construct(
         public readonly string $rideId,
         public readonly string $riderId,
-        public readonly string $bikeId,
+        public readonly int $bikeId,
         public readonly \DateTimeImmutable $startedAt,
         public ?\DateTimeImmutable $endedAt = null,
     ) {
@@ -18,7 +18,7 @@ final class Ride
     public static function start(
         string $rideId,
         string $riderId,
-        string $bikeId,
+        int $bikeId,
         \DateTimeImmutable $startedAt,
     ): self {
         return new self($rideId, $riderId, $bikeId, $startedAt);

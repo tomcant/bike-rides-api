@@ -5,22 +5,22 @@ declare(strict_types=1);
 namespace App\BikeRides\Bikes\Application\Command\RegisterBike;
 
 use BikeRides\Foundation\Application\Command\Command;
+use BikeRides\Foundation\Domain\CorrelationId;
 use BikeRides\Foundation\Json;
-use BikeRides\SharedKernel\Domain\Model\BikeId;
 
 final readonly class RegisterBikeCommand implements Command
 {
-    public BikeId $bikeId;
+    public CorrelationId $correlationId;
 
-    public function __construct(string $bikeId)
+    public function __construct(string $correlationId)
     {
-        $this->bikeId = BikeId::fromString($bikeId);
+        $this->correlationId = CorrelationId::fromString($correlationId);
     }
 
     public function serialize(): string
     {
         return Json::encode([
-            'bikeId' => $this->bikeId->toString(),
+            'correlationId' => $this->correlationId->toString(),
         ]);
     }
 }

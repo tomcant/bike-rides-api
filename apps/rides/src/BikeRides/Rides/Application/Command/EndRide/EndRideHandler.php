@@ -33,7 +33,7 @@ final readonly class EndRideHandler implements CommandHandler
             $this->eventBus->publish(
                 new RideEnded(
                     $command->rideId->toString(),
-                    $ride->getBikeId()->toString(),
+                    $ride->getBikeId()->toInt(),
                 ),
             );
         } catch (\Throwable $exception) {

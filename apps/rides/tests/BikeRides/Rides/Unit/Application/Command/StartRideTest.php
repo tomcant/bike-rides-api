@@ -17,10 +17,10 @@ final class StartRideTest extends CommandTestCase
     {
         $rideId = RideId::generate();
         $this->createRider($riderId = RiderId::fromString('rider_id'));
-        $this->createBike($bikeId = BikeId::generate());
+        $this->createBike($bikeId = BikeId::fromInt(1));
 
         $handler = new StartRideHandler($this->rideRepository, BikeAvailabilityCheckerStub::available());
-        $handler(new StartRideCommand($rideId->toString(), $riderId->toString(), $bikeId->toString()));
+        $handler(new StartRideCommand($rideId->toString(), $riderId->toString(), $bikeId->toInt()));
 
         self::assertObjectEquals($rideId, $this->rideRepository->getById($rideId)->getAggregateId());
     }
@@ -29,12 +29,12 @@ final class StartRideTest extends CommandTestCase
     {
         $rideId = RideId::generate();
         $this->createRider($riderId = RiderId::fromString('rider_id'));
-        $this->createBike($bikeId = BikeId::generate());
+        $this->createBike($bikeId = BikeId::fromInt(1));
 
         self::expectException(\RuntimeException::class);
-        self::expectExceptionMessage(\sprintf('Bike "%s" is not available', $bikeId->toString()));
+        self::expectExceptionMessage("Bike '{$bikeId->toInt()}' is not available");
 
         $handler = new StartRideHandler($this->rideRepository, BikeAvailabilityCheckerStub::notAvailable());
-        $handler(new StartRideCommand($rideId->toString(), $riderId->toString(), $bikeId->toString()));
+        $handler(new StartRideCommand($rideId->toString(), $riderId->toString(), $bikeId->toInt()));
     }
 }

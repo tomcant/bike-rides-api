@@ -23,7 +23,7 @@ final class ListTrackingEventsController
         GetBikeById $getBike,
         ListTrackingEventsByBikeId $listTrackingEvents,
         #[MapQueryParameter(name: 'bike_id')]
-        string $bikeId,
+        int $bikeId,
         #[MapQueryParameter(
             filter: \FILTER_VALIDATE_INT,
             validationFailedStatusCode: Response::HTTP_BAD_REQUEST,

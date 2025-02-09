@@ -9,7 +9,7 @@ use BikeRides\Foundation\Json;
 
 final readonly class BikeDeactivated extends DomainEvent
 {
-    public function __construct(public string $bikeId)
+    public function __construct(public int $bikeId)
     {
         parent::__construct();
     }

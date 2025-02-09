@@ -10,17 +10,17 @@ use BikeRides\SharedKernel\Domain\Model\BikeId;
 
 final class InMemoryTrackingEventRepository implements TrackingEventRepository
 {
-    /** @var array<string, list<TrackingEvent>> */
-    private array $events;
+    /** @var array<int, list<TrackingEvent>> */
+    private array $events = [];
 
     public function store(TrackingEvent $event): void
     {
-        $this->events[$event->bikeId->toString()][] = $event;
+        $this->events[$event->bikeId->toInt()][] = $event;
     }
 
     public function getLastEventForBikeId(BikeId $bikeId): ?TrackingEvent
     {
-        $events = $this->events[$bikeId->toString()] ?? [];
+        $events = $this->events[$bikeId->toInt()] ?? [];
 
         return \end($events) ?: null;
     }
@@ -29,7 +29,7 @@ final class InMemoryTrackingEventRepository implements TrackingEventRepository
     {
         return \array_values(
             \array_filter(
-                $this->events[$bikeId->toString()] ?? [],
+                $this->events[$bikeId->toInt()] ?? [],
                 static fn ($event) => $from <= $event->trackedAt && $event->trackedAt <= $to,
             ),
         );

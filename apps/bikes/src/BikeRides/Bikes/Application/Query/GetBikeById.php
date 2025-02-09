@@ -19,7 +19,7 @@ final readonly class GetBikeById
 
     /**
      * @return ?array{
-     *   bike_id: string,
+     *   bike_id: int,
      *   is_active: bool,
      *   location: array{
      *     latitude: float,
@@ -27,16 +27,16 @@ final readonly class GetBikeById
      *   }|null,
      * }
      */
-    public function query(string $bikeId): ?array
+    public function query(int $bikeId): ?array
     {
         try {
-            $bike = $this->bikeRepository->getById(BikeId::fromString($bikeId));
+            $bike = $this->bikeRepository->getById(BikeId::fromInt($bikeId));
         } catch (BikeNotFound) {
             return null;
         }
 
         return [
-            'bike_id' => $bike->bikeId->toString(),
+            'bike_id' => $bike->bikeId->toInt(),
             'is_active' => $bike->isActive,
             'location' => $this->trackingEventRepository->getLastEventForBikeId($bike->bikeId)?->location->toArray(),
         ];

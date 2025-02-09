@@ -18,7 +18,7 @@ final class RetrieveBikeController
         Request $request,
         UrlGeneratorInterface $urlGenerator,
         GetBikeById $query,
-        string $bikeId,
+        int $bikeId,
     ): JsonResponse {
         $bike = $query->query($bikeId);
 

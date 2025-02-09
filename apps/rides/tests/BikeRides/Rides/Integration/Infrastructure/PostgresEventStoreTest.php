@@ -64,7 +64,7 @@ final class PostgresEventStoreTest extends PostgresTestCase
         $ride = Ride::start(
             RideId::generate(),
             RiderId::fromString('rider_id'),
-            BikeId::generate(),
+            BikeId::fromInt(1),
         );
         $ride->end();
 

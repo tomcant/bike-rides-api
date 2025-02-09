@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Tests\BikeRides\Rides\Functional\UserInterface\Bike;
 
 use App\Tests\BikeRides\Rides\Functional\UserInterface\RidesUserInterfaceTestCase;
-use Symfony\Component\Uid\Uuid;
 
 final class BikeRetrievalTest extends RidesUserInterfaceTestCase
 {
@@ -22,9 +21,7 @@ final class BikeRetrievalTest extends RidesUserInterfaceTestCase
 
     public function test_retrieving_a_bike_returns_a_404_response_for_an_unknown_bike(): void
     {
-        $bikeId = Uuid::v4()->toRfc4122();
-
-        $this->getJson("/bike/{$bikeId}", assertResponseIsSuccessful: false);
+        $this->getJson('/bike/1', assertResponseIsSuccessful: false);
 
         self::assertResponseStatusCodeSame(404);
     }

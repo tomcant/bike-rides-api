@@ -10,7 +10,6 @@ use App\BikeRides\Bikes\Domain\Model\Bike\CouldNotActivateBike;
 use App\Tests\BikeRides\Shared\Doubles\DomainEventBusSpy;
 use BikeRides\Foundation\Domain\TransactionBoundaryDummy;
 use BikeRides\SharedKernel\Domain\Event\BikeActivated;
-use BikeRides\SharedKernel\Domain\Model\BikeId;
 use BikeRides\SharedKernel\Domain\Model\Location;
 
 final class ActivateBikeTest extends CommandTestCase
@@ -32,10 +31,10 @@ final class ActivateBikeTest extends CommandTestCase
 
     public function test_it_activates_a_bike(): void
     {
-        $this->registerBike($bikeId = BikeId::generate());
+        $bikeId = $this->registerBike();
         $this->recordTrackingEvent($bikeId, $location = new Location(0, 0));
 
-        ($this->handler)(new ActivateBikeCommand($bikeId->toString()));
+        ($this->handler)(new ActivateBikeCommand($bikeId->toInt()));
 
         $bike = $this->bikeRepository->getById($bikeId);
         self::assertTrue($bike->isActive);
@@ -43,36 +42,36 @@ final class ActivateBikeTest extends CommandTestCase
 
     public function test_it_publishes_a_bike_activated_domain_event(): void
     {
-        $this->registerBike($bikeId = BikeId::generate());
+        $bikeId = $this->registerBike();
         $this->recordTrackingEvent($bikeId, $location = new Location(0, 0));
 
-        ($this->handler)(new ActivateBikeCommand($bikeId->toString()));
+        ($this->handler)(new ActivateBikeCommand($bikeId->toInt()));
 
         self::assertDomainEventEquals(
-            new BikeActivated($bikeId->toString(), $location),
+            new BikeActivated($bikeId->toInt(), $location),
             $this->eventBus->lastEvent,
         );
     }
 
     public function test_it_cannot_activate_a_bike_that_is_already_active(): void
     {
-        $this->registerBike($bikeId = BikeId::generate());
+        $bikeId = $this->registerBike();
         $this->recordTrackingEvent($bikeId, new Location(0, 0));
         $this->activateBike($bikeId);
 
         self::expectException(CouldNotActivateBike::class);
-        self::expectExceptionMessage("Could not activate bike with ID '{$bikeId->toString()}'. Reason: 'Bike is already active'");
+        self::expectExceptionMessage("Could not activate bike with ID '{$bikeId->toInt()}'. Reason: 'Bike is already active'");
 
-        ($this->handler)(new ActivateBikeCommand($bikeId->toString()));
+        ($this->handler)(new ActivateBikeCommand($bikeId->toInt()));
     }
 
     public function test_it_cannot_activate_a_bike_before_recording_a_tracking_event(): void
     {
-        $this->registerBike($bikeId = BikeId::generate());
+        $bikeId = $this->registerBike();
 
         self::expectException(CouldNotActivateBike::class);
-        self::expectExceptionMessage("Could not activate bike with ID '{$bikeId->toString()}'. Reason: 'Bike has not been tracked'");
+        self::expectExceptionMessage("Could not activate bike with ID '{$bikeId->toInt()}'. Reason: 'Bike has not been tracked'");
 
-        ($this->handler)(new ActivateBikeCommand($bikeId->toString()));
+        ($this->handler)(new ActivateBikeCommand($bikeId->toInt()));
     }
 }

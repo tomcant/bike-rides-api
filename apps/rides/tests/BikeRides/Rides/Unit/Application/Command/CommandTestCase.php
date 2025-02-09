@@ -59,13 +59,13 @@ abstract class CommandTestCase extends TestCase
     protected function createBike(BikeId $bikeId, Location $location = new Location(0, 0)): void
     {
         $handler = new CreateBikeHandler($this->bikeRepository);
-        $handler(new CreateBikeCommand($bikeId->toString(), $location));
+        $handler(new CreateBikeCommand($bikeId->toInt(), $location));
     }
 
     protected function startRide(RideId $rideId, RiderId $riderId, BikeId $bikeId): void
     {
         $handler = new StartRideHandler($this->rideRepository, BikeAvailabilityCheckerStub::available());
-        $handler(new StartRideCommand($rideId->toString(), $riderId->toString(), $bikeId->toString()));
+        $handler(new StartRideCommand($rideId->toString(), $riderId->toString(), $bikeId->toInt()));
     }
 
     protected function endRide(RideId $rideId): void

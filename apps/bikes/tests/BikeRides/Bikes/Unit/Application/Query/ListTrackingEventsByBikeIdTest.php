@@ -28,7 +28,7 @@ final class ListTrackingEventsByBikeIdTest extends TestCase
 
     public function test_it_can_list_tracking_events_by_bike_id(): void
     {
-        $bikeId = BikeId::generate();
+        $bikeId = BikeId::fromInt(1);
         $this->repository->store(
             $event1 = new TrackingEvent(
                 bikeId: $bikeId,
@@ -45,7 +45,7 @@ final class ListTrackingEventsByBikeIdTest extends TestCase
         );
 
         $events = $this->query->query(
-            $bikeId->toString(),
+            $bikeId->toInt(),
             from: new \DateTimeImmutable('-3 minutes'),
             to: Clock::now(),
         );
@@ -60,7 +60,7 @@ final class ListTrackingEventsByBikeIdTest extends TestCase
     public function test_no_tracking_events_are_found_when_given_an_unknown_bike_id(): void
     {
         $events = $this->query->query(
-            BikeId::generate()->toString(),
+            bikeId: 1,
             from: new \DateTimeImmutable('-1 minute'),
             to: Clock::now(),
         );

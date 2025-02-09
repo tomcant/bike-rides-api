@@ -4,35 +4,41 @@ declare(strict_types=1);
 
 namespace App\Tests\BikeRides\Bikes\Integration\Infrastructure;
 
+use App\BikeRides\Bikes\Domain\Model\Bike\Bike;
 use App\BikeRides\Bikes\Domain\Model\TrackingEvent\TrackingEvent;
+use App\BikeRides\Bikes\Infrastructure\PostgresBikeRepository;
 use App\BikeRides\Bikes\Infrastructure\PostgresTrackingEventRepository;
 use BikeRides\Foundation\Clock\Clock;
+use BikeRides\Foundation\Domain\CorrelationId;
 use BikeRides\SharedKernel\Domain\Model\BikeId;
 use BikeRides\SharedKernel\Domain\Model\Location;
 
 final class PostgresTrackingEventRepositoryTest extends PostgresTestCase
 {
-    private PostgresTrackingEventRepository $repository;
+    private PostgresTrackingEventRepository $trackingEventRepository;
+    private PostgresBikeRepository $bikeRepository;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->repository = new PostgresTrackingEventRepository($this->connection);
+        $this->trackingEventRepository = new PostgresTrackingEventRepository($this->connection);
+        $this->bikeRepository = new PostgresBikeRepository($this->connection);
     }
 
     public function test_it_stores_a_tracking_event(): void
     {
-        $event = new TrackingEvent(
-            bikeId: BikeId::generate(),
-            location: new Location(0, 0),
-            trackedAt: Clock::now(),
+        $bikeId = $this->registerBike();
+        $this->trackingEventRepository->store(
+            $event = new TrackingEvent(
+                bikeId: $bikeId,
+                location: new Location(0, 0),
+                trackedAt: Clock::now(),
+            ),
         );
 
-        $this->repository->store($event);
-
-        $events = $this->repository->getBetweenForBikeId(
-            $event->bikeId,
+        $events = $this->trackingEventRepository->getBetweenForBikeId(
+            $bikeId,
             new \DateTimeImmutable('-1 minute'),
             new \DateTimeImmutable('+1 minute'),
         );
@@ -42,23 +48,22 @@ final class PostgresTrackingEventRepositoryTest extends PostgresTestCase
 
     public function test_it_lists_tracking_events_between_timestamps(): void
     {
-        $bikeId = BikeId::generate();
-
-        $this->repository->store(
+        $bikeId = $this->registerBike();
+        $this->trackingEventRepository->store(
             $event1 = new TrackingEvent(
                 bikeId: $bikeId,
                 location: new Location(0, 0),
                 trackedAt: new \DateTimeImmutable('-5 minutes'),
             ),
         );
-        $this->repository->store(
+        $this->trackingEventRepository->store(
             $event2 = new TrackingEvent(
                 bikeId: $bikeId,
                 location: new Location(0, 0),
                 trackedAt: new \DateTimeImmutable('-3 minutes'),
             ),
         );
-        $this->repository->store(
+        $this->trackingEventRepository->store(
             new TrackingEvent(
                 bikeId: $bikeId,
                 location: new Location(0, 0),
@@ -66,7 +71,7 @@ final class PostgresTrackingEventRepositoryTest extends PostgresTestCase
             ),
         );
 
-        $events = $this->repository->getBetweenForBikeId(
+        $events = $this->trackingEventRepository->getBetweenForBikeId(
             $bikeId,
             new \DateTimeImmutable('-6 minutes'),
             new \DateTimeImmutable('-2 minutes'),
@@ -75,5 +80,13 @@ final class PostgresTrackingEventRepositoryTest extends PostgresTestCase
         self::assertCount(2, $events);
         self::assertContainsEquals($event1, $events);
         self::assertContainsEquals($event2, $events);
+    }
+
+    private function registerBike(): BikeId
+    {
+        $this->bikeRepository->store(Bike::register($correlationId = CorrelationId::generate()));
+        $bike = $this->bikeRepository->getByRegistrationCorrelationId($correlationId);
+
+        return $bike->bikeId;
     }
 }

@@ -12,15 +12,15 @@ final readonly class RefreshBikeLocationCommand implements Command
 {
     public BikeId $bikeId;
 
-    public function __construct(string $bikeId)
+    public function __construct(int $bikeId)
     {
-        $this->bikeId = BikeId::fromString($bikeId);
+        $this->bikeId = BikeId::fromInt($bikeId);
     }
 
     public function serialize(): string
     {
         return Json::encode([
-            'bikeId' => $this->bikeId->toString(),
+            'bikeId' => $this->bikeId->toInt(),
         ]);
     }
 }

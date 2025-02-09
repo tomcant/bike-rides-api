@@ -50,7 +50,7 @@ final readonly class PostgresRideProjectionRepository implements RideProjectionR
      * @param array{
      *   ride_id: string,
      *   rider_id: string,
-     *   bike_id: string,
+     *   bike_id: int,
      *   started_at: string,
      *   ended_at: ?string,
      * } $record
@@ -70,7 +70,7 @@ final readonly class PostgresRideProjectionRepository implements RideProjectionR
      * @return array{
      *   ride_id: string,
      *   rider_id: string,
-     *   bike_id: string,
+     *   bike_id: int,
      *   started_at: string,
      *   ended_at: ?string,
      * }

@@ -14,11 +14,11 @@ final class CreateBikeTest extends CommandTestCase
 {
     public function test_it_creates_a_bike(): void
     {
-        $bikeId = BikeId::generate();
+        $bikeId = BikeId::fromInt(1);
         $location = new Location(0, 0);
 
         $handler = new CreateBikeHandler($this->bikeRepository);
-        $handler(new CreateBikeCommand($bikeId->toString(), $location));
+        $handler(new CreateBikeCommand($bikeId->toInt(), $location));
 
         $bike = $this->bikeRepository->getById($bikeId);
         self::assertEquals(new Bike($bikeId, $location), $bike);

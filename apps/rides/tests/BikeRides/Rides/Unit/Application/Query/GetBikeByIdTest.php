@@ -28,22 +28,20 @@ final class GetBikeByIdTest extends QueryTestCase
     {
         $this->repository->store(
             new Bike(
-                $bikeId = BikeId::generate(),
+                $bikeId = BikeId::fromInt(1),
                 $location = new Location(0, 0),
             ),
         );
 
-        $bike = $this->query->query($bikeId->toString());
+        $bike = $this->query->query($bikeId->toInt());
 
-        self::assertSame($bikeId->toString(), $bike['bike_id']);
+        self::assertSame($bikeId->toInt(), $bike['bike_id']);
         self::assertEquals($location->toArray(), $bike['location']);
     }
 
     public function test_no_bike_is_found_when_given_an_unknown_bike_id(): void
     {
-        $bikeId = BikeId::generate();
-
-        $bike = $this->query->query($bikeId->toString());
+        $bike = $this->query->query(bikeId: 1);
 
         self::assertNull($bike);
     }

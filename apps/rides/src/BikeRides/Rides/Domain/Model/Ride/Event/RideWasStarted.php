@@ -53,7 +53,7 @@ final readonly class RideWasStarted implements AggregateEvent
             'aggregateVersion' => $this->aggregateVersion->toInt(),
             'aggregateId' => $this->aggregateId->toString(),
             'riderId' => $this->riderId->toString(),
-            'bikeId' => $this->bikeId->toString(),
+            'bikeId' => $this->bikeId->toInt(),
             'occurredAt' => Timestamp::format($this->occurredAt),
         ]);
     }
@@ -66,7 +66,7 @@ final readonly class RideWasStarted implements AggregateEvent
             AggregateVersion::fromInt($event['aggregateVersion']),
             RideId::fromString($event['aggregateId']),
             RiderId::fromString($event['riderId']),
-            BikeId::fromString($event['bikeId']),
+            BikeId::fromInt($event['bikeId']),
             Timestamp::from($event['occurredAt']),
         );
     }

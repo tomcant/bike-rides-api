@@ -11,26 +11,20 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 final readonly class RecordTrackingEventInput implements JsonSchemaInput
 {
     private function __construct(
-        public string $bikeId,
+        public int $bikeId,
         public Location $location,
     ) {
     }
 
     public static function fromPayload(array $payload): JsonSchemaInput
     {
-        $bikeId = \mb_trim($payload['bike_id']);
-
-        if ('' === $bikeId) {
-            throw new BadRequestHttpException();
-        }
-
         try {
             $location = Location::fromArray($payload['location']);
         } catch (\InvalidArgumentException) {
             throw new BadRequestHttpException();
         }
 
-        return new self($bikeId, $location);
+        return new self($payload['bike_id'], $location);
     }
 
     public static function getSchema(): array
@@ -39,7 +33,7 @@ final readonly class RecordTrackingEventInput implements JsonSchemaInput
             'type' => 'object',
             'properties' => [
                 'bike_id' => [
-                    'type' => 'string',
+                    'type' => 'integer',
                 ],
                 'location' => [
                     'type' => 'object',

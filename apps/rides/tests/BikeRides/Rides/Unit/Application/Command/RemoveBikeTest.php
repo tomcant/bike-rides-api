@@ -13,10 +13,10 @@ final class RemoveBikeTest extends CommandTestCase
 {
     public function test_it_removes_a_bike(): void
     {
-        $this->createBike($bikeId = BikeId::generate());
+        $this->createBike($bikeId = BikeId::fromInt(1));
 
         $handler = new RemoveBikeHandler($this->bikeRepository);
-        $handler(new RemoveBikeCommand($bikeId->toString()));
+        $handler(new RemoveBikeCommand($bikeId->toInt()));
 
         self::expectException(BikeNotFound::class);
         $this->bikeRepository->getById($bikeId);

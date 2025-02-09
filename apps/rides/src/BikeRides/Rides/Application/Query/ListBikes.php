@@ -15,7 +15,7 @@ final readonly class ListBikes
 
     /**
      * @return list<array{
-     *   bike_id: string,
+     *   bike_id: int,
      *   location: array{
      *     latitude: float,
      *     longitude: float,
@@ -26,7 +26,7 @@ final readonly class ListBikes
     {
         return \array_map(
             static fn (Bike $bike) => [
-                'bike_id' => $bike->bikeId->toString(),
+                'bike_id' => $bike->bikeId->toInt(),
                 'location' => $bike->location->toArray(),
             ],
             $this->repository->list(),

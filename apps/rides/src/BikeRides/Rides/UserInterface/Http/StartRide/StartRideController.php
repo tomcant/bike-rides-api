@@ -20,7 +20,7 @@ final class StartRideController
         CommandBus $bus,
         UrlGeneratorInterface $urlGenerator,
         StartRideInput $input,
-        string $bikeId,
+        int $bikeId,
     ): JsonResponse {
         $rideId = Uuid::v4()->toRfc4122();
 

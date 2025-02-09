@@ -29,7 +29,7 @@ final readonly class DeactivateBikeHandler implements CommandHandler
 
         try {
             $this->bikeRepository->store($bike);
-            $this->eventBus->publish(new BikeDeactivated($command->bikeId->toString()));
+            $this->eventBus->publish(new BikeDeactivated($command->bikeId->toInt()));
         } catch (\Throwable $exception) {
             $this->transaction->abort();
 

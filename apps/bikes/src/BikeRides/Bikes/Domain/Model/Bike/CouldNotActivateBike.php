@@ -10,7 +10,7 @@ final class CouldNotActivateBike extends \DomainException
 {
     private function __construct(BikeId $id, string $reason)
     {
-        parent::__construct("Could not activate bike with ID '{$id->toString()}'. Reason: '{$reason}'");
+        parent::__construct("Could not activate bike with ID '{$id->toInt()}'. Reason: '{$reason}'");
     }
 
     public static function alreadyActive(BikeId $id): self

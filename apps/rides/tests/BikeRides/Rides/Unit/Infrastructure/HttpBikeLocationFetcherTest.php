@@ -37,7 +37,7 @@ final class HttpBikeLocationFetcherTest extends TestCase
 
     public function test_it_makes_an_http_request_to_fetch_a_bike_location(): void
     {
-        $bikeId = BikeId::generate();
+        $bikeId = BikeId::fromInt(1);
         $bike = new Bike($bikeId, new Location(0, 0));
         $httpClient = new MockHttpClient($response = new JsonMockResponse(self::BIKE_TRACKING_API_RESPONSE));
 
@@ -45,7 +45,7 @@ final class HttpBikeLocationFetcherTest extends TestCase
         $location = $fetcher->fetch($bikeId);
 
         self::assertSame('GET', $response->getRequestMethod());
-        self::assertStringStartsWith("http://bikes-api/{$bikeId->toString()}/", $response->getRequestUrl());
+        self::assertStringStartsWith("http://bikes-api/{$bikeId->toInt()}/", $response->getRequestUrl());
         self::assertEquals(Location::fromArray(self::LAST_TRACKING_EVENT_LOCATION), $location);
     }
 }

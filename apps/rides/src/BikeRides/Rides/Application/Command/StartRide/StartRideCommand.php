@@ -16,11 +16,11 @@ final readonly class StartRideCommand implements Command
     public RiderId $riderId;
     public BikeId $bikeId;
 
-    public function __construct(string $rideId, string $riderId, string $bikeId)
+    public function __construct(string $rideId, string $riderId, int $bikeId)
     {
         $this->rideId = RideId::fromString($rideId);
         $this->riderId = RiderId::fromString($riderId);
-        $this->bikeId = BikeId::fromString($bikeId);
+        $this->bikeId = BikeId::fromInt($bikeId);
     }
 
     public function serialize(): string
@@ -28,7 +28,7 @@ final readonly class StartRideCommand implements Command
         return Json::encode([
             'rideId' => $this->rideId->toString(),
             'riderId' => $this->riderId->toString(),
-            'bikeId' => $this->bikeId->toString(),
+            'bikeId' => $this->bikeId->toInt(),
         ]);
     }
 }

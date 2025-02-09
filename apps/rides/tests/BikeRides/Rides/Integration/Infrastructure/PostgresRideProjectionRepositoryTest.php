@@ -8,7 +8,6 @@ use App\BikeRides\Rides\Domain\Projection\Ride\Ride;
 use App\BikeRides\Rides\Domain\Projection\Ride\RideNotFound;
 use App\BikeRides\Rides\Infrastructure\PostgresRideProjectionRepository;
 use BikeRides\Foundation\Clock\Clock;
-use BikeRides\SharedKernel\Domain\Model\BikeId;
 use BikeRides\SharedKernel\Domain\Model\RideId;
 
 final class PostgresRideProjectionRepositoryTest extends PostgresTestCase
@@ -27,7 +26,7 @@ final class PostgresRideProjectionRepositoryTest extends PostgresTestCase
         $ride = new Ride(
             rideId: RideId::generate()->toString(),
             riderId: 'rider_id',
-            bikeId: BikeId::generate()->toString(),
+            bikeId: 1,
             startedAt: Clock::now(),
         );
 
@@ -36,17 +35,15 @@ final class PostgresRideProjectionRepositoryTest extends PostgresTestCase
         self::assertEquals($ride, $this->repository->getById($ride->rideId));
     }
 
-    public function test_it_stores_an_updated_ride(): void
+    public function test_it_updates_a_stored_ride(): void
     {
         $ride = new Ride(
             rideId: RideId::generate()->toString(),
             riderId: 'rider_id',
-            bikeId: BikeId::generate()->toString(),
+            bikeId: 1,
             startedAt: Clock::now(),
         );
-
         $this->repository->store($ride);
-
         $ride->end(Clock::now());
 
         $this->repository->store($ride);

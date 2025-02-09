@@ -46,7 +46,7 @@ final class HttpRouteFetcherTest extends TestCase
         $ride = Ride::start(
             RideId::generate(),
             RiderId::fromString('rider_id'),
-            BikeId::generate(),
+            BikeId::fromInt(1),
         );
         $ride->end();
         $httpClient = new MockHttpClient($response = new JsonMockResponse(self::BIKE_TRACKING_API_RESPONSE));
@@ -58,7 +58,7 @@ final class HttpRouteFetcherTest extends TestCase
         self::assertSame(
             \sprintf(
                 'http://bikes-api/%s/%s/%s',
-                $ride->getBikeId()->toString(),
+                $ride->getBikeId()->toInt(),
                 $ride->getStartedAt()->getTimestamp(),
                 $ride->getEndedAt()->getTimestamp(),
             ),
