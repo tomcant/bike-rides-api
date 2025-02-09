@@ -23,14 +23,14 @@ final readonly class ListTrackingEventsByBikeId
      *   trackedAt: \DateTimeImmutable,
      * }>
      */
-    public function query(string $bikeId, \DateTimeImmutable $from, \DateTimeImmutable $to): array
+    public function query(int $bikeId, \DateTimeImmutable $from, \DateTimeImmutable $to): array
     {
         return \array_map(
             static fn (TrackingEvent $event) => [
                 'location' => $event->location->toArray(),
                 'trackedAt' => $event->trackedAt,
             ],
-            $this->repository->getBetweenForBikeId(BikeId::fromString($bikeId), $from, $to),
+            $this->repository->getBetweenForBikeId(BikeId::fromInt($bikeId), $from, $to),
         );
     }
 }

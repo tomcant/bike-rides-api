@@ -54,6 +54,6 @@ final class RidePaymentListingTest extends UserInterfaceTestCase
 
     protected function initiateRidePayment(string $rideId): void
     {
-        $this->handleDomainEvent(new RideEnded($rideId, 'bike_id'));
+        $this->handleDomainEvent(new RideEnded($rideId, bikeId: 1));
     }
 }

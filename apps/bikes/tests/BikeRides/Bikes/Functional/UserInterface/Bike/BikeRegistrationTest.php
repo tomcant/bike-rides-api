@@ -16,7 +16,7 @@ final class BikeRegistrationTest extends BikesUserInterfaceTestCase
         self::assertResponseStatusCodeSame(201);
 
         $bikeUrl = $this->parseResponseLinkUrl();
-        self::assertStringContainsString($bikeId, $bikeUrl);
+        self::assertStringContainsString((string) $bikeId, $bikeUrl);
 
         $bike = $this->getJson($bikeUrl);
         self::assertSame($bikeId, $bike['bike_id']);

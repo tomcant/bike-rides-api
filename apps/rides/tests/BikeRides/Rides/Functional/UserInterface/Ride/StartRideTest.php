@@ -43,6 +43,6 @@ final class StartRideTest extends RidesUserInterfaceTestCase
         );
 
         self::assertResponseStatusCodeSame(400);
-        self::assertSame("Bike \"{$bike['bike_id']}\" is not available", $response['detail']);
+        self::assertSame("Bike '{$bike['bike_id']}' is not available", $response['detail']);
     }
 }

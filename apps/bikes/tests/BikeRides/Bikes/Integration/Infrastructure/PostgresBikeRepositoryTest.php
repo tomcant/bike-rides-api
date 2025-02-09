@@ -7,6 +7,7 @@ namespace App\Tests\BikeRides\Bikes\Integration\Infrastructure;
 use App\BikeRides\Bikes\Domain\Model\Bike\Bike;
 use App\BikeRides\Bikes\Domain\Model\Bike\BikeNotFound;
 use App\BikeRides\Bikes\Infrastructure\PostgresBikeRepository;
+use BikeRides\Foundation\Domain\CorrelationId;
 use BikeRides\SharedKernel\Domain\Model\BikeId;
 use BikeRides\SharedKernel\Domain\Model\Location;
 
@@ -23,37 +24,43 @@ final class PostgresBikeRepositoryTest extends PostgresTestCase
 
     public function test_it_stores_a_bike(): void
     {
-        $bike = new Bike(BikeId::generate(), isActive: false);
+        $correlationId = CorrelationId::generate();
+        $bike = Bike::register($correlationId);
 
         $this->repository->store($bike);
 
-        self::assertEquals($bike, $this->repository->getById($bike->bikeId));
+        $storedBike = $this->repository->getByRegistrationCorrelationId($correlationId);
+        self::assertNotNull($storedBike->bikeId);
     }
 
-    public function test_it_stores_an_updated_bike(): void
+    public function test_it_updates_a_stored_bike(): void
     {
-        $bike = new Bike(BikeId::generate(), isActive: false);
+        $correlationId = CorrelationId::generate();
+        $this->repository->store(Bike::register($correlationId));
+        $storedBike = $this->repository->getByRegistrationCorrelationId($correlationId);
+        $storedBike->activate(new Location(0, 0));
 
-        $this->repository->store($bike);
+        $this->repository->store($storedBike);
 
-        $bike->activate(new Location(0, 0));
-
-        $this->repository->store($bike);
-
-        self::assertEquals($bike, $this->repository->getById($bike->bikeId));
+        $updatedBike = $this->repository->getById($storedBike->bikeId);
+        self::assertTrue($updatedBike->isActive);
     }
 
     public function test_it_cannot_get_a_bike_by_an_unknown_bike_id(): void
     {
         self::expectException(BikeNotFound::class);
 
-        $this->repository->getById(BikeId::generate());
+        $this->repository->getById(BikeId::fromInt(1));
     }
 
     public function test_it_lists_bikes(): void
     {
-        $this->repository->store($bike1 = new Bike(BikeId::generate(), isActive: false));
-        $this->repository->store($bike2 = new Bike(BikeId::generate(), isActive: true));
+        $correlationId1 = CorrelationId::generate();
+        $correlationId2 = CorrelationId::generate();
+        $this->repository->store(Bike::register($correlationId1));
+        $this->repository->store(Bike::register($correlationId2));
+        $bike1 = $this->repository->getByRegistrationCorrelationId($correlationId1);
+        $bike2 = $this->repository->getByRegistrationCorrelationId($correlationId2);
 
         $bikes = $this->repository->list();
 

@@ -19,7 +19,7 @@ final readonly class StartRideHandler implements CommandHandler
     public function __invoke(StartRideCommand $command): void
     {
         if (!$this->bikeAvailabilityChecker->isAvailable($command->bikeId)) {
-            throw new \RuntimeException(\sprintf('Bike "%s" is not available', $command->bikeId->toString()));
+            throw new \RuntimeException("Bike '{$command->bikeId->toInt()}' is not available");
         }
 
         $ride = Ride::start($command->rideId, $command->riderId, $command->bikeId);

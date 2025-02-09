@@ -18,7 +18,7 @@ final readonly class PostgresBikeAvailabilityChecker implements BikeAvailability
     {
         return !$this->connection->fetchOne(
             'SELECT TRUE FROM rides.projection_ride WHERE bike_id = :bike_id AND ended_at IS NULL',
-            ['bike_id' => $bikeId->toString()],
+            ['bike_id' => $bikeId->toInt()],
         );
     }
 }

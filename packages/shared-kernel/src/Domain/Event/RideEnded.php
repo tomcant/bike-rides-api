@@ -11,7 +11,7 @@ final readonly class RideEnded extends DomainEvent
 {
     public function __construct(
         public string $rideId,
-        public string $bikeId,
+        public int $bikeId,
     ) {
         parent::__construct();
     }

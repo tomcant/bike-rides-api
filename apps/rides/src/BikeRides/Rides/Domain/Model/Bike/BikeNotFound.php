@@ -10,6 +10,6 @@ final class BikeNotFound extends \DomainException
 {
     public function __construct(BikeId $id)
     {
-        parent::__construct(\sprintf("Unable to find bike with ID '%s'", $id->toString()));
+        parent::__construct("Unable to find bike with ID '{$id->toInt()}'");
     }
 }

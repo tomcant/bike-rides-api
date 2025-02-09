@@ -18,7 +18,7 @@ final readonly class ListBikes
 
     /**
      * @return list<array{
-     *   bike_id: string,
+     *   bike_id: int,
      *   is_active: bool,
      *   location: array{
      *     latitude: float,
@@ -30,7 +30,7 @@ final readonly class ListBikes
     {
         return \array_map(
             fn (Bike $bike) => [
-                'bike_id' => $bike->bikeId->toString(),
+                'bike_id' => $bike->bikeId->toInt(),
                 'is_active' => $bike->isActive,
                 'location' => $this->trackingEventRepository->getLastEventForBikeId($bike->bikeId)?->location->toArray(),
             ],

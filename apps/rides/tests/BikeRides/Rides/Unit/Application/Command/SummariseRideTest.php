@@ -31,7 +31,7 @@ final class SummariseRideTest extends CommandTestCase
     public function test_it_summarises_a_ride(): void
     {
         $this->createRider($riderId = RiderId::fromString('rider_id'));
-        $this->createBike($bikeId = BikeId::generate());
+        $this->createBike($bikeId = BikeId::fromInt(1));
         $this->startRide($rideId = RideId::generate(), $riderId, $bikeId);
         $this->endRide($rideId);
 
@@ -48,7 +48,7 @@ final class SummariseRideTest extends CommandTestCase
     public function test_it_cannot_summarise_a_ride_that_has_already_been_summarised(): void
     {
         $this->createRider($riderId = RiderId::fromString('rider_id'));
-        $this->createBike($bikeId = BikeId::generate());
+        $this->createBike($bikeId = BikeId::fromInt(1));
         $this->startRide($rideId = RideId::generate(), $riderId, $bikeId);
         $this->endRide($rideId);
 
@@ -63,7 +63,7 @@ final class SummariseRideTest extends CommandTestCase
     public function test_it_cannot_summarise_a_ride_that_has_not_ended(): void
     {
         $this->createRider($riderId = RiderId::fromString('rider_id'));
-        $this->createBike($bikeId = BikeId::generate());
+        $this->createBike($bikeId = BikeId::fromInt(1));
         $this->startRide($rideId = RideId::generate(), $riderId, $bikeId);
 
         self::expectException(\DomainException::class);

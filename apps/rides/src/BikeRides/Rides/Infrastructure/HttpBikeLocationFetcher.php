@@ -23,7 +23,7 @@ final readonly class HttpBikeLocationFetcher implements BikeLocationFetcher
         $trackingApiUrl = \str_replace(
             ['{bikeId}', '{from}', '{to}'],
             [
-                $bikeId->toString(),
+                (string) $bikeId->toInt(),
                 (string) Clock::now()->modify('-1 minute')->getTimestamp(),
                 (string) Clock::now()->getTimestamp(),
             ],

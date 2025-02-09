@@ -17,7 +17,7 @@ final readonly class GetRideById
      * @return ?array{
      *   ride_id: string,
      *   rider_id: string,
-     *   bike_id: string,
+     *   bike_id: int,
      *   started_at: \DateTimeImmutable,
      *   ended_at: ?\DateTimeImmutable,
      * }

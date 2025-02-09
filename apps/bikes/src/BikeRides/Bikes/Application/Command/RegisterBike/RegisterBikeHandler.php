@@ -16,7 +16,7 @@ final readonly class RegisterBikeHandler implements CommandHandler
 
     public function __invoke(RegisterBikeCommand $command): void
     {
-        $bike = Bike::register($command->bikeId);
+        $bike = Bike::register($command->correlationId);
 
         $this->repository->store($bike);
     }

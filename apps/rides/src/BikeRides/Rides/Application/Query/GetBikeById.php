@@ -16,23 +16,23 @@ final readonly class GetBikeById
 
     /**
      * @return ?array{
-     *   bike_id: string,
+     *   bike_id: int,
      *   location: array{
      *     latitude: float,
      *     longitude: float,
      *   },
      * }
      */
-    public function query(string $bikeId): ?array
+    public function query(int $bikeId): ?array
     {
         try {
-            $bike = $this->repository->getById(BikeId::fromString($bikeId));
+            $bike = $this->repository->getById(BikeId::fromInt($bikeId));
         } catch (BikeNotFound) {
             return null;
         }
 
         return [
-            'bike_id' => $bike->bikeId->toString(),
+            'bike_id' => $bike->bikeId->toInt(),
             'location' => $bike->location->toArray(),
         ];
     }

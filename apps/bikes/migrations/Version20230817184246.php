@@ -15,15 +15,17 @@ final class Version20230817184246 extends AbstractMigration
 
         $this->addSql('
             CREATE TABLE bikes.bikes (
-                bike_id UUID PRIMARY KEY,
-                is_active BOOL
+                bike_id SERIAL PRIMARY KEY,
+                registration_correlation_id UUID,
+                is_active BOOL,
+                UNIQUE (registration_correlation_id)
             );
         ');
 
         $this->addSql('
             CREATE TABLE bikes.tracking (
                 id SERIAL PRIMARY KEY,
-                bike_id UUID NOT NULL,
+                bike_id INT NOT NULL REFERENCES bikes.bikes (bike_id),
                 location JSONB NOT NULL,
                 tracked_at TIMESTAMPTZ NOT NULL
             );

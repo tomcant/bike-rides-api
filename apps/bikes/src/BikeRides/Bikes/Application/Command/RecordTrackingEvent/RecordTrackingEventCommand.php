@@ -15,17 +15,17 @@ final readonly class RecordTrackingEventCommand implements Command
     public BikeId $bikeId;
 
     public function __construct(
-        string $bikeId,
+        int $bikeId,
         public Location $location,
         public \DateTimeImmutable $trackedAt,
     ) {
-        $this->bikeId = BikeId::fromString($bikeId);
+        $this->bikeId = BikeId::fromInt($bikeId);
     }
 
     public function serialize(): string
     {
         return Json::encode([
-            'bikeId' => $this->bikeId->toString(),
+            'bikeId' => $this->bikeId->toInt(),
             'location' => $this->location->toArray(),
             'trackedAt' => Timestamp::format($this->trackedAt),
         ]);

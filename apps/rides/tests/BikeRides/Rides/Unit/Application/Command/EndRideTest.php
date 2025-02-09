@@ -32,7 +32,7 @@ final class EndRideTest extends CommandTestCase
     public function test_it_ends_a_ride(): void
     {
         $this->createRider($riderId = RiderId::fromString('rider_id'));
-        $this->createBike($bikeId = BikeId::generate());
+        $this->createBike($bikeId = BikeId::fromInt(1));
         $this->startRide($rideId = RideId::generate(), $riderId, $bikeId);
 
         ($this->handler)(new EndRideCommand($rideId->toString()));
@@ -43,13 +43,13 @@ final class EndRideTest extends CommandTestCase
     public function test_it_publishes_a_ride_ended_domain_event(): void
     {
         $this->createRider($riderId = RiderId::fromString('rider_id'));
-        $this->createBike($bikeId = BikeId::generate());
+        $this->createBike($bikeId = BikeId::fromInt(1));
         $this->startRide($rideId = RideId::generate(), $riderId, $bikeId);
 
         ($this->handler)(new EndRideCommand($rideId->toString()));
 
         self::assertDomainEventEquals(
-            new RideEnded($rideId->toString(), $bikeId->toString()),
+            new RideEnded($rideId->toString(), $bikeId->toInt()),
             $this->eventBus->lastEvent,
         );
     }
@@ -57,7 +57,7 @@ final class EndRideTest extends CommandTestCase
     public function test_it_cannot_end_a_ride_that_has_already_ended(): void
     {
         $this->createRider($riderId = RiderId::fromString('rider_id'));
-        $this->createBike($bikeId = BikeId::generate());
+        $this->createBike($bikeId = BikeId::fromInt(1));
         $this->startRide($rideId = RideId::generate(), $riderId, $bikeId);
 
         ($this->handler)(new EndRideCommand($rideId->toString()));

@@ -17,17 +17,17 @@ abstract class BikesUserInterfaceTestCase extends UserInterfaceTestCase
     }
 
     /** @return array<mixed, mixed> */
-    protected function retrieveBike(string $bikeId): array
+    protected function retrieveBike(int $bikeId): array
     {
         return $this->getJson("/bike/{$bikeId}");
     }
 
-    protected function activateBike(string $bikeId): void
+    protected function activateBike(int $bikeId): void
     {
         $this->postJson("/bike/{$bikeId}/activate");
     }
 
-    protected function recordTrackingEvent(string $bikeId, Location $location): void
+    protected function recordTrackingEvent(int $bikeId, Location $location): void
     {
         $this->postJson(
             '/tracking',
@@ -39,7 +39,7 @@ abstract class BikesUserInterfaceTestCase extends UserInterfaceTestCase
     }
 
     /** @return array<mixed, mixed> */
-    protected function listTrackingEvents(string $bikeId, \DateTimeImmutable $from, \DateTimeImmutable $to): array
+    protected function listTrackingEvents(int $bikeId, \DateTimeImmutable $from, \DateTimeImmutable $to): array
     {
         return $this->getJson("/tracking?bike_id={$bikeId}&from={$from->getTimestamp()}&to={$to->getTimestamp()}");
     }

@@ -37,7 +37,7 @@ final class PostgresRidePaymentProjectionRepositoryTest extends PostgresTestCase
         self::assertEquals($ridePayment, $this->repository->getById($ridePayment->ridePaymentId));
     }
 
-    public function test_it_stores_an_updated_ride_payment(): void
+    public function test_it_updates_a_stored_ride_payment(): void
     {
         $ridePayment = new RidePayment(
             ridePaymentId: RidePaymentId::generate()->toString(),
@@ -46,9 +46,7 @@ final class PostgresRidePaymentProjectionRepositoryTest extends PostgresTestCase
             pricePerMinute: Money::GBP(25),
             initiatedAt: Clock::now(),
         );
-
         $this->repository->store($ridePayment);
-
         $ridePayment->capture(Clock::now(), 'external_payment_ref');
 
         $this->repository->store($ridePayment);

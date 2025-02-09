@@ -24,7 +24,7 @@ final class RidePaymentInitiationTest extends UserInterfaceTestCase
         );
         self::getContainer()->set(HttpClientInterface::class, new MockHttpClient($fetchRideDetailsHttpResponse));
 
-        $this->handleDomainEvent(new RideEnded($rideId, 'bike_id'));
+        $this->handleDomainEvent(new RideEnded($rideId, bikeId: 1));
 
         $ridePayments = $this->fetchRidePayments($rideId);
         self::assertSame(1, $ridePayments['total']);
@@ -50,12 +50,12 @@ final class RidePaymentInitiationTest extends UserInterfaceTestCase
         );
         self::getContainer()->set(HttpClientInterface::class, new MockHttpClient($fetchRideDetailsHttpResponse));
 
-        $this->handleDomainEvent(new RideEnded($rideId, 'bike_id'));
+        $this->handleDomainEvent(new RideEnded($rideId, bikeId: 1));
 
         $ridePayments = $this->fetchRidePayments($rideId);
         self::assertSame(1, $ridePayments['total']);
 
-        $this->handleDomainEvent(new RideEnded($rideId, 'bike_id'));
+        $this->handleDomainEvent(new RideEnded($rideId, bikeId: 1));
 
         $ridePayments = $this->fetchRidePayments($rideId);
         self::assertSame(1, $ridePayments['total']);

@@ -35,7 +35,7 @@ final readonly class PostgresBikeRepository implements BikeRepository
     {
         $record = $this->connection->fetchAssociative(
             'SELECT * FROM rides.bikes WHERE bike_id = :bike_id',
-            ['bike_id' => $bikeId->toString()],
+            ['bike_id' => $bikeId->toInt()],
         );
 
         if (false === $record) {
@@ -49,7 +49,7 @@ final readonly class PostgresBikeRepository implements BikeRepository
     {
         $rowCount = $this->connection->executeStatement(
             'DELETE FROM rides.bikes WHERE bike_id = :bike_id',
-            ['bike_id' => $bikeId->toString()],
+            ['bike_id' => $bikeId->toInt()],
         );
 
         if (1 !== $rowCount) {
@@ -67,28 +67,28 @@ final readonly class PostgresBikeRepository implements BikeRepository
 
     /**
      * @param array{
-     *   bike_id: string,
+     *   bike_id: int,
      *   location: ?string,
      * } $record
      */
     private static function mapRecordToObject(array $record): Bike
     {
         return new Bike(
-            BikeId::fromString($record['bike_id']),
+            BikeId::fromInt($record['bike_id']),
             Location::fromArray(Json::decode($record['location'])),
         );
     }
 
     /**
      * @return array{
-     *   bike_id: string,
+     *   bike_id: int,
      *   location: ?string,
      * }
      */
     private static function mapObjectToRecord(Bike $bike): array
     {
         return [
-            'bike_id' => $bike->bikeId->toString(),
+            'bike_id' => $bike->bikeId->toInt(),
             'location' => Json::encode($bike->location->toArray()),
         ];
     }

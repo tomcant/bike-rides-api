@@ -7,14 +7,13 @@ namespace App\Tests\BikeRides\Rides\Functional\UserInterface\Bike;
 use App\Tests\BikeRides\Rides\Functional\UserInterface\RidesUserInterfaceTestCase;
 use BikeRides\SharedKernel\Domain\Event\BikeActivated;
 use BikeRides\SharedKernel\Domain\Event\BikeDeactivated;
-use BikeRides\SharedKernel\Domain\Model\BikeId;
 use BikeRides\SharedKernel\Domain\Model\Location;
 
 final class BikeSyncTest extends RidesUserInterfaceTestCase
 {
     public function test_bike_details_are_synced_when_a_bike_is_activated(): void
     {
-        $bikeId = BikeId::generate()->toString();
+        $bikeId = 1;
         $location = new Location(0, 0);
 
         $this->getJson("/bike/{$bikeId}", assertResponseIsSuccessful: false);

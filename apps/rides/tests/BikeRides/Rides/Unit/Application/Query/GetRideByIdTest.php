@@ -30,7 +30,7 @@ final class GetRideByIdTest extends QueryTestCase
         $this->startRide(
             $rideId = RideId::generate(),
             $riderId = RiderId::fromString('rider_id'),
-            $bikeId = BikeId::generate(),
+            $bikeId = BikeId::fromInt(1),
             $startedAt = Clock::now(),
         );
 
@@ -38,7 +38,7 @@ final class GetRideByIdTest extends QueryTestCase
 
         self::assertSame($rideId->toString(), $ride['ride_id']);
         self::assertSame($riderId->toString(), $ride['rider_id']);
-        self::assertSame($bikeId->toString(), $ride['bike_id']);
+        self::assertSame($bikeId->toInt(), $ride['bike_id']);
         self::assertEquals($startedAt, $ride['started_at']);
         self::assertNull($ride['ended_at']);
     }

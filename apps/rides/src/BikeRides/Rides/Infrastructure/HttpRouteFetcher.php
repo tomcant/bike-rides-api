@@ -23,7 +23,7 @@ final readonly class HttpRouteFetcher implements RouteFetcher
         $trackingApiUrl = \str_replace(
             ['{bikeId}', '{from}', '{to}'],
             [
-                $ride->getBikeId()->toString(),
+                (string) $ride->getBikeId()->toInt(),
                 (string) $ride->getStartedAt()->getTimestamp(),
                 (string) $ride->getEndedAt()->getTimestamp(),
             ],

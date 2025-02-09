@@ -17,6 +17,7 @@ use App\Tests\BikeRides\Bikes\Doubles\InMemoryTrackingEventRepository;
 use App\Tests\BikeRides\Shared\Doubles\DomainEventBusDummy;
 use BikeRides\Foundation\Clock\Clock;
 use BikeRides\Foundation\Clock\ClockStub;
+use BikeRides\Foundation\Domain\CorrelationId;
 use BikeRides\Foundation\Domain\DomainEvent;
 use BikeRides\Foundation\Domain\TransactionBoundaryDummy;
 use BikeRides\SharedKernel\Domain\Model\BikeId;
@@ -38,16 +39,18 @@ abstract class CommandTestCase extends TestCase
         Clock::useClock(new ClockStub());
     }
 
-    protected function registerBike(BikeId $bikeId): void
+    protected function registerBike(): BikeId
     {
         $handler = new RegisterBikeHandler($this->bikeRepository);
-        $handler(new RegisterBikeCommand($bikeId->toString()));
+        $handler(new RegisterBikeCommand(($correlationId = CorrelationId::generate())->toString()));
+
+        return $this->bikeRepository->getByRegistrationCorrelationId($correlationId)->bikeId;
     }
 
     protected function recordTrackingEvent(BikeId $bikeId, Location $location): void
     {
         $handler = new RecordTrackingEventHandler($this->trackingEventRepository);
-        $handler(new RecordTrackingEventCommand($bikeId->toString(), $location, Clock::now()));
+        $handler(new RecordTrackingEventCommand($bikeId->toInt(), $location, Clock::now()));
     }
 
     protected function activateBike(BikeId $bikeId): void
@@ -58,7 +61,7 @@ abstract class CommandTestCase extends TestCase
             new TransactionBoundaryDummy(),
             new DomainEventBusDummy(),
         );
-        $handler(new ActivateBikeCommand($bikeId->toString()));
+        $handler(new ActivateBikeCommand($bikeId->toInt()));
     }
 
     protected static function assertDomainEventEquals(DomainEvent $expected, DomainEvent $actual): void

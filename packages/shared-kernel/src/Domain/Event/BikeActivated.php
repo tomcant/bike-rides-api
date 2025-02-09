@@ -11,7 +11,7 @@ use BikeRides\SharedKernel\Domain\Model\Location;
 final readonly class BikeActivated extends DomainEvent
 {
     public function __construct(
-        public string $bikeId,
+        public int $bikeId,
         public Location $location,
     ) {
         parent::__construct();

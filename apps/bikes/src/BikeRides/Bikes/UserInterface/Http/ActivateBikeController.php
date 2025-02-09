@@ -12,7 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/bike/{bikeId}/activate', name: 'bike:activate', methods: ['POST'])]
 final class ActivateBikeController
 {
-    public function __invoke(CommandBus $bus, string $bikeId): Response
+    public function __invoke(CommandBus $bus, int $bikeId): Response
     {
         $bus->dispatch(new ActivateBikeCommand($bikeId));
 

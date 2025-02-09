@@ -18,7 +18,7 @@ final class RideProjector extends AggregateEventsSubscriber
         $ride = Ride::start(
             rideId: $event->getAggregateId()->toString(),
             riderId: $event->riderId->toString(),
-            bikeId: $event->bikeId->toString(),
+            bikeId: $event->bikeId->toInt(),
             startedAt: $event->occurredAt,
         );
 

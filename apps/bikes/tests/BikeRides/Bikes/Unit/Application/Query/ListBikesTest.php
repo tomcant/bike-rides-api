@@ -10,6 +10,7 @@ use App\BikeRides\Bikes\Domain\Model\TrackingEvent\TrackingEvent;
 use App\Tests\BikeRides\Bikes\Doubles\InMemoryBikeRepository;
 use App\Tests\BikeRides\Bikes\Doubles\InMemoryTrackingEventRepository;
 use BikeRides\Foundation\Clock\Clock;
+use BikeRides\Foundation\Domain\CorrelationId;
 use BikeRides\SharedKernel\Domain\Model\BikeId;
 use BikeRides\SharedKernel\Domain\Model\Location;
 use PHPUnit\Framework\TestCase;
@@ -32,16 +33,18 @@ final class ListBikesTest extends TestCase
 
     public function test_it_can_list_bikes(): void
     {
-        $this->bikeRepository->store($bike1 = new Bike(BikeId::generate(), isActive: false));
-        $this->bikeRepository->store($bike2 = new Bike(BikeId::generate(), isActive: true));
-        $this->trackingEventRepository->store(new TrackingEvent($bike2->bikeId, new Location(0, 0), Clock::now()));
-        $this->trackingEventRepository->store(new TrackingEvent($bike2->bikeId, new Location(1, 1), Clock::now()));
+        $bikeId1 = BikeId::fromInt(1);
+        $bikeId2 = BikeId::fromInt(2);
+        $this->bikeRepository->store(new Bike($bikeId1, CorrelationId::generate(), isActive: false));
+        $this->bikeRepository->store(new Bike($bikeId2, CorrelationId::generate(), isActive: true));
+        $this->trackingEventRepository->store(new TrackingEvent($bikeId2, new Location(0, 0), Clock::now()));
+        $this->trackingEventRepository->store(new TrackingEvent($bikeId2, new Location(1, 1), Clock::now()));
 
         $bikes = $this->query->query();
 
         self::assertCount(2, $bikes);
-        self::assertSame($bike1->bikeId->toString(), $bikes[0]['bike_id']);
-        self::assertSame($bike2->bikeId->toString(), $bikes[1]['bike_id']);
+        self::assertSame($bikeId1->toInt(), $bikes[0]['bike_id']);
+        self::assertSame($bikeId2->toInt(), $bikes[1]['bike_id']);
         self::assertFalse($bikes[0]['is_active']);
         self::assertTrue($bikes[1]['is_active']);
         self::assertNull($bikes[0]['location']);

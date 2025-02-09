@@ -35,7 +35,7 @@ final class Version20230818191327 extends AbstractMigration
 
         $this->addSql('
             CREATE TABLE rides.bikes (
-                bike_id UUID PRIMARY KEY,
+                bike_id INT PRIMARY KEY,
                 location JSONB NOT NULL
             );
         ');
@@ -44,7 +44,7 @@ final class Version20230818191327 extends AbstractMigration
             CREATE TABLE rides.projection_ride (
                 ride_id UUID NOT NULL,
                 rider_id VARCHAR NOT NULL,
-                bike_id UUID NOT NULL,
+                bike_id INT NOT NULL,
                 started_at TIMESTAMPTZ NOT NULL,
                 ended_at TIMESTAMPTZ,
                 PRIMARY KEY (ride_id)

@@ -39,7 +39,7 @@ final readonly class PostgresTrackingEventRepository implements TrackingEventRep
                 ORDER BY tracked_at DESC
                 LIMIT 1
             ',
-            ['bike_id' => $bikeId->toString()],
+            ['bike_id' => $bikeId->toInt()],
         );
 
         if (false === $record) {
@@ -59,7 +59,7 @@ final readonly class PostgresTrackingEventRepository implements TrackingEventRep
                   AND tracked_at BETWEEN :from AND :to
             ',
             [
-                'bike_id' => $bikeId->toString(),
+                'bike_id' => $bikeId->toInt(),
                 'from' => Timestamp::format($from),
                 'to' => Timestamp::format($to),
             ],
@@ -70,7 +70,7 @@ final readonly class PostgresTrackingEventRepository implements TrackingEventRep
 
     /**
      * @param array{
-     *   bike_id: string,
+     *   bike_id: int,
      *   location: string,
      *   tracked_at: string,
      * } $record
@@ -78,7 +78,7 @@ final readonly class PostgresTrackingEventRepository implements TrackingEventRep
     private static function mapRecordToObject(array $record): TrackingEvent
     {
         return new TrackingEvent(
-            BikeId::fromString($record['bike_id']),
+            BikeId::fromInt($record['bike_id']),
             Location::fromArray(Json::decode($record['location'])),
             Timestamp::from($record['tracked_at']),
         );
@@ -86,7 +86,7 @@ final readonly class PostgresTrackingEventRepository implements TrackingEventRep
 
     /**
      * @return array{
-     *   bike_id: string,
+     *   bike_id: int,
      *   location: string,
      *   tracked_at: string,
      * }
@@ -94,7 +94,7 @@ final readonly class PostgresTrackingEventRepository implements TrackingEventRep
     private static function mapObjectToRecord(TrackingEvent $event): array
     {
         return [
-            'bike_id' => $event->bikeId->toString(),
+            'bike_id' => $event->bikeId->toInt(),
             'location' => Json::encode($event->location->toArray()),
             'tracked_at' => Timestamp::format($event->trackedAt),
         ];
