@@ -74,7 +74,7 @@ final readonly class PostgresBikeRepository implements BikeRepository
     {
         return \array_map(
             self::mapRecordToObject(...),
-            $this->connection->fetchAllAssociative('SELECT * FROM bikes.bikes'),
+            $this->connection->fetchAllAssociative('SELECT * FROM bikes.bikes ORDER BY bike_id ASC'),
         );
     }
 
