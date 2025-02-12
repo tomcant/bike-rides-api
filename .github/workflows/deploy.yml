@@ -82,3 +82,15 @@ jobs:
         run: |
           docker build -f docker/Dockerfile.console -t $REGISTRY/$REPOSITORY:latest $(pwd)/apps/${{ matrix.app }}
           docker push $REGISTRY/$REPOSITORY:latest
+
+      - name: Update domain event outbox workers
+        run: |
+          export INSTANCE_ID=$( \
+            aws ec2 describe-instances \
+              --filter 'Name=tag:Name,Values=api-db-staging' 'Name=instance-state-name,Values=running' \
+                  | jq -r '.Reservations[0].Instances[0].InstanceId' \
+          )
+          aws ssm send-command \
+            --document-name AWS-RunShellScript \
+            --targets '[{"Key":"InstanceIds","Values":["'${INSTANCE_ID}'"]}]' \
+            --parameters '{"commands":["/opt/domain-event-outbox-worker/setup.sh '${{ matrix.app }}'"],"executionTimeout":["300"]}'
