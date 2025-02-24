@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\BikeRides\Bikes\UserInterface\Http\RecordTrackingEvent;
 
 use App\Framework\JsonSchemaInput\JsonSchemaInput;
+use BikeRides\Foundation\Clock\Clock;
 use BikeRides\SharedKernel\Domain\Model\Location;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
@@ -13,6 +14,7 @@ final readonly class RecordTrackingEventInput implements JsonSchemaInput
     private function __construct(
         public int $bikeId,
         public Location $location,
+        public \DateTimeImmutable $trackedAt,
     ) {
     }
 
@@ -24,7 +26,11 @@ final readonly class RecordTrackingEventInput implements JsonSchemaInput
             throw new BadRequestHttpException();
         }
 
-        return new self($payload['bike_id'], $location);
+        $trackedAt = ($payload['tracked_at'] ?? false)
+            ? new \DateTimeImmutable("@{$payload['tracked_at']}")
+            : Clock::now();
+
+        return new self($payload['bike_id'], $location, $trackedAt);
     }
 
     public static function getSchema(): array
@@ -49,6 +55,9 @@ final readonly class RecordTrackingEventInput implements JsonSchemaInput
                         'latitude',
                         'longitude',
                     ],
+                ],
+                'tracked_at' => [
+                    'type' => 'integer',
                 ],
             ],
             'required' => [

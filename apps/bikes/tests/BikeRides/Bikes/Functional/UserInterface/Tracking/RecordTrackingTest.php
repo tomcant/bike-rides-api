@@ -23,6 +23,7 @@ final class RecordTrackingTest extends BikesUserInterfaceTestCase
                     'latitude' => 51.535704,
                     'longitude' => -0.126946,
                 ],
+                'tracked_at' => Clock::now()->getTimestamp(),
             ],
         );
 
@@ -35,7 +36,7 @@ final class RecordTrackingTest extends BikesUserInterfaceTestCase
         self::assertEquals($location, $events['_embedded']['tracking_event'][0]['location']);
     }
 
-    /** @param array{location?: array{latitude?: int, longitude?: int }} $location */
+    /** @param array{location?: array{latitude?: int, longitude?: int}} $location */
     #[DataProvider('invalidLocationProvider')]
     public function test_recording_a_tracking_event_returns_a_400_response_for_an_invalid_location(array $location): void
     {
