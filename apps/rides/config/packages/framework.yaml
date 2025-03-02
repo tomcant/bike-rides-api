@@ -22,7 +22,7 @@ framework:
         default_options:
             headers:
                 'User-Agent': 'Bike Rides API'
-            timeout: 5
+            timeout: 20
 
 when@test:
     framework:

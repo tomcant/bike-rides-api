@@ -43,7 +43,7 @@ functions:
     handler: public/index.php
     runtime: php-84-fpm
     vpc: ${self:custom.vpc}
-    timeout: 10
+    timeout: 28
     url: true
 
   worker:
