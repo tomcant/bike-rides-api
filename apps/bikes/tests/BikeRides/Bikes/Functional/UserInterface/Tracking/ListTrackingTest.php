@@ -36,6 +36,22 @@ final class ListTrackingTest extends BikesUserInterfaceTestCase
         self::assertEquals($location3->toArray(), $list['_embedded']['tracking_event'][2]['location']);
     }
 
+    public function test_it_lists_tracking_events_in_chronological_order(): void
+    {
+        $bike = $this->registerBike();
+        $fromTimestamp = Clock::now()->getTimestamp();
+        $timestamp1 = Clock::now();
+        $timestamp2 = Clock::now();
+        $this->recordTrackingEvent($bike['bike_id'], $location2 = new Location(1, 1), $timestamp2);
+        $this->recordTrackingEvent($bike['bike_id'], $location1 = new Location(0, 0), $timestamp1);
+        $toTimestamp = Clock::now()->getTimestamp();
+
+        $list = $this->getJson("/tracking?bike_id={$bike['bike_id']}&from={$fromTimestamp}&to={$toTimestamp}");
+
+        self::assertEquals($location1->toArray(), $list['_embedded']['tracking_event'][0]['location']);
+        self::assertEquals($location2->toArray(), $list['_embedded']['tracking_event'][1]['location']);
+    }
+
     /** @param list<array{from?: mixed, to?: mixed}> $timeRange */
     #[DataProvider('invalidTimeRangeProvider')]
     public function test_listing_tracking_events_returns_a_400_response_for_an_invalid_time_range(array $timeRange): void

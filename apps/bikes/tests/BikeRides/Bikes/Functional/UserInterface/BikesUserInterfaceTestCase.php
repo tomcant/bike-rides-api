@@ -27,14 +27,15 @@ abstract class BikesUserInterfaceTestCase extends UserInterfaceTestCase
         $this->postJson("/bike/{$bikeId}/activate");
     }
 
-    protected function recordTrackingEvent(int $bikeId, Location $location): void
+    protected function recordTrackingEvent(int $bikeId, Location $location, ?\DateTimeImmutable $trackedAt = null): void
     {
         $this->postJson(
             '/tracking',
-            [
+            \array_filter([
                 'bike_id' => $bikeId,
                 'location' => $location->toArray(),
-            ],
+                'tracked_at' => $trackedAt?->getTimestamp(),
+            ]),
         );
     }
 

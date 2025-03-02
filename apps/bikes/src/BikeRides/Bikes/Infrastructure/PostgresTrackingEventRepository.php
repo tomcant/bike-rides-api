@@ -57,6 +57,7 @@ final readonly class PostgresTrackingEventRepository implements TrackingEventRep
                 FROM bikes.tracking
                 WHERE bike_id = :bike_id
                   AND tracked_at BETWEEN :from AND :to
+                ORDER BY tracked_at
             ',
             [
                 'bike_id' => $bikeId->toInt(),
