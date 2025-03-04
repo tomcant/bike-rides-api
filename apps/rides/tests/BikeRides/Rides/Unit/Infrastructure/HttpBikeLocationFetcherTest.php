@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Tests\BikeRides\Rides\Unit\Infrastructure;
 
-use App\BikeRides\Rides\Domain\Model\Bike\Bike;
 use App\BikeRides\Rides\Infrastructure\HttpBikeLocationFetcher;
 use BikeRides\SharedKernel\Domain\Model\BikeId;
 use BikeRides\SharedKernel\Domain\Model\Location;
@@ -14,38 +13,31 @@ use Symfony\Component\HttpClient\Response\JsonMockResponse;
 
 final class HttpBikeLocationFetcherTest extends TestCase
 {
-    private const array BIKE_TRACKING_API_RESPONSE = [
+    private const array BIKE_API_RESPONSE = [
         '_links' => [
-            'self' => ['href' => 'http://self', 'method' => 'GET'],
-            'bike' => ['href' => 'http://bike', 'method' => 'GET'],
-        ],
-        '_embedded' => [
-            'tracking_event' => [
-                [
-                    'location' => ['latitude' => 0, 'longitude' => 0],
-                    'tracked_at' => 1,
-                ],
-                [
-                    'location' => self::LAST_TRACKING_EVENT_LOCATION,
-                    'tracked_at' => 2,
-                ],
+            'self' => [
+                'href' => 'http://self',
+                'method' => 'GET',
             ],
         ],
-        'total' => 2,
+        'bike_id' => 1,
+        'is_active' => true,
+        'location' => [
+            'latitude' => 1,
+            'longitude' => 1,
+        ],
     ];
-    private const array LAST_TRACKING_EVENT_LOCATION = ['latitude' => 1, 'longitude' => 1];
 
     public function test_it_makes_an_http_request_to_fetch_a_bike_location(): void
     {
         $bikeId = BikeId::fromInt(1);
-        $bike = new Bike($bikeId, new Location(0, 0));
-        $httpClient = new MockHttpClient($response = new JsonMockResponse(self::BIKE_TRACKING_API_RESPONSE));
+        $httpClient = new MockHttpClient($response = new JsonMockResponse(self::BIKE_API_RESPONSE));
 
-        $fetcher = new HttpBikeLocationFetcher($httpClient, trackingApiUrlTemplate: 'http://bikes-api/{bikeId}/{from}/{to}');
+        $fetcher = new HttpBikeLocationFetcher($httpClient, getBikeApiUrlTemplate: 'http://bikes-api/{bikeId}');
         $location = $fetcher->fetch($bikeId);
 
         self::assertSame('GET', $response->getRequestMethod());
-        self::assertStringStartsWith("http://bikes-api/{$bikeId->toInt()}/", $response->getRequestUrl());
-        self::assertEquals(Location::fromArray(self::LAST_TRACKING_EVENT_LOCATION), $location);
+        self::assertSame("http://bikes-api/{$bikeId->toInt()}", $response->getRequestUrl());
+        self::assertEquals(Location::fromArray(self::BIKE_API_RESPONSE['location']), $location);
     }
 }

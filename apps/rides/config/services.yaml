@@ -7,6 +7,7 @@ services:
         autoconfigure: true
         bind:
             $listBikesApiUrl: '%env(trim-trailing-slash:BIKES_API_URL)%/bike'
+            $getBikeApiUrlTemplate: '%env(trim-trailing-slash:BIKES_API_URL)%/bike/{bikeId}'
             $trackingApiUrlTemplate: '%env(trim-trailing-slash:BIKES_API_URL)%/tracking?bike_id={bikeId}&from={from}&to={to}'
 
     App\:
