@@ -6,9 +6,6 @@ namespace App\Tests\BikeRides\Rides\Unit\Application\Query;
 
 use App\BikeRides\Rides\Domain\Model\Ride\Event\RideWasEnded;
 use App\BikeRides\Rides\Domain\Model\Ride\Event\RideWasStarted;
-use App\BikeRides\Rides\Domain\Model\Ride\Event\RideWasSummarised;
-use App\BikeRides\Rides\Domain\Model\Ride\Summary;
-use BikeRides\Foundation\Clock\Clock;
 use BikeRides\Foundation\Domain\AggregateEvent;
 use BikeRides\Foundation\Domain\AggregateEvents;
 use BikeRides\Foundation\Domain\AggregateEventsSubscriber;
@@ -43,11 +40,6 @@ abstract class QueryTestCase extends TestCase
     protected function endRide(RideId $rideId, \DateTimeImmutable $endedAt): void
     {
         $this->projectEvent(new RideWasEnded($this->version, $rideId, $endedAt));
-    }
-
-    protected function summariseRide(RideId $rideId, Summary $summary): void
-    {
-        $this->projectEvent(new RideWasSummarised($this->version, $rideId, $summary, Clock::now()));
     }
 
     private function projectEvent(AggregateEvent $event): void

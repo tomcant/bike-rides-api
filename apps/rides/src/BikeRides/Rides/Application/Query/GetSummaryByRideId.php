@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace App\BikeRides\Rides\Application\Query;
 
-use App\BikeRides\Rides\Domain\Projection\RideSummary\RideSummaryNotFound;
-use App\BikeRides\Rides\Domain\Projection\RideSummary\RideSummaryProjectionRepository;
+use App\BikeRides\Rides\Domain\Model\Summary\SummaryNotFound;
+use App\BikeRides\Rides\Domain\Model\Summary\SummaryRepository;
+use BikeRides\SharedKernel\Domain\Model\RideId;
 
-final readonly class GetRideSummaryByRideId
+final readonly class GetSummaryByRideId
 {
-    public function __construct(private RideSummaryProjectionRepository $repository)
+    public function __construct(private SummaryRepository $repository)
     {
     }
 
@@ -30,19 +31,19 @@ final readonly class GetRideSummaryByRideId
     public function query(string $rideId): ?array
     {
         try {
-            $summary = $this->repository->getByRideId($rideId);
-        } catch (RideSummaryNotFound) {
+            $summary = $this->repository->getByRideId(RideId::fromString($rideId));
+        } catch (SummaryNotFound) {
             return null;
         }
 
         return [
-            'ride_id' => $summary->rideId,
+            'ride_id' => $summary->rideId->toString(),
             'duration' => [
                 'started_at' => $summary->duration->startedAt,
                 'ended_at' => $summary->duration->endedAt,
                 'minutes' => $summary->duration->minutes,
             ],
-            'route' => $summary->route,
+            'route' => $summary->route->toArray(),
         ];
     }
 }

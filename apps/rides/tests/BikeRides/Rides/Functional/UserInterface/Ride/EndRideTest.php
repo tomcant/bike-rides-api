@@ -6,7 +6,7 @@ namespace App\Tests\BikeRides\Rides\Functional\UserInterface\Ride;
 
 use App\BikeRides\Rides\Application\Command\RefreshBikeLocation\BikeLocationFetcher;
 use App\BikeRides\Rides\Application\Command\SummariseRide\RouteFetcher;
-use App\BikeRides\Rides\Domain\Model\Ride\Route;
+use App\BikeRides\Rides\Domain\Model\Summary\Route;
 use App\Tests\BikeRides\Rides\Functional\UserInterface\RidesUserInterfaceTestCase;
 use BikeRides\SharedKernel\Domain\Event\BikeDeactivated;
 use BikeRides\SharedKernel\Domain\Model\Location;
@@ -53,7 +53,7 @@ final class EndRideTest extends RidesUserInterfaceTestCase
         self::assertEquals($location->toArray(), $bike['location']);
     }
 
-    public function test_the_ride_summary_is_generated_when_the_ride_ends(): void
+    public function test_the_summary_is_generated_when_the_ride_ends(): void
     {
         $route = new Route([new Location(0, 0), new Location(1, 1), new Location(2, 2)]);
         self::getContainer()->get(RouteFetcher::class)->useRoute($route);

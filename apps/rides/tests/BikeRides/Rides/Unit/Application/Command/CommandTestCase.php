@@ -16,9 +16,11 @@ use App\BikeRides\Rides\Domain\Model\Bike\BikeRepository;
 use App\BikeRides\Rides\Domain\Model\Ride\Event\RideEventFactory;
 use App\BikeRides\Rides\Domain\Model\Ride\RideRepository;
 use App\BikeRides\Rides\Domain\Model\Rider\RiderRepository;
+use App\BikeRides\Rides\Domain\Model\Summary\SummaryRepository;
 use App\Tests\BikeRides\Rides\Doubles\BikeAvailabilityCheckerStub;
 use App\Tests\BikeRides\Rides\Doubles\InMemoryBikeRepository;
 use App\Tests\BikeRides\Rides\Doubles\InMemoryRiderRepository;
+use App\Tests\BikeRides\Rides\Doubles\InMemorySummaryRepository;
 use App\Tests\BikeRides\Shared\Doubles\DomainEventBusDummy;
 use BikeRides\Foundation\Clock\Clock;
 use BikeRides\Foundation\Clock\ClockStub;
@@ -36,6 +38,7 @@ abstract class CommandTestCase extends TestCase
     protected RideRepository $rideRepository;
     protected RiderRepository $riderRepository;
     protected BikeRepository $bikeRepository;
+    protected SummaryRepository $summaryRepository;
 
     protected function setUp(): void
     {
@@ -46,6 +49,7 @@ abstract class CommandTestCase extends TestCase
         );
         $this->riderRepository = new InMemoryRiderRepository();
         $this->bikeRepository = new InMemoryBikeRepository();
+        $this->summaryRepository = new InMemorySummaryRepository();
 
         Clock::useClock(new ClockStub());
     }

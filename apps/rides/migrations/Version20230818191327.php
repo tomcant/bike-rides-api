@@ -41,22 +41,20 @@ final class Version20230818191327 extends AbstractMigration
         ');
 
         $this->addSql('
-            CREATE TABLE rides.projection_ride (
-                ride_id UUID NOT NULL,
-                rider_id VARCHAR NOT NULL,
-                bike_id INT NOT NULL,
-                started_at TIMESTAMPTZ NOT NULL,
-                ended_at TIMESTAMPTZ,
-                PRIMARY KEY (ride_id)
+            CREATE TABLE rides.summaries (
+                ride_id UUID PRIMARY KEY,
+                duration JSONB NOT NULL,
+                route JSONB NOT NULL
             );
         ');
 
         $this->addSql('
-            CREATE TABLE rides.projection_ride_summary (
-                ride_id UUID NOT NULL,
-                duration JSONB NOT NULL,
-                route JSONB NOT NULL,
-                PRIMARY KEY (ride_id)
+            CREATE TABLE rides.projection_ride (
+                ride_id UUID PRIMARY KEY,
+                rider_id VARCHAR NOT NULL,
+                bike_id INT NOT NULL,
+                started_at TIMESTAMPTZ NOT NULL,
+                ended_at TIMESTAMPTZ
             );
         ');
     }

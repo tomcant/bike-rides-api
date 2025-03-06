@@ -8,7 +8,6 @@ use BikeRides\Foundation\Clock\Clock;
 use BikeRides\Foundation\Domain\Aggregate;
 use BikeRides\Foundation\Domain\AggregateName;
 use BikeRides\SharedKernel\Domain\Model\BikeId;
-use BikeRides\SharedKernel\Domain\Model\RideDuration;
 use BikeRides\SharedKernel\Domain\Model\RideId;
 use BikeRides\SharedKernel\Domain\Model\RiderId;
 
@@ -19,7 +18,6 @@ final class Ride extends Aggregate
     private BikeId $bikeId;
     private \DateTimeImmutable $startedAt;
     private ?\DateTimeImmutable $endedAt;
-    private ?Summary $summary;
 
     public function getAggregateName(): AggregateName
     {
@@ -49,16 +47,6 @@ final class Ride extends Aggregate
     public function hasEnded(): bool
     {
         return null !== $this->endedAt;
-    }
-
-    public function getRoute(): ?Route
-    {
-        return $this->summary?->route;
-    }
-
-    public function hasBeenSummarised(): bool
-    {
-        return null !== $this->summary;
     }
 
     public static function start(RideId $rideId, RiderId $riderId, BikeId $bikeId): self
@@ -93,47 +81,16 @@ final class Ride extends Aggregate
         );
     }
 
-    public function summarise(Route $route): void
-    {
-        if ($this->hasBeenSummarised()) {
-            throw new \DomainException('Ride has already been summarised');
-        }
-
-        if (!$this->hasEnded()) {
-            throw new \DomainException('Ride has not ended');
-        }
-
-        $summary = new Summary(
-            RideDuration::fromStartAndEnd($this->startedAt, $this->endedAt),
-            $route,
-        );
-
-        $this->raise(
-            new Event\RideWasSummarised(
-                $this->getAggregateVersion(),
-                $this->rideId,
-                $summary,
-                Clock::now(),
-            ),
-        );
-    }
-
     protected function applyRideWasStarted(Event\RideWasStarted $event): void
     {
         $this->rideId = $event->getAggregateId();
         $this->bikeId = $event->bikeId;
         $this->startedAt = $event->occurredAt;
         $this->endedAt = null;
-        $this->summary = null;
     }
 
     protected function applyRideWasEnded(Event\RideWasEnded $event): void
     {
         $this->endedAt = $event->occurredAt;
-    }
-
-    protected function applyRideWasSummarised(Event\RideWasSummarised $event): void
-    {
-        $this->summary = $event->summary;
     }
 }

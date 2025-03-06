@@ -4,24 +4,27 @@ declare(strict_types=1);
 
 namespace App\BikeRides\Rides\Infrastructure;
 
-use App\BikeRides\Rides\Domain\Projection\RideSummary\RideSummary;
-use App\BikeRides\Rides\Domain\Projection\RideSummary\RideSummaryNotFound;
-use App\BikeRides\Rides\Domain\Projection\RideSummary\RideSummaryProjectionRepository;
+use App\BikeRides\Rides\Domain\Model\Summary\Route;
+use App\BikeRides\Rides\Domain\Model\Summary\Summary;
+use App\BikeRides\Rides\Domain\Model\Summary\SummaryNotFound;
+use App\BikeRides\Rides\Domain\Model\Summary\SummaryRepository;
 use BikeRides\Foundation\Json;
+use BikeRides\SharedKernel\Domain\Model\Location;
 use BikeRides\SharedKernel\Domain\Model\RideDuration;
+use BikeRides\SharedKernel\Domain\Model\RideId;
 use Doctrine\DBAL\Connection;
 
-final readonly class PostgresRideSummaryProjectionRepository implements RideSummaryProjectionRepository
+final readonly class PostgresSummaryRepository implements SummaryRepository
 {
     public function __construct(private Connection $connection)
     {
     }
 
-    public function store(RideSummary $summary): void
+    public function store(Summary $summary): void
     {
         $this->connection->executeStatement(
             '
-                INSERT INTO rides.projection_ride_summary (ride_id, duration, route)
+                INSERT INTO rides.summaries (ride_id, duration, route)
                 VALUES (:ride_id, :duration, :route)
                 ON CONFLICT (ride_id) DO UPDATE
                     SET duration = :duration,
@@ -31,15 +34,15 @@ final readonly class PostgresRideSummaryProjectionRepository implements RideSumm
         );
     }
 
-    public function getByRideId(string $rideId): RideSummary
+    public function getByRideId(RideId $rideId): Summary
     {
         $record = $this->connection->fetchAssociative(
-            'SELECT * FROM rides.projection_ride_summary WHERE ride_id = :ride_id',
-            ['ride_id' => $rideId],
+            'SELECT * FROM rides.summaries WHERE ride_id = :ride_id',
+            ['ride_id' => $rideId->toString()],
         );
 
         if (false === $record) {
-            throw new RideSummaryNotFound($rideId);
+            throw SummaryNotFound::forRideId($rideId);
         }
 
         return self::mapRecordToObject($record);
@@ -52,12 +55,12 @@ final readonly class PostgresRideSummaryProjectionRepository implements RideSumm
      *   route: string,
      * } $record
      */
-    private static function mapRecordToObject(array $record): RideSummary
+    private static function mapRecordToObject(array $record): Summary
     {
-        return new RideSummary(
-            $record['ride_id'],
+        return new Summary(
+            RideId::fromString($record['ride_id']),
             RideDuration::fromArray(Json::decode($record['duration'])),
-            Json::decode($record['route']),
+            new Route(\array_map(Location::fromArray(...), Json::decode($record['route']))),
         );
     }
 
@@ -68,12 +71,12 @@ final readonly class PostgresRideSummaryProjectionRepository implements RideSumm
      *   route: string,
      * }
      */
-    private static function mapObjectToRecord(RideSummary $summary): array
+    private static function mapObjectToRecord(Summary $summary): array
     {
         return [
-            'ride_id' => $summary->rideId,
+            'ride_id' => $summary->rideId->toString(),
             'duration' => Json::encode($summary->duration->toArray()),
-            'route' => Json::encode($summary->route),
+            'route' => Json::encode($summary->route->toArray()),
         ];
     }
 }

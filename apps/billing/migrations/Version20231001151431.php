@@ -29,14 +29,13 @@ final class Version20231001151431 extends AbstractMigration
 
         $this->addSql('
             CREATE TABLE billing.projection_ride_payment (
-                ride_payment_id UUID NOT NULL,
+                ride_payment_id UUID PRIMARY KEY,
                 ride_id VARCHAR NOT NULL,
                 total_price JSONB NOT NULL,
                 price_per_minute JSONB NOT NULL,
                 initiated_at TIMESTAMPTZ NOT NULL,
                 captured_at TIMESTAMPTZ,
                 external_payment_ref VARCHAR,
-                PRIMARY KEY (ride_payment_id),
                 UNIQUE (ride_id)
             );
         ');

@@ -14,7 +14,6 @@ final class RideEventFactory implements AggregateEventFactory
         return match ($eventName) {
             RideWasStarted::EVENT_NAME => RideWasStarted::deserialize($eventPayload),
             RideWasEnded::EVENT_NAME => RideWasEnded::deserialize($eventPayload),
-            RideWasSummarised::EVENT_NAME => RideWasSummarised::deserialize($eventPayload),
             default => throw new \DomainException(\sprintf("Unable to build event '%s'", $eventName)),
         };
     }

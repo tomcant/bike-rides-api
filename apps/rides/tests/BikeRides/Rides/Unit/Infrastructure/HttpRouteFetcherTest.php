@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\BikeRides\Rides\Unit\Infrastructure;
 
 use App\BikeRides\Rides\Domain\Model\Ride\Ride;
-use App\BikeRides\Rides\Domain\Model\Ride\Route;
+use App\BikeRides\Rides\Domain\Model\Summary\Route;
 use App\BikeRides\Rides\Infrastructure\HttpRouteFetcher;
 use BikeRides\SharedKernel\Domain\Model\BikeId;
 use BikeRides\SharedKernel\Domain\Model\Location;

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\BikeRides\Rides\UserInterface\Http;
 
-use App\BikeRides\Rides\Application\Query\GetRideSummaryByRideId;
+use App\BikeRides\Rides\Application\Query\GetSummaryByRideId;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -12,18 +12,18 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 #[Route('/ride/{rideId}/summary', name: 'ride:summary', methods: ['GET'])]
-final class RetrieveRideSummaryController
+final class RetrieveSummaryController
 {
     public function __invoke(
         Request $request,
         UrlGeneratorInterface $urlGenerator,
-        GetRideSummaryByRideId $query,
+        GetSummaryByRideId $query,
         string $rideId,
     ): JsonResponse {
         $summary = $query->query($rideId);
 
         if (null === $summary) {
-            throw new NotFoundHttpException("Could not find ride summary for ride with ID {$rideId}");
+            throw new NotFoundHttpException("Could not find summary for ride with ID {$rideId}");
         }
 
         return new JsonResponse([
