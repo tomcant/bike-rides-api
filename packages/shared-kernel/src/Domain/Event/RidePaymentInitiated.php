@@ -9,9 +9,27 @@ use BikeRides\Foundation\Json;
 
 final readonly class RidePaymentInitiated extends DomainEvent
 {
+    /**
+     * @param array{
+     *   totalPrice: array{
+     *     amount: string,
+     *     currency: string,
+     *   },
+     *   pricePerMinute: array{
+     *     amount: string,
+     *     currency: string,
+     *   },
+     *   rideDuration: array{
+     *     startedAt: string,
+     *     endedAt: string,
+     *     minutes: int,
+     *   },
+     * } $ridePrice
+     */
     public function __construct(
         public string $ridePaymentId,
         public string $rideId,
+        public array $ridePrice,
     ) {
         parent::__construct();
     }
@@ -31,6 +49,7 @@ final readonly class RidePaymentInitiated extends DomainEvent
         return Json::encode([
             'ridePaymentId' => $this->ridePaymentId,
             'rideId' => $this->rideId,
+            'ridePrice' => $this->ridePrice,
         ]);
     }
 }

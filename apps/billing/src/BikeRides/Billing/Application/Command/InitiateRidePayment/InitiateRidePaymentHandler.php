@@ -40,6 +40,7 @@ final readonly class InitiateRidePaymentHandler implements CommandHandler
                 new RidePaymentInitiated(
                     $ridePayment->getAggregateId()->toString(),
                     $ridePayment->getRideId()->toString(),
+                    $ridePayment->getRidePrice()->toArray(),
                 ),
             );
         } catch (\Throwable $exception) {

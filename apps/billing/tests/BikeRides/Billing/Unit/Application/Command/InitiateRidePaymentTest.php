@@ -74,8 +74,13 @@ final class InitiateRidePaymentTest extends CommandTestCase
 
         ($this->handler)(new InitiateRidePaymentCommand($ridePaymentId->toString(), $rideId->toString()));
 
+        $price = $this->repository->getById($ridePaymentId)->getRidePrice();
         self::assertDomainEventEquals(
-            new RidePaymentInitiated($ridePaymentId->toString(), $rideId->toString()),
+            new RidePaymentInitiated(
+                $ridePaymentId->toString(),
+                $rideId->toString(),
+                $price->toArray(),
+            ),
             $this->eventBus->lastEvent,
         );
     }
