@@ -33,7 +33,7 @@ can-release: security test lint ## Run all the same checks as CI to ensure this 
 security: ## Check dependencies for known vulnerabilities
 	$(APP) composer security
 
-test: ## Run the test suite
+test: db/test ## Run the test suite
 	$(APP) composer test
 
 lint: ## Run static analysis tools
