@@ -84,14 +84,15 @@
         "post-update-cmd": [
             "@auto-scripts"
         ],
+        "security": "@composer audit",
+        "test": "phpunit --log-junit /var/reports/phpunit.xml --order-by=random",
         "lint": [
             "@composer validate --strict",
             "PHP_CS_FIXER_IGNORE_ENV=1 php-cs-fixer fix --dry-run --diff",
             "deptrac",
             "phpstan"
         ],
-        "format": "PHP_CS_FIXER_IGNORE_ENV=1 php-cs-fixer fix",
-        "test": "phpunit --log-junit /var/reports/phpunit.xml --order-by=random"
+        "format": "PHP_CS_FIXER_IGNORE_ENV=1 php-cs-fixer fix"
     },
     "conflict": {
         "symfony/symfony": "*"

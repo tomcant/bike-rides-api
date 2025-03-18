@@ -1,14 +1,80 @@
 name: Test
 
 on:
-  - push
-  - workflow_call
+  push:
+  workflow_call:
+    outputs:
+      changed-apps:
+        value: ${{ jobs.changed-apps.outputs.apps }}
 
 jobs:
-  test:
-    name: Test
+  changed-apps:
+    name: Detect app changes
     runs-on: ubuntu-24.04
+    outputs:
+      apps: ${{ steps.changes.outputs.changes }}
     steps:
       - uses: actions/checkout@v4
-      - run: make start
-      - run: make can-release
+      - uses: dorny/paths-filter@v3
+        id: changes
+        with:
+          token: ${{ github.token }}
+          filters: |
+            bikes: apps/bikes/**
+            rides: apps/rides/**
+            billing: apps/billing/**
+
+  changed-packages:
+    name: Detect package changes
+    runs-on: ubuntu-24.04
+    outputs:
+      packages: ${{ steps.changes.outputs.changes }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dorny/paths-filter@v3
+        id: changes
+        with:
+          token: ${{ github.token }}
+          filters: |
+            foundation: packages/foundation/**
+            shared-kernel: packages/shared-kernel/**
+
+  test-apps:
+    needs: changed-apps
+    if: ${{ needs.changed-apps.outputs.apps != '[]' && needs.changed-apps.outputs.apps != '' }}
+    name: "Test ${{ matrix.app }}"
+    runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: false
+      matrix:
+        app: ${{ fromJSON(needs.changed-apps.outputs.apps) }}
+    defaults:
+      run:
+        working-directory: ./apps/${{ matrix.app }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Start app
+        run: make start
+      - name: Can release
+        run: make can-release
+
+  test-packages:
+    needs: changed-packages
+    if: ${{ needs.changed-packages.outputs.packages != '[]' && needs.changed-packages.outputs.packages != '' }}
+    name: "Test ${{ matrix.package }}"
+    runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: false
+      matrix:
+        package: ${{ fromJSON(needs.changed-packages.outputs.packages) }}
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          cd packages/${{ matrix.package }}
+          docker build -t bike-rides-api-package:latest .
+          docker run \
+            --entrypoint sh \
+            -v $(pwd)/..:/app/packages \
+            -w /app/packages/${{ matrix.package }} \
+            bike-rides-api-package:latest \
+              -c 'composer install && composer test && composer lint'

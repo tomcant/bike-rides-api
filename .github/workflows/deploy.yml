@@ -12,8 +12,9 @@ jobs:
     uses: tomcant/bike-rides-api/.github/workflows/test.yml@main
 
   deploy-staging:
-    name: "Deploy staging ${{ matrix.app }}"
     needs: test
+    if: ${{ needs.test.outputs.changed-apps != '[]' && needs.test.outputs.changed-apps != '' }}
+    name: "Deploy staging ${{ matrix.app }}"
     runs-on: ubuntu-24.04
     permissions:
       contents: read
@@ -21,10 +22,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        app:
-          - bikes
-          - rides
-          - billing
+        app: ${{ fromJSON(needs.test.outputs.changed-apps) }}
+    defaults:
+      run:
+        working-directory: ./apps/${{ matrix.app }}
     steps:
       - uses: actions/checkout@v4
 
@@ -36,13 +37,13 @@ jobs:
           aws-region: eu-west-1
 
       - name: Build tooling Docker image
-        run: docker build -f docker/Dockerfile -t bike-rides-api:latest docker/
+        run: docker build -f .docker/Dockerfile -t bike-rides-api:latest .docker/
 
       - name: Install dependencies
         run: |
           docker run \
-            -v $(pwd)/apps/${{ matrix.app }}:/var/task \
-            -v $(pwd)/packages:/var/packages \
+            -v ./:/var/task \
+            -v $(pwd)/../../packages:/var/packages \
             -e COMPOSER_MIRROR_PATH_REPOS=1 \
             bike-rides-api:latest \
               composer install --no-dev --no-interaction --no-ansi --classmap-authoritative --no-scripts
@@ -50,7 +51,7 @@ jobs:
       - name: Clear Symfony cache
         run: |
           docker run \
-            -v $(pwd)/apps/${{ matrix.app }}:/var/task \
+            -v ./:/var/task \
             -v $(pwd)/var/cache:/tmp/cache \
             -e APP_ENV=prod \
             bike-rides-api:latest \
@@ -59,7 +60,7 @@ jobs:
       - name: Deploy to Lambda
         run: |
           docker run \
-            -v $(pwd)/apps/${{ matrix.app }}:/var/task \
+            -v ./:/var/task \
             -e AWS_ACCESS_KEY_ID \
             -e AWS_SECRET_ACCESS_KEY \
             -e AWS_SESSION_TOKEN \
@@ -69,7 +70,7 @@ jobs:
       - name: Run database migrations
         env:
           SERVERLESS_IMAGE: bike-rides-api:latest
-        run: apps/${{ matrix.app }}/bin/lambda-console staging "doctrine:migrations:migrate --no-interaction"
+        run: bin/lambda-console staging "doctrine:migrations:migrate --no-interaction"
 
       - name: Login to AWS ECR
         id: login-ecr
@@ -80,7 +81,7 @@ jobs:
           REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           REPOSITORY: ${{ matrix.app }}-api-console-staging
         run: |
-          docker build -f docker/Dockerfile.console -t $REGISTRY/$REPOSITORY:latest $(pwd)/apps/${{ matrix.app }}
+          docker build -f .docker/Dockerfile.console -t $REGISTRY/$REPOSITORY:latest .
           docker push $REGISTRY/$REPOSITORY:latest
 
       - name: Update domain event outbox workers

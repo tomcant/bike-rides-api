@@ -1,6 +1,6 @@
 # Using arm64 because this image is used to run the domain
 # event outbox worker on an AL2023 ARM architecture in EC2.
-FROM bref/arm-php-84-console:2.3.14
+FROM bref/arm-php-84-console:2.3.19
 
 COPY . $LAMBDA_TASK_ROOT
 

@@ -13,7 +13,7 @@ use Symfony\Contracts\HttpClient\ResponseInterface;
 
 abstract class FixtureCommand extends Command
 {
-    private const string API_URL = 'http://bikes-api:8000';
+    private const string API_URL = 'http://localhost:8000';
     private readonly HttpClientInterface $client;
     private ResponseInterface $lastResponse;
     private OutputInterface $output;

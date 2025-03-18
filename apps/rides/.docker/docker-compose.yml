@@ -1,0 +1,33 @@
+services:
+  app:
+    image: bike-rides-rides-api:latest
+    build: .
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - '8081:8000'
+    volumes:
+      - ../:/var/task:rw,cached
+      - ../../../packages:/var/packages:rw,cached
+      - ../reports:/var/reports:rw,delegated
+      - ../var/log:/tmp/log
+    env_file: .env
+
+  db:
+    image: postgres:15.2-alpine
+    ports:
+      - '54321:5432'
+    volumes:
+      - db:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: password
+    healthcheck:
+      test: ['CMD', 'pg_isready', '-d', 'db', '-U', 'postgres']
+      timeout: 5s
+      retries: 5
+      start_period: 60s
+
+volumes:
+  db:
+    driver: local
