@@ -9,6 +9,7 @@ use App\BikeRides\Rides\Application\Command\SummariseRide\RouteFetcher;
 use App\BikeRides\Rides\Domain\Model\Summary\Route;
 use App\Tests\BikeRides\Rides\Functional\UserInterface\RidesUserInterfaceTestCase;
 use BikeRides\SharedKernel\Domain\Event\BikeDeactivated;
+use BikeRides\SharedKernel\Domain\Event\RidePaymentInitiated;
 use BikeRides\SharedKernel\Domain\Model\Location;
 
 final class EndRideTest extends RidesUserInterfaceTestCase
@@ -71,10 +72,45 @@ final class EndRideTest extends RidesUserInterfaceTestCase
 
         $summary = $this->getJson($ride['_links']['summary']['href']);
 
-        self::assertArrayHasKeys($summary, ['_links', 'ride_id', 'duration', 'route']);
+        self::assertArrayHasKeys($summary, ['_links', 'ride_id', 'duration', 'route', 'price']);
 
         self::assertSame($ride['ride_id'], $summary['ride_id']);
         self::assertEquals($route->toArray(), $summary['route']);
         self::assertGreaterThan($summary['duration']['started_at'], $summary['duration']['ended_at']);
+        self::assertNull($summary['price']);
+    }
+
+    public function test_the_price_is_added_to_the_summary_when_the_ride_payment_is_initiated(): void
+    {
+        $rider = $this->createRider();
+        $bike = $this->createBike();
+        $ride = $this->startRide($rider['rider_id'], $bike['bike_id']);
+        $this->postJson($ride['_links']['end']['href']);
+
+        $this->handleDomainEvent(
+            new RidePaymentInitiated(
+                'ride_payment_id',
+                $ride['ride_id'],
+                ridePrice: [
+                    'totalPrice' => [
+                        'amount' => '100',
+                        'currency' => 'GBP',
+                    ],
+                    'pricePerMinute' => [
+                        'amount' => '25',
+                        'currency' => 'GBP',
+                    ],
+                    'rideDuration' => [
+                        'startedAt' => '2025-01-01 12:00:00',
+                        'endedAt' => '2025-01-01 12:01:00',
+                        'minutes' => 1,
+                    ],
+                ],
+            ),
+        );
+
+        $ride = $this->retrieveRide($ride['ride_id']);
+        $summary = $this->getJson($ride['_links']['summary']['href']);
+        self::assertEquals('£1.00', $summary['price']);
     }
 }

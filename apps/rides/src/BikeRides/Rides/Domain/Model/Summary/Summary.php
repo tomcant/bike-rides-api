@@ -6,13 +6,15 @@ namespace App\BikeRides\Rides\Domain\Model\Summary;
 
 use BikeRides\SharedKernel\Domain\Model\RideDuration;
 use BikeRides\SharedKernel\Domain\Model\RideId;
+use Money\Money;
 
-final readonly class Summary
+final class Summary
 {
     public function __construct(
-        public RideId $rideId,
-        public RideDuration $duration,
-        public Route $route,
+        public readonly RideId $rideId,
+        public readonly RideDuration $duration,
+        public readonly Route $route,
+        public ?Money $price,
     ) {
     }
 }

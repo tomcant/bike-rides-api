@@ -24,11 +24,12 @@ final readonly class PostgresSummaryRepository implements SummaryRepository
     {
         $this->connection->executeStatement(
             '
-                INSERT INTO rides.summaries (ride_id, duration, route)
-                VALUES (:ride_id, :duration, :route)
+                INSERT INTO rides.summaries (ride_id, duration, route, price)
+                VALUES (:ride_id, :duration, :route, :price)
                 ON CONFLICT (ride_id) DO UPDATE
                     SET duration = :duration,
-                        route = :route
+                        route = :route,
+                        price = :price
             ',
             self::mapObjectToRecord($summary),
         );
@@ -53,6 +54,7 @@ final readonly class PostgresSummaryRepository implements SummaryRepository
      *   ride_id: string,
      *   duration: string,
      *   route: string,
+     *   price: null|string,
      * } $record
      */
     private static function mapRecordToObject(array $record): Summary
@@ -61,6 +63,7 @@ final readonly class PostgresSummaryRepository implements SummaryRepository
             RideId::fromString($record['ride_id']),
             RideDuration::fromArray(Json::decode($record['duration'])),
             new Route(\array_map(Location::fromArray(...), Json::decode($record['route']))),
+            null !== $record['price'] ? \money_from_array(Json::decode($record['price'])) : null,
         );
     }
 
@@ -69,6 +72,7 @@ final readonly class PostgresSummaryRepository implements SummaryRepository
      *   ride_id: string,
      *   duration: string,
      *   route: string,
+     *   price: null|string,
      * }
      */
     private static function mapObjectToRecord(Summary $summary): array
@@ -77,6 +81,7 @@ final readonly class PostgresSummaryRepository implements SummaryRepository
             'ride_id' => $summary->rideId->toString(),
             'duration' => Json::encode($summary->duration->toArray()),
             'route' => Json::encode($summary->route->toArray()),
+            'price' => null !== $summary->price ? Json::encode($summary->price->jsonSerialize()) : null,
         ];
     }
 }

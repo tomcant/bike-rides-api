@@ -26,6 +26,7 @@ final readonly class GetSummaryByRideId
      *     latitude: float,
      *     longitude: float,
      *   }>,
+     *   price: null|\Money\Money
      * }
      */
     public function query(string $rideId): ?array
@@ -44,6 +45,7 @@ final readonly class GetSummaryByRideId
                 'minutes' => $summary->duration->minutes,
             ],
             'route' => $summary->route->toArray(),
+            'price' => $summary->price,
         ];
     }
 }

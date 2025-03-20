@@ -12,6 +12,8 @@ use App\BikeRides\Rides\Application\Command\EndRide\EndRideCommand;
 use App\BikeRides\Rides\Application\Command\EndRide\EndRideHandler;
 use App\BikeRides\Rides\Application\Command\StartRide\StartRideCommand;
 use App\BikeRides\Rides\Application\Command\StartRide\StartRideHandler;
+use App\BikeRides\Rides\Application\Command\SummariseRide\SummariseRideCommand;
+use App\BikeRides\Rides\Application\Command\SummariseRide\SummariseRideHandler;
 use App\BikeRides\Rides\Domain\Model\Bike\BikeRepository;
 use App\BikeRides\Rides\Domain\Model\Ride\Event\RideEventFactory;
 use App\BikeRides\Rides\Domain\Model\Ride\RideRepository;
@@ -21,6 +23,7 @@ use App\Tests\BikeRides\Rides\Doubles\BikeAvailabilityCheckerStub;
 use App\Tests\BikeRides\Rides\Doubles\InMemoryBikeRepository;
 use App\Tests\BikeRides\Rides\Doubles\InMemoryRiderRepository;
 use App\Tests\BikeRides\Rides\Doubles\InMemorySummaryRepository;
+use App\Tests\BikeRides\Rides\Doubles\RouteFetcherStub;
 use App\Tests\BikeRides\Shared\Doubles\DomainEventBusDummy;
 use BikeRides\Foundation\Clock\Clock;
 use BikeRides\Foundation\Clock\ClockStub;
@@ -76,6 +79,12 @@ abstract class CommandTestCase extends TestCase
     {
         $handler = new EndRideHandler($this->rideRepository, new TransactionBoundaryDummy(), new DomainEventBusDummy());
         $handler(new EndRideCommand($rideId->toString()));
+    }
+
+    protected function summariseRide(RideId $rideId): void
+    {
+        $handler = new SummariseRideHandler($this->rideRepository, $this->summaryRepository, new RouteFetcherStub());
+        $handler(new SummariseRideCommand($rideId->toString()));
     }
 
     protected static function assertDomainEventEquals(DomainEvent $expected, DomainEvent $actual): void

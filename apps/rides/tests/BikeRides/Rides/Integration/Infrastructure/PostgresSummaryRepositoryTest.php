@@ -11,6 +11,7 @@ use App\BikeRides\Rides\Infrastructure\PostgresSummaryRepository;
 use BikeRides\Foundation\Clock\Clock;
 use BikeRides\SharedKernel\Domain\Model\RideDuration;
 use BikeRides\SharedKernel\Domain\Model\RideId;
+use Money\Money;
 
 final class PostgresSummaryRepositoryTest extends PostgresTestCase
 {
@@ -32,7 +33,27 @@ final class PostgresSummaryRepositoryTest extends PostgresTestCase
                 Clock::now(),
             ),
             route: new Route(locations: []),
+            price: null,
         );
+
+        $this->repository->store($summary);
+
+        self::assertEquals($summary, $this->repository->getByRideId($summary->rideId));
+    }
+
+    public function test_it_updates_a_stored_summary(): void
+    {
+        $summary = new Summary(
+            rideId: RideId::generate(),
+            duration: RideDuration::fromStartAndEnd(
+                new \DateTimeImmutable('-1 minute'),
+                Clock::now(),
+            ),
+            route: new Route(locations: []),
+            price: null,
+        );
+        $this->repository->store($summary);
+        $summary->price = Money::GBP(100);
 
         $this->repository->store($summary);
 

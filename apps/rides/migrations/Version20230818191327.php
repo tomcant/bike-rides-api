@@ -44,7 +44,8 @@ final class Version20230818191327 extends AbstractMigration
             CREATE TABLE rides.summaries (
                 ride_id UUID PRIMARY KEY,
                 duration JSONB NOT NULL,
-                route JSONB NOT NULL
+                route JSONB NOT NULL,
+                price JSONB
             );
         ');
 

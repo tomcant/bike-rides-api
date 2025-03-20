@@ -113,3 +113,16 @@ resources:
         Targets:
           - Id: 'worker-queue'
             Arn: '${ssm:/${opt:stage}/apps/rides-api/worker-queue-arn}'
+
+    RidePaymentInitiatedEventRule:
+      Type: AWS::Events::Rule
+      Properties:
+        EventBusName: '${ssm:/${opt:stage}/event-bridge/event-bus-arn}'
+        EventPattern:
+          detail:
+            headers:
+              type:
+                - 'bike-rides.ride-payment-initiated.v1'
+        Targets:
+          - Id: 'worker-queue'
+            Arn: '${ssm:/${opt:stage}/apps/rides-api/worker-queue-arn}'

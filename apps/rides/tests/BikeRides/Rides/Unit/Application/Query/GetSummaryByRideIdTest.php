@@ -13,6 +13,7 @@ use BikeRides\Foundation\Clock\Clock;
 use BikeRides\SharedKernel\Domain\Model\Location;
 use BikeRides\SharedKernel\Domain\Model\RideDuration;
 use BikeRides\SharedKernel\Domain\Model\RideId;
+use Money\Money;
 use PHPUnit\Framework\TestCase;
 
 final class GetSummaryByRideIdTest extends TestCase
@@ -36,6 +37,7 @@ final class GetSummaryByRideIdTest extends TestCase
                 $rideId = RideId::generate(),
                 $duration = RideDuration::fromStartAndEnd(($endedAt = Clock::now())->modify('-1 minute'), $endedAt),
                 $route = new Route([$endedAt->getTimestamp() => new Location(0, 0)]),
+                $price = Money::GBP(100),
             ),
         );
 
@@ -51,6 +53,7 @@ final class GetSummaryByRideIdTest extends TestCase
             ],
             $summary['duration'],
         );
+        self::assertEquals($price, $summary['price']);
     }
 
     public function test_no_summary_is_found_when_given_an_unknown_ride_id(): void

@@ -52,6 +52,7 @@ final class RetrieveSummaryController
                 'minutes' => $summary['duration']['minutes'],
             ],
             'route' => $summary['route'],
+            'price' => null !== $summary['price'] ? \money_to_string($summary['price']) : null,
         ]);
     }
 }

@@ -37,6 +37,7 @@ final readonly class SummariseRideHandler implements CommandHandler
                 rideId: $command->rideId,
                 duration: RideDuration::fromStartAndEnd($ride->getStartedAt(), $ride->getEndedAt()),
                 route: $this->routeFetcher->fetch($ride),
+                price: null,
             );
 
             $this->summaryRepository->store($summary);
