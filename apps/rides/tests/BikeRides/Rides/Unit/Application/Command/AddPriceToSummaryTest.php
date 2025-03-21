@@ -7,10 +7,10 @@ namespace BikeRides\Rides\Unit\Application\Command;
 use App\BikeRides\Rides\Application\Command\AddPriceToSummary\AddPriceToSummaryCommand;
 use App\BikeRides\Rides\Application\Command\AddPriceToSummary\AddPriceToSummaryHandler;
 use App\Tests\BikeRides\Rides\Unit\Application\Command\CommandTestCase;
+use BikeRides\Foundation\Money\Money;
 use BikeRides\SharedKernel\Domain\Model\BikeId;
 use BikeRides\SharedKernel\Domain\Model\RideId;
 use BikeRides\SharedKernel\Domain\Model\RiderId;
-use Money\Money;
 
 final class AddPriceToSummaryTest extends CommandTestCase
 {

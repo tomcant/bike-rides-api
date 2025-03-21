@@ -9,7 +9,7 @@ use App\BikeRides\Billing\Domain\Projection\RidePayment\RidePayment;
 use App\BikeRides\Billing\Domain\Projection\RidePayment\RidePaymentNotFound;
 use App\BikeRides\Billing\Infrastructure\PostgresRidePaymentProjectionRepository;
 use BikeRides\Foundation\Clock\Clock;
-use Money\Money;
+use BikeRides\Foundation\Money\Money;
 
 final class PostgresRidePaymentProjectionRepositoryTest extends PostgresTestCase
 {

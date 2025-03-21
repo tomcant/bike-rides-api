@@ -9,6 +9,7 @@ use App\BikeRides\Rides\Domain\Model\Summary\Summary;
 use App\BikeRides\Rides\Domain\Model\Summary\SummaryNotFound;
 use App\BikeRides\Rides\Domain\Model\Summary\SummaryRepository;
 use BikeRides\Foundation\Json;
+use BikeRides\Foundation\Money\Money;
 use BikeRides\SharedKernel\Domain\Model\Location;
 use BikeRides\SharedKernel\Domain\Model\RideDuration;
 use BikeRides\SharedKernel\Domain\Model\RideId;
@@ -63,7 +64,7 @@ final readonly class PostgresSummaryRepository implements SummaryRepository
             RideId::fromString($record['ride_id']),
             RideDuration::fromArray(Json::decode($record['duration'])),
             new Route(\array_map(Location::fromArray(...), Json::decode($record['route']))),
-            null !== $record['price'] ? \money_from_array(Json::decode($record['price'])) : null,
+            null !== $record['price'] ? Money::fromArray(Json::decode($record['price'])) : null,
         );
     }
 
@@ -81,7 +82,7 @@ final readonly class PostgresSummaryRepository implements SummaryRepository
             'ride_id' => $summary->rideId->toString(),
             'duration' => Json::encode($summary->duration->toArray()),
             'route' => Json::encode($summary->route->toArray()),
-            'price' => null !== $summary->price ? Json::encode($summary->price->jsonSerialize()) : null,
+            'price' => null !== $summary->price ? Json::encode($summary->price->toArray()) : null,
         ];
     }
 }

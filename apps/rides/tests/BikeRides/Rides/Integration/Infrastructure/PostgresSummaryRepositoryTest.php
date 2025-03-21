@@ -9,9 +9,9 @@ use App\BikeRides\Rides\Domain\Model\Summary\Summary;
 use App\BikeRides\Rides\Domain\Model\Summary\SummaryNotFound;
 use App\BikeRides\Rides\Infrastructure\PostgresSummaryRepository;
 use BikeRides\Foundation\Clock\Clock;
+use BikeRides\Foundation\Money\Money;
 use BikeRides\SharedKernel\Domain\Model\RideDuration;
 use BikeRides\SharedKernel\Domain\Model\RideId;
-use Money\Money;
 
 final class PostgresSummaryRepositoryTest extends PostgresTestCase
 {

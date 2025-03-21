@@ -18,10 +18,10 @@ use App\Tests\BikeRides\Shared\Doubles\DomainEventBusSpy;
 use BikeRides\Foundation\Clock\Clock;
 use BikeRides\Foundation\Domain\InMemoryEventStore;
 use BikeRides\Foundation\Domain\TransactionBoundaryDummy;
+use BikeRides\Foundation\Money\Money;
 use BikeRides\SharedKernel\Domain\Event\RidePaymentInitiated;
 use BikeRides\SharedKernel\Domain\Model\RideDuration;
 use BikeRides\SharedKernel\Domain\Model\RideId;
-use Money\Money;
 
 final class InitiateRidePaymentTest extends CommandTestCase
 {

@@ -6,6 +6,7 @@ namespace App\BikeRides\Rides\Application\Query;
 
 use App\BikeRides\Rides\Domain\Model\Summary\SummaryNotFound;
 use App\BikeRides\Rides\Domain\Model\Summary\SummaryRepository;
+use BikeRides\Foundation\Money\Money;
 use BikeRides\SharedKernel\Domain\Model\RideId;
 
 final readonly class GetSummaryByRideId
@@ -26,7 +27,7 @@ final readonly class GetSummaryByRideId
      *     latitude: float,
      *     longitude: float,
      *   }>,
-     *   price: null|\Money\Money
+     *   price: null|Money
      * }
      */
     public function query(string $rideId): ?array

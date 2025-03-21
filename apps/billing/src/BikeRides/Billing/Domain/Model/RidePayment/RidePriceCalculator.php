@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\BikeRides\Billing\Domain\Model\RidePayment;
 
+use BikeRides\Foundation\Money\Money;
 use BikeRides\SharedKernel\Domain\Model\RideDuration;
-use Money\Money;
 
 final readonly class RidePriceCalculator
 {

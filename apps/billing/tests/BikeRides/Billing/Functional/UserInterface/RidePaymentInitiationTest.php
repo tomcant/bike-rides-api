@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Tests\BikeRides\Billing\Functional\UserInterface;
 
+use BikeRides\Foundation\Money\Money;
 use BikeRides\SharedKernel\Domain\Event\RideEnded;
 use BikeRides\SharedKernel\Domain\Model\RideId;
-use Money\Money;
 use Symfony\Component\HttpClient\MockHttpClient;
 use Symfony\Component\HttpClient\Response\JsonMockResponse;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
@@ -32,8 +32,8 @@ final class RidePaymentInitiationTest extends UserInterfaceTestCase
 
         $ridePayment = $ridePayments['_embedded']['ride-payment'][0];
         self::assertSame($rideId, $ridePayment['ride_id']);
-        self::assertSame(Money::GBP(15_00)->jsonSerialize(), $ridePayment['total_price']);
-        self::assertSame(Money::GBP(25)->jsonSerialize(), $ridePayment['price_per_minute']);
+        self::assertSame(Money::GBP(15_00)->toArray(), $ridePayment['total_price']);
+        self::assertSame(Money::GBP(25)->toArray(), $ridePayment['price_per_minute']);
         self::assertIsNumeric($ridePayment['initiated_at']);
         self::assertGreaterThan($ridePayment['initiated_at'], $ridePayment['captured_at']);
         self::assertSame('external_payment_ref', $ridePayment['external_payment_ref']);

@@ -6,8 +6,8 @@ namespace App\BikeRides\Rides\Application\Command\AddPriceToSummary;
 
 use BikeRides\Foundation\Application\Command\Command;
 use BikeRides\Foundation\Json;
+use BikeRides\Foundation\Money\Money;
 use BikeRides\SharedKernel\Domain\Model\RideId;
-use Money\Money;
 
 final readonly class AddPriceToSummaryCommand implements Command
 {
@@ -24,7 +24,7 @@ final readonly class AddPriceToSummaryCommand implements Command
     {
         return Json::encode([
             'rideId' => $this->rideId->toString(),
-            'price' => $this->price->jsonSerialize(),
+            'price' => $this->price->toArray(),
         ]);
     }
 }

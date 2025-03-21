@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d1278b47cf35e62983be243999f1fba0",
+    "content-hash": "4070be9919f5e31fb0ff13a3b37653ac",
     "packages": [
         {
             "name": "async-aws/core",
@@ -313,7 +313,7 @@
             "dist": {
                 "type": "path",
                 "url": "../packages/foundation",
-                "reference": "9b46ccc9b3f64e5345b1f0dd4b08bcf158c896fa"
+                "reference": "5955dc93cb5236b5b03adaff7d2d28baa6e7edeb"
             },
             "require": {
                 "moneyphp/money": "^4.6",
@@ -326,10 +326,7 @@
             "autoload": {
                 "psr-4": {
                     "BikeRides\\Foundation\\": "src"
-                },
-                "files": [
-                    "src/money.php"
-                ]
+                }
             },
             "scripts": {
                 "lint": [

@@ -14,9 +14,9 @@ use BikeRides\Foundation\Domain\AggregateEvent;
 use BikeRides\Foundation\Domain\AggregateEvents;
 use BikeRides\Foundation\Domain\AggregateEventsSubscriber;
 use BikeRides\Foundation\Domain\AggregateVersion;
+use BikeRides\Foundation\Money\Money;
 use BikeRides\SharedKernel\Domain\Model\RideDuration;
 use BikeRides\SharedKernel\Domain\Model\RideId;
-use Money\Money;
 use PHPUnit\Framework\TestCase;
 
 abstract class QueryTestCase extends TestCase

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\BikeRides\Billing\Domain\Projection\RidePayment;
 
-use Money\Money;
+use BikeRides\Foundation\Money\Money;
 
 final class RidePayment
 {

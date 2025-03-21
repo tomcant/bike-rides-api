@@ -6,6 +6,7 @@ namespace App\BikeRides\Billing\Application\Query;
 
 use App\BikeRides\Billing\Domain\Projection\RidePayment\RidePaymentNotFound;
 use App\BikeRides\Billing\Domain\Projection\RidePayment\RidePaymentProjectionRepository;
+use BikeRides\Foundation\Money\Money;
 
 final readonly class GetRidePaymentByRideId
 {
@@ -17,8 +18,8 @@ final readonly class GetRidePaymentByRideId
      * @return ?array{
      *   ride_payment_id: string,
      *   ride_id: string,
-     *   total_price: \Money\Money,
-     *   price_per_minute: \Money\Money,
+     *   total_price: Money,
+     *   price_per_minute: Money,
      *   initiated_at: \DateTimeImmutable,
      *   captured_at: ?\DateTimeImmutable,
      *   external_payment_ref: ?string,

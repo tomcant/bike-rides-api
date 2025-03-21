@@ -10,10 +10,10 @@ use App\BikeRides\Rides\Domain\Model\Summary\Summary;
 use App\BikeRides\Rides\Domain\Model\Summary\SummaryRepository;
 use App\Tests\BikeRides\Rides\Doubles\InMemorySummaryRepository;
 use BikeRides\Foundation\Clock\Clock;
+use BikeRides\Foundation\Money\Money;
 use BikeRides\SharedKernel\Domain\Model\Location;
 use BikeRides\SharedKernel\Domain\Model\RideDuration;
 use BikeRides\SharedKernel\Domain\Model\RideId;
-use Money\Money;
 use PHPUnit\Framework\TestCase;
 
 final class GetSummaryByRideIdTest extends TestCase

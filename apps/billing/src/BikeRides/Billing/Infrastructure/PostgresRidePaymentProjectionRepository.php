@@ -8,6 +8,7 @@ use App\BikeRides\Billing\Domain\Projection\RidePayment\RidePayment;
 use App\BikeRides\Billing\Domain\Projection\RidePayment\RidePaymentNotFound;
 use App\BikeRides\Billing\Domain\Projection\RidePayment\RidePaymentProjectionRepository;
 use BikeRides\Foundation\Json;
+use BikeRides\Foundation\Money\Money;
 use BikeRides\Foundation\Timestamp;
 use Doctrine\DBAL\Connection;
 
@@ -89,8 +90,8 @@ final readonly class PostgresRidePaymentProjectionRepository implements RidePaym
         return new RidePayment(
             $record['ride_payment_id'],
             $record['ride_id'],
-            \money_from_array(Json::decode($record['total_price'])),
-            \money_from_array(Json::decode($record['price_per_minute'])),
+            Money::fromArray(Json::decode($record['total_price'])),
+            Money::fromArray(Json::decode($record['price_per_minute'])),
             Timestamp::from($record['initiated_at']),
             Timestamp::fromNullable($record['captured_at']),
             $record['external_payment_ref'],
@@ -113,8 +114,8 @@ final readonly class PostgresRidePaymentProjectionRepository implements RidePaym
         return [
             'ride_payment_id' => $ridePayment->ridePaymentId,
             'ride_id' => $ridePayment->rideId,
-            'total_price' => Json::encode($ridePayment->totalPrice->jsonSerialize()),
-            'price_per_minute' => Json::encode($ridePayment->pricePerMinute->jsonSerialize()),
+            'total_price' => Json::encode($ridePayment->totalPrice->toArray()),
+            'price_per_minute' => Json::encode($ridePayment->pricePerMinute->toArray()),
             'initiated_at' => Timestamp::format($ridePayment->initiatedAt),
             'captured_at' => Timestamp::formatNullable($ridePayment->capturedAt),
             'external_payment_ref' => $ridePayment->externalRef,

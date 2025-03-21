@@ -27,8 +27,8 @@ final class ListRidePaymentsController
             static fn ($ridePayment) => [
                 'ride_payment_id' => $ridePayment['ride_payment_id'],
                 'ride_id' => $ridePayment['ride_id'],
-                'total_price' => $ridePayment['total_price']->jsonSerialize(),
-                'price_per_minute' => $ridePayment['price_per_minute']->jsonSerialize(),
+                'total_price' => $ridePayment['total_price']->toArray(),
+                'price_per_minute' => $ridePayment['price_per_minute']->toArray(),
                 'initiated_at' => $ridePayment['initiated_at']->getTimestamp(),
                 'captured_at' => $ridePayment['captured_at']?->getTimestamp(),
                 'external_payment_ref' => $ridePayment['external_payment_ref'],

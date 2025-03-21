@@ -20,7 +20,6 @@
         "cloudevents/sdk-php": "^1.1",
         "doctrine/doctrine-bundle": "^2.13.1",
         "doctrine/doctrine-migrations-bundle": "^3.3.1",
-        "moneyphp/money": "^4.6",
         "nelmio/cors-bundle": "^2.5",
         "opis/json-schema": "^2.4",
         "symfony/console": "7.2.*",

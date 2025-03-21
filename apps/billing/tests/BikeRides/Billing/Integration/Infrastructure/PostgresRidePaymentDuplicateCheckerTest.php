@@ -9,8 +9,8 @@ use App\BikeRides\Billing\Domain\Projection\RidePayment\RidePayment;
 use App\BikeRides\Billing\Infrastructure\PostgresRidePaymentDuplicateChecker;
 use App\BikeRides\Billing\Infrastructure\PostgresRidePaymentProjectionRepository;
 use BikeRides\Foundation\Clock\Clock;
+use BikeRides\Foundation\Money\Money;
 use BikeRides\SharedKernel\Domain\Model\RideId;
-use Money\Money;
 
 final class PostgresRidePaymentDuplicateCheckerTest extends PostgresTestCase
 {

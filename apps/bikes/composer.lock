@@ -313,7 +313,7 @@
             "dist": {
                 "type": "path",
                 "url": "../packages/foundation",
-                "reference": "9b46ccc9b3f64e5345b1f0dd4b08bcf158c896fa"
+                "reference": "5955dc93cb5236b5b03adaff7d2d28baa6e7edeb"
             },
             "require": {
                 "moneyphp/money": "^4.6",
@@ -326,10 +326,7 @@
             "autoload": {
                 "psr-4": {
                     "BikeRides\\Foundation\\": "src"
-                },
-                "files": [
-                    "src/money.php"
-                ]
+                }
             },
             "scripts": {
                 "lint": [

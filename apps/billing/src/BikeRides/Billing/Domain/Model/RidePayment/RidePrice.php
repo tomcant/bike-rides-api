@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\BikeRides\Billing\Domain\Model\RidePayment;
 
+use BikeRides\Foundation\Money\Money;
 use BikeRides\SharedKernel\Domain\Model\RideDuration;
-use Money\Money;
 
 final readonly class RidePrice
 {
@@ -36,8 +36,8 @@ final readonly class RidePrice
     public function toArray(): array
     {
         return [
-            'totalPrice' => $this->totalPrice->jsonSerialize(),
-            'pricePerMinute' => $this->pricePerMinute->jsonSerialize(),
+            'totalPrice' => $this->totalPrice->toArray(),
+            'pricePerMinute' => $this->pricePerMinute->toArray(),
             'rideDuration' => $this->rideDuration->toArray(),
         ];
     }
@@ -62,8 +62,8 @@ final readonly class RidePrice
     public static function fromArray(array $ridePrice): self
     {
         return new self(
-            \money_from_array($ridePrice['totalPrice']),
-            \money_from_array($ridePrice['pricePerMinute']),
+            Money::fromArray($ridePrice['totalPrice']),
+            Money::fromArray($ridePrice['pricePerMinute']),
             RideDuration::fromArray($ridePrice['rideDuration']),
         );
     }
