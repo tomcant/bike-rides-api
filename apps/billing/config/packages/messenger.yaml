@@ -10,6 +10,16 @@ framework:
         transports:
             sync: 'sync://'
 
+services:
+    Bref\Symfony\Messenger\Service\Sqs\SqsConsumer:
+        public: true
+        autowire: true
+        arguments:
+            $bus: '@domain_event.bus'
+            $busDriver: '@App\Framework\Messenger\Bus\Driver\SymfonyBusDriver'
+            $serializer: '@App\Framework\Messenger\Serializer\EventBridgeJsonSerializer'
+            $transportName: domain_event_consumer
+
 when@prod:
     parameters:
         env(MESSENGER_DOMAIN_EVENT_PUBLISHER_TRANSPORT_DSN): ''
@@ -54,12 +64,3 @@ when@prod:
             class: App\Framework\Messenger\Middleware\SendToTransportMiddleware
             arguments:
                 $transport: '@messenger.transport.domain_event_publisher'
-
-        Bref\Symfony\Messenger\Service\Sqs\SqsConsumer:
-            public: true
-            autowire: true
-            arguments:
-                $bus: '@domain_event.bus'
-                $busDriver: '@App\Framework\Messenger\Bus\Driver\SymfonyBusDriver'
-                $serializer: '@App\Framework\Messenger\Serializer\CloudEventsJsonSerializer'
-                $transportName: domain_event_consumer

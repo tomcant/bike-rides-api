@@ -4,13 +4,16 @@ declare(strict_types=1);
 
 namespace App\Tests\BikeRides\Billing\Functional\UserInterface;
 
+use App\Framework\Messenger\Serializer\CloudEventsJsonSerializer;
 use BikeRides\Foundation\Clock\Clock;
 use BikeRides\Foundation\Clock\ClockStub;
 use BikeRides\Foundation\Domain\DomainEvent;
-use BikeRides\Foundation\Domain\DomainEventBus;
 use BikeRides\Foundation\Json;
+use Bref\Context\Context;
+use Bref\Symfony\Messenger\Service\Sqs\SqsConsumer;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\Messenger\Envelope;
 
 abstract class UserInterfaceTestCase extends WebTestCase
 {
@@ -40,7 +43,30 @@ abstract class UserInterfaceTestCase extends WebTestCase
 
     protected function handleDomainEvent(DomainEvent $event): void
     {
-        static::getContainer()->get(DomainEventBus::class)->publish($event);
+        /** @var CloudEventsJsonSerializer $serializer */
+        $serializer = self::getContainer()->get(CloudEventsJsonSerializer::class);
+        $encodedEnvelope = $serializer->encode(Envelope::wrap($event));
+        $eventBridgePayload = \json_encode(['detail' => $encodedEnvelope]);
+
+        /** @var SqsConsumer $sqsConsumer */
+        $sqsConsumer = self::getContainer()->get(SqsConsumer::class);
+        $sqsConsumer->handle(
+            [
+                'Records' => [
+                    [
+                        'body' => $eventBridgePayload,
+                        'messageId' => '00000000-0000-0000-0000-000000000000',
+                        'receiptHandle' => 'receiptHandle',
+                        'attributes' => ['ApproximateReceiveCount' => 1],
+                        'messageAttributes' => [],
+                        'eventSource' => 'aws:sqs',
+                        'eventSourceARN' => 'arn:aws:sqs:eu-west-1:000000000000:queue-name',
+                        'awsRegion' => 'eu-west-1',
+                    ],
+                ],
+            ],
+            Context::fake(),
+        );
     }
 
     /** @return array<mixed, mixed> */

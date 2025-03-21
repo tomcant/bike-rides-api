@@ -40,7 +40,7 @@ final readonly class CloudEventsJsonSerializer implements SerializerInterface
     public function decode(array $encodedEnvelope): Envelope
     {
         $decodedBody = Json::decode($encodedEnvelope['body']);
-        $cloudEvent = (new Denormalizer())->denormalize(Json::decode($decodedBody['detail']['body']));
+        $cloudEvent = (new Denormalizer())->denormalize($decodedBody);
 
         return new Envelope(DomainEventFactory::fromCloudEvent($cloudEvent));
     }
